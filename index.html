@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capsule Wardrobe — Max</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #FAF7F2;
+  --bg-warm: #F5F0E8;
+  --bg-spring: #f0f5ed;
+  --bg-summer: #fdf8f0;
+  --bg-autumn: #f0ebe4;
+  --text-primary: #1a1612;
+  --text-secondary: #6b6054;
+  --text-muted: #a09484;
+  --text-light: #b5a898;
+  --border: #e8e2d6;
+  --accent-green: #2D5A3D;
+  --accent-navy: #1B2A4A;
+  --accent-olive: #5C6B4E;
+  --accent-stone: #C9B99A;
+  --accent-gold: #a08040;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Noise overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* =========== HERO =========== */
+.hero {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-warm);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, var(--bg-warm) 0%, var(--bg-primary) 50%, #ece5d8 100%);
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(48px, 10vw, 140px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 span {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-green);
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(14px, 2vw, 18px);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+}
+
+.hero-palette {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.hero-palette-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.hero-palette-dot:hover {
+  transform: scale(1.3);
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 40px;
+  background: var(--text-light);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* =========== SECTION COMMON =========== */
+.section {
+  padding: clamp(60px, 10vw, 140px) clamp(20px, 5vw, 80px);
+}
+
+.section-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(36px, 6vw, 90px);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.section-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-green);
+}
+
+/* =========== CONCEPT =========== */
+.concept {
+  background: var(--bg-primary);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.concept-text {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.concept-text strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.concept-detail {
+  margin-top: 3rem;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-muted);
+  max-width: 600px;
+}
+
+/* =========== COLOR PALETTE =========== */
+.palette-section {
+  background: var(--bg-warm);
+}
+
+.palette-section .inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.palette-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-top: 3rem;
+}
+
+.palette-group-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.palette-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.palette-circle {
+  position: relative;
+  cursor: pointer;
+}
+
+.palette-circle .swatch {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.7);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.palette-circle:hover .swatch {
+  transform: scale(1.15);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.palette-circle .tooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 10;
+}
+
+.palette-circle:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 600px) {
+  .palette-circle .swatch {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+/* =========== WARDROBE =========== */
+.wardrobe-section {
+  background: var(--bg-primary);
+}
+
+.wardrobe-section .inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--text-secondary);
+}
+
+.filter-btn.active {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+.category-block {
+  margin-bottom: 4rem;
+}
+
+.category-label {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.item-card {
+  background: var(--bg-warm);
+  border-radius: 12px;
+  padding: 28px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.item-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--item-color, var(--border));
+  border-radius: 12px 12px 0 0;
+}
+
+.item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(26, 22, 18, 0.08);
+}
+
+.item-card.hidden {
+  display: none;
+}
+
+.item-card.fading-out {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.item-swatch {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.7);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  margin-bottom: 1.2rem;
+}
+
+.item-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.item-brand {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.item-color-label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.item-price {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.item-price .price-note {
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+.item-seasons {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.season-badge {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: var(--bg-primary);
+  color: var(--text-muted);
+}
+
+.season-badge.spring { background: #e8f0e4; color: #3a6b3a; }
+.season-badge.summer { background: #fdf3e0; color: #8a6b2e; }
+.season-badge.autumn { background: #f0e8dd; color: #6b5040; }
+
+.item-note {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* =========== SHOES =========== */
+.shoes-section {
+  background: var(--accent-navy);
+  color: var(--bg-primary);
+}
+
+.shoes-section .inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.shoes-section .section-label { color: rgba(255,255,255,0.4); }
+.shoes-section .section-title { color: var(--bg-primary); }
+.shoes-section .section-title em { color: var(--accent-stone); }
+
+.shoes-intro {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.7);
+  max-width: 700px;
+  margin-bottom: 4rem;
+}
+
+.shoes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 700px) {
+  .shoes-grid { grid-template-columns: 1fr; }
+}
+
+.shoe-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 40px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+}
+
+.shoe-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.1);
+}
+
+.shoe-swatch {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.2);
+  margin-bottom: 1.5rem;
+}
+
+.shoe-name {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.shoe-brand {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 12px;
+}
+
+.shoe-price {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--accent-stone);
+  margin-bottom: 16px;
+}
+
+.shoe-note {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.6);
+}
+
+/* =========== OUTFITS =========== */
+.outfits-section {
+  background: var(--bg-warm);
+}
+
+.outfits-section .inner {
+  max-width: 100%;
+}
+
+.outfit-slider-wrapper {
+  position: relative;
+  margin-top: 2rem;
+}
+
+.outfit-slider {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem clamp(20px, 5vw, 80px) 2rem;
+  scrollbar-width: none;
+}
+
+.outfit-slider::-webkit-scrollbar { display: none; }
+
+.outfit-card {
+  flex: 0 0 clamp(300px, 40vw, 420px);
+  scroll-snap-align: start;
+  border-radius: 16px;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.outfit-card:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+
+.outfit-card.spring { background: var(--bg-spring); }
+.outfit-card.summer { background: var(--bg-summer); }
+.outfit-card.autumn { background: var(--bg-autumn); }
+
+.outfit-season-tag {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.outfit-name {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 24px;
+  line-height: 1.1;
+}
+
+.outfit-swatches {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.outfit-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.7);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  position: relative;
+}
+
+.outfit-swatch .swatch-label {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.outfit-swatch:hover .swatch-label { opacity: 1; }
+
+.outfit-swatch-divider {
+  width: 16px;
+  height: 1px;
+  background: var(--border);
+}
+
+.outfit-items {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.outfit-items span {
+  display: block;
+}
+
+.slider-nav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 2rem;
+}
+
+.slider-nav button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+.slider-nav button:hover {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+/* =========== MATRIX =========== */
+.matrix-section {
+  background: var(--bg-primary);
+}
+
+.matrix-section .inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.matrix-desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  max-width: 500px;
+}
+
+.matrix-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.matrix-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 700px;
+}
+
+.matrix-table th {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 12px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-primary);
+}
+
+.matrix-table th:first-child {
+  text-align: left;
+  min-width: 180px;
+}
+
+.matrix-table td {
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(232, 226, 214, 0.5);
+  transition: background 0.2s;
+}
+
+.matrix-table td:first-child {
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.matrix-table tr:hover td {
+  background: rgba(232, 226, 214, 0.3);
+}
+
+.matrix-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.matrix-dot:hover {
+  transform: scale(1.4);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.matrix-dot.match {
+  background: var(--accent-green);
+}
+
+.matrix-dot.no-match {
+  background: transparent;
+  border: 1px dashed var(--border);
+}
+
+.matrix-table .highlight td {
+  background: rgba(45, 90, 61, 0.06);
+}
+
+.matrix-table .highlight td:first-child {
+  font-weight: 600;
+  color: var(--accent-green);
+}
+
+.matrix-col-highlight {
+  background: rgba(45, 90, 61, 0.06) !important;
+}
+
+.matrix-legend {
+  display: flex;
+  gap: 24px;
+  margin-top: 1.5rem;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-muted);
+  align-items: center;
+}
+
+.matrix-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* =========== BUDGET =========== */
+.budget-section {
+  background: var(--bg-warm);
+}
+
+.budget-section .inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.budget-total {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 100px);
+  font-weight: 300;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.budget-total-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4rem;
+}
+
+.budget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 4rem;
+}
+
+.budget-card {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 28px;
+  text-align: center;
+}
+
+.budget-card-value {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.budget-card-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.budget-brands {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  width: 80px;
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.brand-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: rgba(0,0,0,0.04);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.brand-bar {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent-green);
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-amount {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  width: 60px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* =========== FOOTER =========== */
+.site-footer {
+  padding: 60px clamp(20px, 5vw, 80px);
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.footer-text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+}
+
+.footer-brands {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* =========== RESPONSIVE =========== */
+@media (max-width: 768px) {
+  .items-grid {
+    grid-template-columns: 1fr;
+  }
+  .shoes-grid {
+    grid-template-columns: 1fr;
+  }
+  .outfit-card {
+    flex: 0 0 85vw;
+  }
+  .budget-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content">
+    <h1 class="reveal">JOUW<span>Garderobe</span></h1>
+    <p class="hero-subtitle reveal reveal-delay-1">18 items · 3 seizoenen · eindeloos combineren</p>
+    <div class="hero-palette reveal reveal-delay-2" id="heroPalette"></div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ========== CONCEPT ========== -->
+<section class="section concept">
+  <p class="section-label reveal">Het idee</p>
+  <h2 class="section-title reveal reveal-delay-1">Minder items,<br><em>meer stijl</em></h2>
+  <p class="concept-text reveal reveal-delay-2">
+    Een capsule wardrobe draait om <strong>intentie</strong>. Achttien zorgvuldig gekozen stukken — elk bewust geselecteerd op kleur, textuur en veelzijdigheid. Geen overvolle kast, geen keuzestress. Alleen stukken die <strong>samenwerken</strong>.
+  </p>
+  <p class="concept-detail reveal reveal-delay-3">
+    Dit palet is samengesteld voor lichte huid met donkerbruin haar. Warme neutralen als basis, aardtinten voor diepte, donkergroen en navy als accent. Elke kleur versterkt de andere — en versterkt jou.
+  </p>
+</section>
+
+<!-- ========== COLOR PALETTE ========== -->
+<section class="section palette-section">
+  <div class="inner">
+    <p class="section-label reveal">Kleurenpalet</p>
+    <h2 class="section-title reveal reveal-delay-1">De kleuren die<br><em>voor jou werken</em></h2>
+    <div class="palette-groups reveal reveal-delay-2" id="paletteGroups"></div>
+  </div>
+</section>
+
+<!-- ========== WARDROBE ========== -->
+<section class="section wardrobe-section">
+  <div class="inner">
+    <p class="section-label reveal">De garderobe</p>
+    <h2 class="section-title reveal reveal-delay-1">18 <em>essentials</em></h2>
+    <div class="filter-bar reveal reveal-delay-2" id="filterBar"></div>
+    <div id="wardrobeContent"></div>
+  </div>
+</section>
+
+<!-- ========== SHOES ========== -->
+<section class="section shoes-section">
+  <div class="inner">
+    <p class="section-label reveal">Schoenen</p>
+    <h2 class="section-title reveal reveal-delay-1">Twee paar.<br><em>Meer heb je niet nodig.</em></h2>
+    <p class="shoes-intro reveal reveal-delay-2">
+      Loafers voor alles van shorts tot pantalon — dé schoen van 2026. Minimalistische suède sneakers voor het weekend. Samen dekken ze elk moment.
+    </p>
+    <div class="shoes-grid reveal reveal-delay-3" id="shoesGrid"></div>
+  </div>
+</section>
+
+<!-- ========== OUTFITS ========== -->
+<section class="section outfits-section">
+  <div class="inner">
+    <p class="section-label reveal">Combinaties</p>
+    <h2 class="section-title reveal reveal-delay-1" style="padding-left: clamp(20px,5vw,80px);">8 outfits,<br><em>oneindig draagbaar</em></h2>
+    <div class="outfit-slider-wrapper">
+      <div class="outfit-slider" id="outfitSlider"></div>
+      <div class="slider-nav">
+        <button id="sliderPrev" aria-label="Vorige">&#8592;</button>
+        <button id="sliderNext" aria-label="Volgende">&#8594;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MATRIX ========== -->
+<section class="section matrix-section">
+  <div class="inner">
+    <p class="section-label reveal">Combinatie-matrix</p>
+    <h2 class="section-title reveal reveal-delay-1">Wat past<br><em>waarbij</em></h2>
+    <p class="matrix-desc reveal reveal-delay-2">Klik op een item om alle combinaties te zien.</p>
+    <div class="matrix-wrapper reveal reveal-delay-3" id="matrixWrapper"></div>
+    <div class="matrix-legend reveal reveal-delay-3">
+      <span><span class="matrix-legend-dot" style="background:var(--accent-green)"></span> Past samen</span>
+      <span><span class="matrix-legend-dot" style="border:1px dashed var(--border)"></span> Geen combinatie</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BUDGET ========== -->
+<section class="section budget-section">
+  <div class="inner">
+    <p class="section-label reveal">Investering</p>
+    <h2 class="section-title reveal reveal-delay-1">Budget<br><em>breakdown</em></h2>
+    <div id="budgetContent" class="reveal reveal-delay-2"></div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer">
+  <p class="footer-text">Samengesteld voor Max · 2026</p>
+  <p class="footer-brands">Arket × COS × Uniqlo</p>
+</footer>
+
+<script>
+// ===== DATA =====
+const TOPS = [
+  { name: "Knitted Silk Polo", brand: "COS", color: "Dark Green", price: 47, priceNote: "€47–79", seasons: ["spring","summer"], hex: "#2D5A3D", note: "Zijdeglans, luxe uitstraling. Dé polo upgrade." },
+  { name: "Cotton Linen Polo", brand: "Arket", color: "Off White", price: 59, seasons: ["spring","summer"], hex: "#F5F0E8", note: "Basis-polo in linnen blend. Casual maar clean." },
+  { name: "Bouclé Polo Shirt", brand: "Arket", color: "Black", price: 69, seasons: ["spring","autumn"], hex: "#1A1A1A", note: "Textuurrijk, verhoogt elke outfit. Solo of onder jas." },
+  { name: "Premium Linen Shirt", brand: "Uniqlo", color: "White", price: 30, seasons: ["spring","summer"], hex: "#FFFFFF", note: "Beste prijs-kwaliteit linnen shirt. Basis." },
+  { name: "Camp-Collar Shirt", brand: "COS", color: "Stone / Beige", price: 89, seasons: ["spring","summer"], hex: "#C9B99A", note: "Relaxte kraag, diner-ready. Zeer on-trend." },
+  { name: "Knitted Linen Polo", brand: "COS", color: "Stone", price: 89, seasons: ["spring","summer"], hex: "#B8A88A", note: "Luxer dan een gewone polo. Weekend essential." },
+  { name: "Merino Crew Neck", brand: "Arket", color: "Navy", price: 69, seasons: ["autumn"], hex: "#1B2A4A", note: "Perfecte herfst-basis. Layer onder overshirt." },
+  { name: "Quarter-Zip Knit", brand: "COS", color: "Dark Grey Mélange", price: 89, seasons: ["autumn"], hex: "#4A4A4A", note: "Dé trend van 2026. Smart-casual powerpiece." }
+];
+
+const BOTTOMS = [
+  { name: "Tapered Turn-Up Trousers", brand: "COS", color: "Beige", price: 99, seasons: ["spring","summer","autumn"], hex: "#D4C5A9", note: "3-seizoens broek. Turn-up detail = Italiaans." },
+  { name: "Smart Ankle Trousers", brand: "Uniqlo", color: "Dark Grey", price: 40, seasons: ["spring","summer","autumn"], hex: "#3D3D3D", note: "Budget king. Past bij alles. Koop er 2." },
+  { name: "Relaxed Linen Trousers", brand: "Arket", color: "Off White", price: 69, seasons: ["spring","summer"], hex: "#EDE8DD", note: "Warm-weer broek. Ton-sur-ton met witte tops." },
+  { name: "Wide Fit Chinos", brand: "Uniqlo", color: "Olive Green", price: 40, seasons: ["spring","autumn"], hex: "#5C6B4E", note: "Barrel-leg trend. Kleuraccent voor onderin." },
+  { name: "Drawstring Shorts", brand: "Arket", color: "Light Beige", price: 59, seasons: ["summer"], hex: "#D9CEBC", note: "Linnen blend. Vakantie & weekend." },
+  { name: "Relaxed Jeans", brand: "Arket", color: "Mid Blue Wash", price: 79, seasons: ["spring","autumn"], hex: "#6B88A8", note: "Een goede jeans is onmisbaar. Relaxed fit." }
+];
+
+const LAYERS = [
+  { name: "Wool Overshirt", brand: "Arket", color: "Navy", price: 99, seasons: ["autumn"], hex: "#1E2D4D", note: "Jas-shirt hybrid. Dé herfstlaag." },
+  { name: "Harrington Jacket", brand: "COS", color: "Beige", price: 175, seasons: ["spring","autumn"], hex: "#C4B6A0", note: "Water-repellent. Investering. Klassiek." }
+];
+
+const SHOES = [
+  { name: "Leather Penny Loafers", brand: "COS", color: "Black", price: 135, seasons: ["spring","summer","autumn"], hex: "#111111", note: "Jouw #1 schoen. Draag bij alles van shorts tot pantalon. Loafers zijn DÉ schoen van 2026." },
+  { name: "Suède Sneakers", brand: "Arket / COS", color: "Off White / Cream", price: 99, seasons: ["spring","summer","autumn"], hex: "#E8E2D6", note: "Clean minimalist sneaker. Weekend & casual." }
+];
+
+const OUTFITS = [
+  { name: "Lente Smart", season: "spring", top: "COS Silk Polo Dark Green", bottom: "COS Tapered Beige", shoe: "COS Loafers", layer: null, topHex: "#2D5A3D", bottomHex: "#D4C5A9", shoeHex: "#111111" },
+  { name: "Rivièra Weekend", season: "summer", top: "COS Linen Polo Stone", bottom: "Arket Shorts Beige", shoe: "COS Loafers", layer: null, topHex: "#B8A88A", bottomHex: "#D9CEBC", shoeHex: "#111111" },
+  { name: "Zomer Casual", season: "summer", top: "Uniqlo Linen Shirt", bottom: "Arket Linen Trousers", shoe: "Suède Sneakers", layer: null, topHex: "#FFFFFF", bottomHex: "#EDE8DD", shoeHex: "#E8E2D6" },
+  { name: "Diner Ready", season: "spring", top: "COS Camp-Collar Stone", bottom: "Uniqlo Smart Grey", shoe: "COS Loafers", layer: null, topHex: "#C9B99A", bottomHex: "#3D3D3D", shoeHex: "#111111" },
+  { name: "Herfst Layer", season: "autumn", top: "Arket Merino Navy", bottom: "Arket Jeans Blue", shoe: "COS Loafers", layer: "Arket Overshirt Navy", topHex: "#1B2A4A", bottomHex: "#6B88A8", shoeHex: "#111111", layerHex: "#1E2D4D" },
+  { name: "Herfst Smart", season: "autumn", top: "COS Quarter-Zip Grey", bottom: "COS Tapered Beige", shoe: "Suède Sneakers", layer: null, topHex: "#4A4A4A", bottomHex: "#D4C5A9", shoeHex: "#E8E2D6" },
+  { name: "Weekend Easy", season: "spring", top: "Arket Polo Off White", bottom: "Uniqlo Olive Chinos", shoe: "Suède Sneakers", layer: null, topHex: "#F5F0E8", bottomHex: "#5C6B4E", shoeHex: "#E8E2D6" },
+  { name: "Textuur Night", season: "autumn", top: "Arket Bouclé Black", bottom: "Uniqlo Smart Grey", shoe: "COS Loafers", layer: "COS Harrington Beige", topHex: "#1A1A1A", bottomHex: "#3D3D3D", shoeHex: "#111111", layerHex: "#C4B6A0" }
+];
+
+const ALL_ITEMS = [...TOPS, ...BOTTOMS, ...LAYERS, ...SHOES];
+const ALL_COLORS = [...new Map(ALL_ITEMS.map(i => [i.hex, { hex: i.hex, name: i.color, items: ALL_ITEMS.filter(x => x.hex === i.hex).map(x => x.name) }])).values()];
+
+const COMBO_MATRIX = [
+  // Each top row, columns = bottoms. 1 = match, 0 = no
+  [1,1,1,1,0,1], // Silk Polo
+  [1,1,1,1,1,1], // Cotton Linen Polo
+  [1,1,0,1,0,1], // Bouclé Polo
+  [1,1,1,1,1,1], // Linen Shirt
+  [1,1,1,0,0,1], // Camp-Collar
+  [1,1,1,1,1,0], // Knitted Linen Polo
+  [1,1,0,1,0,1], // Merino Crew
+  [1,1,0,1,0,1], // Quarter-Zip
+];
+
+const seasonLabel = { spring: "LEN", summer: "ZOM", autumn: "HER" };
+const seasonName = { spring: "Lente", summer: "Zomer", autumn: "Herfst" };
+
+// ===== HERO PALETTE =====
+(function() {
+  const palette = document.getElementById('heroPalette');
+  const uniqueColors = [...new Set(ALL_ITEMS.map(i => i.hex))];
+  uniqueColors.forEach(hex => {
+    const dot = document.createElement('div');
+    dot.className = 'hero-palette-dot';
+    dot.style.backgroundColor = hex;
+    if (hex === '#FFFFFF' || hex === '#F5F0E8' || hex === '#EDE8DD') {
+      dot.style.borderColor = '#ddd';
+    }
+    palette.appendChild(dot);
+  });
+})();
+
+// ===== COLOR PALETTE SECTION =====
+(function() {
+  const container = document.getElementById('paletteGroups');
+  const groups = [
+    { label: "Neutralen & Basis", colors: ["#FFFFFF","#F5F0E8","#EDE8DD","#D9CEBC","#D4C5A9","#C9B99A","#B8A88A","#C4B6A0","#E8E2D6"] },
+    { label: "Donkere Basis", colors: ["#111111","#1A1A1A","#3D3D3D","#4A4A4A"] },
+    { label: "Accenten", colors: ["#2D5A3D","#1B2A4A","#1E2D4D","#5C6B4E","#6B88A8"] }
+  ];
+  groups.forEach(g => {
+    const groupEl = document.createElement('div');
+    groupEl.innerHTML = `<p class="palette-group-label">${g.label}</p>`;
+    const row = document.createElement('div');
+    row.className = 'palette-row';
+    g.colors.forEach(hex => {
+      const items = ALL_ITEMS.filter(i => i.hex === hex);
+      if (!items.length) return;
+      const circle = document.createElement('div');
+      circle.className = 'palette-circle';
+      const swatch = document.createElement('div');
+      swatch.className = 'swatch';
+      swatch.style.backgroundColor = hex;
+      if (hex === '#FFFFFF' || hex === '#F5F0E8' || hex === '#EDE8DD') swatch.style.borderColor = '#ddd';
+      const tooltip = document.createElement('div');
+      tooltip.className = 'tooltip';
+      tooltip.textContent = items.map(i => i.name).join(', ');
+      circle.appendChild(swatch);
+      circle.appendChild(tooltip);
+      row.appendChild(circle);
+    });
+    groupEl.appendChild(row);
+    container.appendChild(groupEl);
+  });
+})();
+
+// ===== FILTER BAR =====
+(function() {
+  const bar = document.getElementById('filterBar');
+  const filters = [
+    { key: 'all', label: 'Alles' },
+    { key: 'spring', label: 'Lente' },
+    { key: 'summer', label: 'Zomer' },
+    { key: 'autumn', label: 'Herfst' }
+  ];
+  filters.forEach(f => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (f.key === 'all' ? ' active' : '');
+    btn.textContent = f.label;
+    btn.dataset.filter = f.key;
+    btn.addEventListener('click', () => {
+      bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterItems(f.key);
+    });
+    bar.appendChild(btn);
+  });
+})();
+
+let currentFilter = 'all';
+function filterItems(season) {
+  currentFilter = season;
+  const cards = document.querySelectorAll('.item-card');
+  cards.forEach(card => {
+    const seasons = JSON.parse(card.dataset.seasons);
+    const show = season === 'all' || seasons.includes(season);
+    if (!show) {
+      card.classList.add('hidden');
+    } else {
+      card.classList.remove('hidden');
+    }
+  });
+}
+
+// ===== WARDROBE ITEMS =====
+(function() {
+  const container = document.getElementById('wardrobeContent');
+  const categories = [
+    { label: 'Tops', items: TOPS },
+    { label: 'Bottoms', items: BOTTOMS },
+    { label: 'Layers', items: LAYERS }
+  ];
+  categories.forEach(cat => {
+    const block = document.createElement('div');
+    block.className = 'category-block reveal';
+    block.innerHTML = `<h3 class="category-label">${cat.label}</h3>`;
+    const grid = document.createElement('div');
+    grid.className = 'items-grid';
+    cat.items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'item-card';
+      card.dataset.seasons = JSON.stringify(item.seasons);
+      card.style.setProperty('--item-color', item.hex);
+      const borderFix = (item.hex === '#FFFFFF' || item.hex === '#F5F0E8' || item.hex === '#EDE8DD') ? 'border-color:#ddd;' : '';
+      card.innerHTML = `
+        <div class="item-swatch" style="background:${item.hex};${borderFix}"></div>
+        <div class="item-name">${item.name}</div>
+        <div class="item-brand">${item.brand}</div>
+        <div class="item-color-label">${item.color}</div>
+        <div class="item-price">€${item.price}${item.priceNote ? `<span class="price-note">${item.priceNote}</span>` : ''}</div>
+        <div class="item-seasons">${item.seasons.map(s => `<span class="season-badge ${s}">${seasonLabel[s]}</span>`).join('')}</div>
+        <div class="item-note">${item.note}</div>
+      `;
+      grid.appendChild(card);
+    });
+    block.appendChild(grid);
+    container.appendChild(block);
+  });
+})();
+
+// ===== SHOES =====
+(function() {
+  const grid = document.getElementById('shoesGrid');
+  SHOES.forEach(shoe => {
+    const card = document.createElement('div');
+    card.className = 'shoe-card';
+    card.innerHTML = `
+      <div class="shoe-swatch" style="background:${shoe.hex};${shoe.hex === '#E8E2D6' ? 'border-color:rgba(255,255,255,0.3);' : ''}"></div>
+      <div class="shoe-name">${shoe.name}</div>
+      <div class="shoe-brand">${shoe.brand}</div>
+      <div class="shoe-price">€${shoe.price}</div>
+      <div class="shoe-note">${shoe.note}</div>
+    `;
+    grid.appendChild(card);
+  });
+})();
+
+// ===== OUTFITS SLIDER =====
+(function() {
+  const slider = document.getElementById('outfitSlider');
+  OUTFITS.forEach(o => {
+    const card = document.createElement('div');
+    card.className = `outfit-card ${o.season}`;
+    let swatches = `
+      <div class="outfit-swatch" style="background:${o.topHex}"><span class="swatch-label">Top</span></div>
+      <div class="outfit-swatch-divider"></div>
+      <div class="outfit-swatch" style="background:${o.bottomHex}"><span class="swatch-label">Bottom</span></div>
+      <div class="outfit-swatch-divider"></div>
+      <div class="outfit-swatch" style="background:${o.shoeHex}"><span class="swatch-label">Schoen</span></div>
+    `;
+    if (o.layerHex) {
+      swatches += `<div class="outfit-swatch-divider"></div><div class="outfit-swatch" style="background:${o.layerHex}"><span class="swatch-label">Layer</span></div>`;
+    }
+    let items = `<span>${o.top}</span><span>${o.bottom}</span><span>${o.shoe}</span>`;
+    if (o.layer) items += `<span>${o.layer}</span>`;
+
+    card.innerHTML = `
+      <div class="outfit-season-tag">${seasonName[o.season]}</div>
+      <div class="outfit-name">${o.name}</div>
+      <div class="outfit-swatches">${swatches}</div>
+      <div class="outfit-items">${items}</div>
+    `;
+    slider.appendChild(card);
+  });
+
+  const prevBtn = document.getElementById('sliderPrev');
+  const nextBtn = document.getElementById('sliderNext');
+  const scrollAmount = 350;
+  prevBtn.addEventListener('click', () => slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
+  nextBtn.addEventListener('click', () => slider.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+})();
+
+// ===== COMBINATION MATRIX =====
+(function() {
+  const wrapper = document.getElementById('matrixWrapper');
+  const table = document.createElement('table');
+  table.className = 'matrix-table';
+
+  let headerHTML = '<thead><tr><th></th>';
+  BOTTOMS.forEach(b => {
+    headerHTML += `<th>${b.name.split(' ').slice(0,2).join(' ')}<br><span style="font-weight:300;color:var(--text-light)">${b.color}</span></th>`;
+  });
+  headerHTML += '</tr></thead>';
+
+  let bodyHTML = '<tbody>';
+  TOPS.forEach((top, ti) => {
+    bodyHTML += `<tr data-top="${ti}">`;
+    bodyHTML += `<td>${top.name}<br><span style="font-size:11px;color:var(--text-light)">${top.color}</span></td>`;
+    BOTTOMS.forEach((bot, bi) => {
+      const match = COMBO_MATRIX[ti][bi];
+      bodyHTML += `<td data-col="${bi}"><span class="matrix-dot ${match ? 'match' : 'no-match'}"></span></td>`;
+    });
+    bodyHTML += '</tr>';
+  });
+  bodyHTML += '</tbody>';
+
+  table.innerHTML = headerHTML + bodyHTML;
+  wrapper.appendChild(table);
+
+  // Click to highlight
+  table.querySelectorAll('tbody tr').forEach(row => {
+    row.addEventListener('click', () => {
+      const wasHighlighted = row.classList.contains('highlight');
+      table.querySelectorAll('tbody tr').forEach(r => r.classList.remove('highlight'));
+      table.querySelectorAll('td').forEach(td => td.classList.remove('matrix-col-highlight'));
+      if (!wasHighlighted) {
+        row.classList.add('highlight');
+      }
+    });
+  });
+  table.querySelectorAll('thead th').forEach((th, i) => {
+    if (i === 0) return;
+    th.style.cursor = 'pointer';
+    th.addEventListener('click', () => {
+      const colIdx = i - 1;
+      const wasHighlighted = th.classList.contains('matrix-col-highlight');
+      table.querySelectorAll('td, th').forEach(el => el.classList.remove('matrix-col-highlight'));
+      table.querySelectorAll('tbody tr').forEach(r => r.classList.remove('highlight'));
+      if (!wasHighlighted) {
+        th.classList.add('matrix-col-highlight');
+        table.querySelectorAll(`td[data-col="${colIdx}"]`).forEach(td => td.classList.add('matrix-col-highlight'));
+      }
+    });
+  });
+})();
+
+// ===== BUDGET =====
+(function() {
+  const container = document.getElementById('budgetContent');
+  const total = ALL_ITEMS.reduce((s, i) => s + i.price, 0);
+  const brands = {};
+  ALL_ITEMS.forEach(i => {
+    const b = i.brand.includes('/') ? i.brand.split('/')[0].trim() : i.brand;
+    brands[b] = (brands[b] || 0) + i.price;
+  });
+  const maxBrand = Math.max(...Object.values(brands));
+  const costPerOutfit = Math.round(total / OUTFITS.length);
+
+  let brandsHTML = '';
+  Object.entries(brands).sort((a, b) => b[1] - a[1]).forEach(([name, amount]) => {
+    const pct = (amount / maxBrand * 100).toFixed(0);
+    brandsHTML += `
+      <div class="brand-row">
+        <span class="brand-name">${name}</span>
+        <div class="brand-bar-wrap"><div class="brand-bar" style="width:0%" data-target="${pct}"></div></div>
+        <span class="brand-amount">€${amount}</span>
+      </div>
+    `;
+  });
+
+  container.innerHTML = `
+    <div class="budget-total">€${total}</div>
+    <div class="budget-total-label">Totale investering · ${ALL_ITEMS.length} items</div>
+    <div class="budget-grid">
+      <div class="budget-card">
+        <div class="budget-card-value">€${costPerOutfit}</div>
+        <div class="budget-card-label">Per outfit</div>
+      </div>
+      <div class="budget-card">
+        <div class="budget-card-value">${ALL_ITEMS.length}</div>
+        <div class="budget-card-label">Items totaal</div>
+      </div>
+      <div class="budget-card">
+        <div class="budget-card-value">${OUTFITS.length}</div>
+        <div class="budget-card-label">Outfit combinaties</div>
+      </div>
+      <div class="budget-card">
+        <div class="budget-card-value">3</div>
+        <div class="budget-card-label">Merken</div>
+      </div>
+    </div>
+    <div class="budget-brands">${brandsHTML}</div>
+  `;
+})();
+
+// ===== SCROLL REVEAL =====
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+
+        // Animate brand bars
+        entry.target.querySelectorAll('.brand-bar').forEach(bar => {
+          setTimeout(() => {
+            bar.style.width = bar.dataset.target + '%';
+          }, 300);
+        });
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+
+// ===== PARALLAX HERO =====
+(function() {
+  const bg = document.getElementById('heroBg');
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrolled = window.scrollY;
+        if (scrolled < window.innerHeight) {
+          bg.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+})();
+</script>
+</body>
+</html>
