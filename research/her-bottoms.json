@@ -1,0 +1,74 @@
+[
+  {
+    "id": 107,
+    "cat": "bottoms",
+    "name": "Gelso Pleated Trousers",
+    "brand": "The Frankie Shop",
+    "color": "Dark Grey Melange",
+    "price": 220,
+    "seasons": ["spring", "autumn"],
+    "hex": "#4A4A52",
+    "note": "Signature oversized tailoring met geperste vouw. Lyocell-wol blend draagt luchtig maar oogt sharp. Perfecte kantoorbroek voor blond-bleek colortype.",
+    "url": "https://eu.thefrankieshop.com/products/gelso-pleated-trousers-dark-grey-melange"
+  },
+  {
+    "id": 108,
+    "cat": "bottoms",
+    "name": "Tansy Pleated Trousers",
+    "brand": "The Frankie Shop",
+    "color": "Black",
+    "price": 199,
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#1A1A1A",
+    "note": "Oversized baggy silhouet met zachte stretch-suiting. Draai-en-ga broek — van koffie tot diner. Basis-zwart die elke capsule nodig heeft.",
+    "url": "https://eu.thefrankieshop.com/products/tansy-pleated-trousers-black"
+  },
+  {
+    "id": 109,
+    "cat": "bottoms",
+    "name": "Kamila Wide Leg Trousers",
+    "brand": "The Frankie Shop",
+    "color": "Khaki",
+    "price": 173,
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#8B7D6B",
+    "note": "Midweight wide-leg met riemlussen en geperste plooi. Khaki geeft warmte bij blond haar zonder te hard te contrasteren. Veelzijdig met sneakers of hakken.",
+    "url": "https://eu.thefrankieshop.com/products/kamila-wide-leg-trousers-khaki"
+  },
+  {
+    "id": 110,
+    "cat": "bottoms",
+    "name": "Ripley Pleated Trousers",
+    "brand": "The Frankie Shop",
+    "color": "Ivory",
+    "price": 250,
+    "seasons": ["spring", "summer"],
+    "hex": "#F0EDE5",
+    "note": "Lichte wol-blend met relaxed pasvorm en brede pijp. Ivory flatteert bleek-Scandinavisch — ziet er duurder uit dan het is. Perfecte plooibroek.",
+    "url": "https://eu.thefrankieshop.com/products/ripley-pleated-trousers-ivory"
+  },
+  {
+    "id": 111,
+    "cat": "bottoms",
+    "name": "Piper Pleated Trousers",
+    "brand": "The Frankie Shop",
+    "color": "Beige",
+    "price": 257,
+    "seasons": ["spring", "summer"],
+    "hex": "#C8B99A",
+    "note": "Linnen-viscose blend voor warme dagen. Hoge taille, rechte pijp met plooien. Zomerse suiting die ademt — Scandinavisch-luxe zomerlook.",
+    "url": "https://thefrankieshop.com/products/piper-pleated-trousers-beige"
+  },
+  {
+    "id": 112,
+    "cat": "bottoms",
+    "name": "Tailored Wool Shorts",
+    "brand": "Arket",
+    "color": "Black",
+    "price": 99,
+    "seasons": ["summer"],
+    "hex": "#1C1C1C",
+    "note": "Relaxed fit tot kniehoogte met dubbele plooien. 100% RWS wol — chique alternatief voor casual shorts. Past naadloos bij Frankie Shop blazers.",
+    "url": "https://www.arket.com/en-eu/product/tailored-wool-shorts-black-1226335001/"
+  }
+]

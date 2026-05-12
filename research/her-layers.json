@@ -1,0 +1,50 @@
+[
+  {
+    "id": 113,
+    "cat": "layers",
+    "name": "Gelso Oversized Blazer",
+    "brand": "The Frankie Shop",
+    "color": "Black",
+    "price": 250,
+    "seasons": ["spring", "autumn"],
+    "hex": "#1A1A1A",
+    "note": "Iconische oversized blazer met padded shoulders en tailored silhouet. Draag over een simpele top met wijde broek voor een moeiteloos The Row-gevoel.",
+    "url": "https://eu.thefrankieshop.com/products/gelso-oversized-blazer-black"
+  },
+  {
+    "id": 114,
+    "cat": "layers",
+    "name": "Oversized Lightweight Trench Coat",
+    "brand": "COS",
+    "color": "Black",
+    "price": 250,
+    "seasons": ["spring", "autumn"],
+    "hex": "#1C1C1C",
+    "note": "Lichtgewicht waterafstotende trenchcoat met stormflappen en ceintuur. Tijdloos tussenseizoensstuk dat over alles past.",
+    "url": "https://www.cos.com/en-eu/women/womenswear/coatsjackets/coats/product/oversized-lightweight-trench-coat-black-1130665001"
+  },
+  {
+    "id": 115,
+    "cat": "layers",
+    "name": "Merino Wool Cardigan",
+    "brand": "Arket",
+    "color": "Dark Blue",
+    "price": 69,
+    "seasons": ["spring", "autumn"],
+    "hex": "#1B2A4A",
+    "note": "Puur merinowol met parelmoeren knopen en ribgebreide afwerking. Perfecte basis-laag in een veelzijdig donkerblauw.",
+    "url": "https://www.arket.com/en-eu/product/merino-wool-cardigan-dark-blue-1235054003/"
+  },
+  {
+    "id": 116,
+    "cat": "layers",
+    "name": "Knitted Linen Cardigan",
+    "brand": "COS",
+    "color": "Ecru",
+    "price": 119,
+    "seasons": ["spring", "summer"],
+    "hex": "#F5F0E8",
+    "note": "Ademend linnen vest voor warme dagen. Luchtige zomerlaag die mooi combineert met een tanktop en wijde linnen broek.",
+    "url": "https://www.cos.com/en-eu/women/womenswear/knitwear/cardigans/product/knitted-linen-cardigan-ecru-1315013002"
+  }
+]

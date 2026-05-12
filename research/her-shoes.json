@@ -1,0 +1,39 @@
+[
+  {
+    "id": 117,
+    "cat": "shoes",
+    "name": "Leather Ballet Flats",
+    "brand": "Arket",
+    "color": "Black",
+    "price": 149,
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#1A1A1A",
+    "note": "Quiet-luxury ballerina met hoge toplijn en vierkante neus. Zacht leer, metaalvrij gelooid. Draag sockless bij midi-rok of wide-leg broek.",
+    "url": "https://www.arket.com/en-eu/product/leather-ballet-flats-black-1229435001/"
+  },
+  {
+    "id": 118,
+    "cat": "shoes",
+    "name": "Leather Toe-Thong Sandals",
+    "brand": "COS",
+    "color": "Black",
+    "price": 115,
+    "priceNote": "€115 (nu €46 in sale)",
+    "seasons": ["summer"],
+    "hex": "#0F0F0F",
+    "note": "Minimalistische platte sandaal met strappy thong-design. Chroomvrij geverfd leer, gewatteerd voetbed. Perfecte zomerschoen bij linnen en zijde.",
+    "url": "https://www.cos.com/en-eu/women/accessories/shoes/sandals/product/strappy-leather-thong-sandals-black-1230595001"
+  },
+  {
+    "id": 119,
+    "cat": "shoes",
+    "name": "Minimal Leather Trainers",
+    "brand": "COS",
+    "color": "Chalk (Off-White)",
+    "price": 99,
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#F0EDE6",
+    "note": "Gestroomlijnde leren sneaker in zachte krijtkleur. Verfijnde sportieve silhouet dat bij alles past — van jeans tot midi-jurk.",
+    "url": "https://www.cos.com/en-nl/women/accessories/shoes/sneakers/product/minimal-suede-trainers-chalk-1262817004"
+  }
+]

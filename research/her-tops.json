@@ -1,0 +1,74 @@
+[
+  {
+    "id": 101,
+    "cat": "tops",
+    "name": "The Clean Cut T-Shirt",
+    "brand": "COS",
+    "color": "Black",
+    "price": 29,
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#1A1A1A",
+    "note": "Bestseller met een perfecte pasvorm in zacht, dicht katoen. Iets aansluitend silhouet dat onder een blazer of solo werkt. Basis die je elke week pakt.",
+    "url": "https://www.cos.com/en-eu/women/womenswear/tshirts/roundnecktshirts/product/the-clean-cut-t-shirt-black-0960679007"
+  },
+  {
+    "id": 102,
+    "cat": "tops",
+    "name": "Knitted Merino Wool T-Shirt",
+    "brand": "Arket",
+    "color": "Light Beige",
+    "price": 49,
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#E8DFD0",
+    "note": "100% RWS merinowol met korte mouwen en ribgebreide afwerking. Zachte ecru-tint die blond haar laat stralen. Verfijndere upgrade van een basic tee.",
+    "url": "https://www.arket.com/en-eu/product/knitted-merino-wool-t-shirt-light-beige-1236180005/"
+  },
+  {
+    "id": 103,
+    "cat": "tops",
+    "name": "Regular-Fit Linen Shirt",
+    "brand": "COS",
+    "color": "Navy",
+    "price": 89,
+    "seasons": ["spring", "summer"],
+    "hex": "#1B2A4A",
+    "note": "Klassieke linnen blouse met concealed placket en afgeronde zoom. Elegant marineblauw dat prachtig contrasteert met blond haar en lichte huid.",
+    "url": "https://www.cos.com/en-eu/women/womenswear/shirts/linenshirts/product/regular-fit-linen-shirt-navy-1085424001"
+  },
+  {
+    "id": 104,
+    "cat": "tops",
+    "name": "Relaxed Linen Shirt",
+    "brand": "Arket",
+    "color": "Beige",
+    "price": 59,
+    "seasons": ["spring", "summer"],
+    "hex": "#C8B99A",
+    "note": "Relaxed fit met zachte linnen textuur in warm zandtint. Draag opengeknopt over een tanktop of gesloten als blouse. Moeiteloos zomerstuk.",
+    "url": "https://www.arket.com/en-eu/product/relaxed-linen-shirt-beige-1262613001/"
+  },
+  {
+    "id": 105,
+    "cat": "tops",
+    "name": "Merino Wool Crew-Neck Jumper",
+    "brand": "COS",
+    "color": "Navy",
+    "price": 89,
+    "seasons": ["autumn", "spring"],
+    "hex": "#1A2744",
+    "note": "Premium merinowol met zijdeachtige glans. Naadloze crew-neck die zowel solo als gelaagd draagt. Donker marineblauw is een essentieel anker in het kleurenpalet.",
+    "url": "https://www.cos.com/en-eu/women/womenswear/knitwear/crewneck/product/merino-wool-crew-neck-jumper-navy-1258538001"
+  },
+  {
+    "id": 106,
+    "cat": "tops",
+    "name": "Relaxed Cashmere-Wool Jumper",
+    "brand": "Arket",
+    "color": "Beige",
+    "price": 159,
+    "seasons": ["autumn", "spring"],
+    "hex": "#D4C8B0",
+    "note": "Kasjmier-wolmix met relaxed silhouet en ribgebreide afwerking. Luxe dagelijkse knit in een warme kameel-beige die prachtig staat bij lichte huid.",
+    "url": "https://www.arket.com/en-eu/product/relaxed-cashmere-wool-jumper-beige-1197416014/"
+  }
+]

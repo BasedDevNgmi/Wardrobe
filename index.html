@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capsule Wardrobe — Max</title>
+<title>Capsule Wardrobe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
@@ -12,21 +12,33 @@
 :root{
   --bg:#FAF7F2;--bg-warm:#F5F0E8;--bg-spring:#f0f5ed;--bg-summer:#fdf8f0;--bg-autumn:#f0ebe4;
   --txt:#1a1612;--txt2:#6b6054;--txt3:#a09484;--txt4:#b5a898;--border:#e8e2d6;
-  --green:#2D5A3D;--navy:#1B2A4A;--olive:#5C6B4E;--stone:#C9B99A;--gold:#a08040;
+  --accent:#2D5A3D;--accent2:#1B2A4A;--accent-stone:#C9B99A;--accent-light:#5C6B4E;
   --ff-d:'Cormorant Garamond',Georgia,serif;--ff-b:'DM Sans',-apple-system,sans-serif;
 }
+body[data-who="her"]{
+  --bg:#FBF8F6;--bg-warm:#F8F2EE;--bg-spring:#f5f0ed;--bg-summer:#fdf6f2;--bg-autumn:#f2ece6;
+  --accent:#8B6B5D;--accent2:#6B5B7B;--accent-stone:#C9A89A;--accent-light:#7B8B6B;
+  --border:#ece4dc;
+}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:var(--ff-b);font-weight:300;color:var(--txt);background:var(--bg);line-height:1.6;overflow-x:hidden}
+body{font-family:var(--ff-b);font-weight:300;color:var(--txt);background:var(--bg);line-height:1.6;overflow-x:hidden;transition:background .6s,color .6s}
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px}
 .rv{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
 .rv.v{opacity:1;transform:translateY(0)}.rv-1{transition-delay:.1s}.rv-2{transition-delay:.2s}.rv-3{transition-delay:.3s}
 
+/* WHO TOGGLE */
+.who-toggle{position:absolute;top:2rem;right:2rem;z-index:10;display:flex;align-items:center;gap:0;background:rgba(255,255,255,.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:100px;padding:4px;border:1px solid rgba(255,255,255,.4)}
+.who-btn{font-family:var(--ff-d);font-size:16px;font-weight:400;padding:8px 22px;border:none;background:transparent;color:var(--txt3);cursor:pointer;border-radius:100px;transition:all .4s;letter-spacing:.02em}
+.who-btn.act{background:var(--txt);color:var(--bg);font-weight:600}
+body[data-who="her"] .who-btn.act{background:var(--accent);color:#fff}
+
 /* HERO */
-.hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--bg-warm),var(--bg) 50%,#ece5d8)}
+.hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--bg-warm),var(--bg) 50%,#ece5d8);transition:background .6s}
+body[data-who="her"] .hero{background:linear-gradient(160deg,#F8F0EC,var(--bg) 50%,#EDE4DC)}
 .hero-bg{position:absolute;inset:0;z-index:0;will-change:transform}
 .hero-c{position:relative;z-index:1}
 .hero h1{font-family:var(--ff-d);font-weight:300;font-size:clamp(52px,11vw,150px);line-height:.88;letter-spacing:-.03em;margin-bottom:1.5rem}
-.hero h1 span{display:block;font-style:italic;font-weight:400;color:var(--green)}
+.hero h1 span{display:block;font-style:italic;font-weight:400;color:var(--accent);transition:color .6s}
 .hero-sub{font-weight:300;font-size:clamp(13px,1.8vw,17px);letter-spacing:.18em;text-transform:uppercase;color:var(--txt3);margin-bottom:2.5rem}
 .hero-pal{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
 .hero-dot{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.6);transition:transform .3s;box-shadow:0 2px 8px rgba(0,0,0,.07)}
@@ -39,7 +51,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .sec{padding:clamp(60px,10vw,140px) clamp(20px,5vw,80px)}
 .sec-l{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--txt3);margin-bottom:1.5rem}
 .sec-t{font-family:var(--ff-d);font-weight:300;font-size:clamp(36px,6vw,90px);line-height:1;letter-spacing:-.02em;margin-bottom:2rem}
-.sec-t em{font-style:italic;font-weight:400;color:var(--green)}
+.sec-t em{font-style:italic;font-weight:400;color:var(--accent);transition:color .6s}
 
 /* CONCEPT */
 .concept{max-width:900px;margin:0 auto}
@@ -48,7 +60,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .concept-d{margin-top:3rem;font-size:15px;line-height:1.8;color:var(--txt3);max-width:600px}
 
 /* PALETTE */
-.pal-sec{background:var(--bg-warm)}
+.pal-sec{background:var(--bg-warm);transition:background .6s}
 .pal-sec .inner{max-width:1200px;margin:0 auto}
 .pal-groups{display:flex;flex-direction:column;gap:3rem;margin-top:3rem}
 .pal-gl{font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--txt3);margin-bottom:1rem}
@@ -61,10 +73,12 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 @media(max-width:600px){.pal-c .sw{width:48px;height:48px}}
 
 /* STICKY NAV */
-.snav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 clamp(20px,5vw,80px);display:flex;align-items:center;gap:10px;height:56px;overflow-x:auto;scrollbar-width:none}
+.snav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 clamp(20px,5vw,80px);display:flex;align-items:center;gap:10px;height:56px;overflow-x:auto;scrollbar-width:none;transition:background .6s,border-color .6s}
+body[data-who="her"] .snav{background:rgba(251,248,246,.92)}
 .snav::-webkit-scrollbar{display:none}
 .nb{font-family:var(--ff-b);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--border);background:transparent;color:var(--txt2);border-radius:100px;cursor:pointer;transition:all .3s;white-space:nowrap;flex-shrink:0}
 .nb:hover{border-color:var(--txt2)}.nb.act{background:var(--txt);color:var(--bg);border-color:var(--txt)}
+
 .ndiv{width:1px;height:24px;background:var(--border);flex-shrink:0}
 
 /* ITEM CARDS */
@@ -72,7 +86,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .cb{margin-bottom:4rem}
 .cl{font-family:var(--ff-d);font-size:clamp(28px,4vw,48px);font-weight:300;font-style:italic;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
 .ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
-.ic{background:var(--bg-warm);border-radius:12px;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+.ic{background:var(--bg-warm);border-radius:12px;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,background .6s;cursor:pointer;text-decoration:none;color:inherit;display:block}
 .ic:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(26,22,18,.08)}
 .ic.hid{display:none}
 .iw{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--bg-warm)}
@@ -94,10 +108,11 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .ino{font-size:13px;font-weight:300;line-height:1.5;color:var(--txt3);font-style:italic}
 
 /* SHOES CALLOUT */
-.shc{background:var(--navy);color:var(--bg);border-radius:16px;padding:clamp(32px,5vw,60px);margin-top:2rem}
-.shc .sec-l{color:rgba(255,255,255,.35)}.shc .sec-t{color:var(--bg);font-size:clamp(28px,4vw,56px)}.shc .sec-t em{color:var(--stone)}
+.shc{background:var(--accent2);color:var(--bg);border-radius:16px;padding:clamp(32px,5vw,60px);margin-top:2rem;transition:background .6s}
+body[data-who="her"] .shc{background:#5B4B5B}
+.shc .sec-l{color:rgba(255,255,255,.35)}.shc .sec-t{color:var(--bg);font-size:clamp(28px,4vw,56px)}.shc .sec-t em{color:var(--accent-stone)}
 .shi{font-family:var(--ff-d);font-size:clamp(17px,2.2vw,24px);font-weight:300;line-height:1.6;color:rgba(255,255,255,.65);max-width:600px;margin-bottom:3rem}
-.shg{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.shg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
 @media(max-width:700px){.shg{grid-template-columns:1fr}}
 .shk{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),background .3s;text-decoration:none;color:inherit;display:block}
 .shk:hover{transform:translateY(-4px);background:rgba(255,255,255,.1)}
@@ -108,7 +123,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .shki-inf{padding:24px}
 .shkn{font-family:var(--ff-d);font-size:24px;font-weight:600;margin-bottom:4px}
 .shkb{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px}
-.shkp{font-family:var(--ff-d);font-size:26px;font-weight:600;color:var(--stone);margin-bottom:14px}
+.shkp{font-family:var(--ff-d);font-size:26px;font-weight:600;color:var(--accent-stone);margin-bottom:14px}
 .shkno{font-size:13px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.55)}
 
 /* OUTFITS */
@@ -140,43 +155,43 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .slnav button:hover{background:var(--txt);color:var(--bg);border-color:var(--txt)}
 
 /* MATRIX */
-.mx-sec{background:var(--bg)}.mx-sec .inner{max-width:1200px;margin:0 auto}
+.mx-sec{background:var(--bg);transition:background .6s}.mx-sec .inner{max-width:1200px;margin:0 auto}
 .mx-d{font-size:15px;color:var(--txt3);margin-bottom:3rem;max-width:500px}
 .mx-w{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .mx{border-collapse:collapse;width:100%;min-width:750px}
-.mx th{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);padding:10px 8px;text-align:center;border-bottom:1px solid var(--border);position:sticky;top:56px;background:var(--bg);z-index:5}
+.mx th{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);padding:10px 8px;text-align:center;border-bottom:1px solid var(--border);position:sticky;top:56px;background:var(--bg);z-index:5;transition:background .6s}
 .mx th:first-child{text-align:left;min-width:160px}
 .mx td{padding:10px 8px;text-align:center;border-bottom:1px solid rgba(232,226,214,.5);transition:background .2s}
 .mx td:first-child{text-align:left;font-size:12px;font-weight:400;color:var(--txt2)}
 .mx tr:hover td{background:rgba(232,226,214,.3)}
 .md{width:20px;height:20px;border-radius:50%;display:inline-block;cursor:pointer;transition:transform .3s,box-shadow .3s}
 .md:hover{transform:scale(1.4);box-shadow:0 4px 14px rgba(0,0,0,.1)}
-.md.y{background:var(--green)}.md.n{background:transparent;border:1px dashed var(--border)}
-.mx .hl td{background:rgba(45,90,61,.06)}.mx .hl td:first-child{font-weight:600;color:var(--green)}
-.mchl{background:rgba(45,90,61,.06)!important}
+.md.y{background:var(--accent)}.md.n{background:transparent;border:1px dashed var(--border)}
+.mx .hl td{background:rgba(139,107,93,.06)}.mx .hl td:first-child{font-weight:600;color:var(--accent)}
+.mchl{background:rgba(139,107,93,.06)!important}
 .mx-lg{display:flex;gap:20px;margin-top:1.5rem;font-size:12px;color:var(--txt3);align-items:center}
 .mld{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
 
 /* BUDGET */
-.bu-sec{background:var(--bg-warm)}.bu-sec .inner{max-width:1000px;margin:0 auto}
+.bu-sec{background:var(--bg-warm);transition:background .6s}.bu-sec .inner{max-width:1000px;margin:0 auto}
 .bu-tot{font-family:var(--ff-d);font-size:clamp(48px,8vw,100px);font-weight:300;margin-bottom:.5rem}
 .bu-tl{font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--txt3);margin-bottom:4rem}
 .bu-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-bottom:4rem}
-.bu-c{background:var(--bg);border-radius:12px;padding:24px;text-align:center}
+.bu-c{background:var(--bg);border-radius:12px;padding:24px;text-align:center;transition:background .6s}
 .bu-cv{font-family:var(--ff-d);font-size:32px;font-weight:600;margin-bottom:4px}
 .bu-cl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt3)}
 .bu-br{display:flex;flex-direction:column;gap:14px}
 .br-r{display:flex;align-items:center;gap:14px}
-.br-n{font-size:14px;font-weight:500;width:70px;flex-shrink:0;color:var(--txt2)}
+.br-n{font-size:14px;font-weight:500;width:120px;flex-shrink:0;color:var(--txt2)}
 .br-bw{flex:1;height:8px;background:rgba(0,0,0,.04);border-radius:4px;overflow:hidden}
-.br-b{height:100%;border-radius:4px;background:var(--green);transition:width 1s cubic-bezier(.16,1,.3,1)}
+.br-b{height:100%;border-radius:4px;background:var(--accent);transition:width 1s cubic-bezier(.16,1,.3,1),background .6s}
 .br-a{font-family:var(--ff-d);font-size:18px;font-weight:600;width:60px;text-align:right;flex-shrink:0}
 
-/* SNEAKERS */
+/* SNEAKERS (Max only) */
 .snk-sec{background:var(--txt);color:var(--bg)}
 .snk-sec .inner{max-width:1200px;margin:0 auto}
 .snk-sec .sec-l{color:rgba(255,255,255,.3)}
-.snk-sec .sec-t{color:var(--bg)}.snk-sec .sec-t em{color:var(--stone)}
+.snk-sec .sec-t{color:var(--bg)}.snk-sec .sec-t em{color:var(--accent-stone)}
 .snk-intro{font-family:var(--ff-d);font-size:clamp(17px,2.2vw,24px);font-weight:300;line-height:1.6;color:rgba(255,255,255,.55);max-width:700px;margin-bottom:3rem}
 .snk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
 .snk-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:28px;transition:transform .4s cubic-bezier(.16,1,.3,1),background .3s;text-decoration:none;color:inherit;display:block}
@@ -186,33 +201,37 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .snk-cw{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:12px}
 .snk-cat{display:inline-block;font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);margin-bottom:12px}
 .snk-why{font-size:13px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.5);margin-bottom:14px}
-.snk-price{font-family:var(--ff-d);font-size:20px;font-weight:600;color:var(--stone)}
+.snk-price{font-family:var(--ff-d);font-size:20px;font-weight:600;color:var(--accent-stone)}
 
 /* FOOTER */
 .ft{padding:60px clamp(20px,5vw,80px);text-align:center;border-top:1px solid var(--border)}
 .ft-t{font-size:13px;font-weight:300;color:var(--txt4);letter-spacing:.05em}
 .ft-b{font-family:var(--ff-d);font-size:18px;font-weight:400;font-style:italic;color:var(--txt3);margin-top:6px}
 
-@media(max-width:768px){.ig{grid-template-columns:1fr}.shg{grid-template-columns:1fr}.oc{flex:0 0 88vw}.bu-g{grid-template-columns:1fr 1fr}.snk-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.ig{grid-template-columns:1fr}.shg{grid-template-columns:1fr}.oc{flex:0 0 88vw}.bu-g{grid-template-columns:1fr 1fr}.snk-grid{grid-template-columns:1fr}.who-toggle{top:1rem;right:1rem}.who-btn{font-size:14px;padding:6px 16px}}
 </style>
 </head>
-<body>
+<body data-who="max">
 
 <section class="hero">
   <div class="hero-bg" id="hBg"></div>
+  <div class="who-toggle">
+    <button class="who-btn act" data-who="max">Max</button>
+    <button class="who-btn" data-who="her">San</button>
+  </div>
   <div class="hero-c">
-    <h1 class="rv">JOUW<span>Garderobe</span></h1>
-    <p class="hero-sub rv rv-1">18 items · 3 seizoenen · eindeloos combineren</p>
+    <h1 class="rv" id="heroTitle">JOUW<span>Garderobe</span></h1>
+    <p class="hero-sub rv rv-1" id="heroSub">18 items &middot; 3 seizoenen &middot; eindeloos combineren</p>
     <div class="hero-pal rv rv-2" id="hPal"></div>
   </div>
   <div class="hero-scr"><span>Scroll</span><div class="hero-scr-l"></div></div>
 </section>
 
-<section class="sec concept">
+<section class="sec concept" id="conceptSec">
   <p class="sec-l rv">Het idee</p>
   <h2 class="sec-t rv rv-1">Minder items,<br><em>meer stijl</em></h2>
-  <p class="concept-txt rv rv-2">Een capsule wardrobe draait om <strong>intentie</strong>. Achttien zorgvuldig gekozen stukken van <strong>Arket</strong>, <strong>COS</strong> en <strong>Uniqlo</strong> — elk bewust geselecteerd op kleur, textuur en veelzijdigheid. Geen overvolle kast, geen keuzestress. Alleen stukken die <strong>samenwerken</strong>.</p>
-  <p class="concept-d rv rv-3">Dit palet is samengesteld voor lichte huid met donkerbruin haar. Warme neutralen als basis, aardtinten voor diepte, donkergroen en navy als accent. Wide-leg en barrel-leg silhouetten als signature. Elke kleur versterkt de andere — en versterkt jou.</p>
+  <p class="concept-txt rv rv-2" id="conceptTxt"></p>
+  <p class="concept-d rv rv-3" id="conceptDesc"></p>
 </section>
 
 <section class="sec pal-sec">
@@ -238,7 +257,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 <section class="sec" id="oSec" style="display:none">
   <div class="ov act">
     <p class="sec-l rv">Combinaties</p>
-    <h2 class="sec-t rv rv-1">8 outfits,<br><em>oneindig draagbaar</em></h2>
+    <h2 class="sec-t rv rv-1" id="outfitTitle">8 outfits,<br><em>oneindig draagbaar</em></h2>
     <div class="os-w">
       <div class="os" id="oSl"></div>
       <div class="slnav"><button id="slP" aria-label="Vorige">&#8592;</button><button id="slN" aria-label="Volgende">&#8594;</button></div>
@@ -252,7 +271,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
     <h2 class="sec-t rv rv-1">Wat past<br><em>waarbij</em></h2>
     <p class="mx-d rv rv-2">Klik op een rij om alle combinaties te zien.</p>
     <div class="mx-w rv rv-3" id="mxW"></div>
-    <div class="mx-lg rv rv-3"><span><span class="mld" style="background:var(--green)"></span> Past samen</span><span><span class="mld" style="border:1px dashed var(--border)"></span> Geen combinatie</span></div>
+    <div class="mx-lg rv rv-3"><span><span class="mld" style="background:var(--accent)"></span> Past samen</span><span><span class="mld" style="border:1px dashed var(--border)"></span> Geen combinatie</span></div>
   </div>
 </section>
 
@@ -264,22 +283,23 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
   </div>
 </section>
 
-<section class="sec snk-sec">
+<section class="sec snk-sec" id="snkSec">
   <div class="inner">
     <p class="sec-l rv">Trending</p>
     <h2 class="sec-t rv rv-1">De sneakers<br><em>van 2026</em></h2>
-    <p class="snk-intro rv rv-2">Van Y2K tech-runners tot luxury minimalism — de schoenen die fashion-forward mannen nu dragen. Perfect te combineren met wide-leg broeken.</p>
+    <p class="snk-intro rv rv-2">Van Y2K tech-runners tot luxury minimalism -- de schoenen die fashion-forward mannen nu dragen. Perfect te combineren met wide-leg broeken.</p>
     <div class="snk-grid rv rv-3" id="snkG"></div>
   </div>
 </section>
 
 <footer class="ft">
-  <p class="ft-t">Samengesteld voor Max · 2026</p>
-  <p class="ft-b">Arket × COS × Uniqlo</p>
+  <p class="ft-t" id="ftT">Samengesteld voor Max &middot; 2026</p>
+  <p class="ft-b" id="ftB">Arket &times; COS &times; Uniqlo</p>
 </footer>
 
 <script>
-const ITEMS=[
+/* ===== DATA: MAX ===== */
+const MAX_ITEMS=[
   {id:1,cat:"tops",name:"Textured Knitted Polo",brand:"COS",color:"Dark Green",price:69,seasons:["spring","summer"],hex:"#2D4A3E",note:"Racking-stitch textuur in organic cotton. Moeiteloos zomers.",url:"https://www.cos.com/en_eur/men/menswear/polo-shirts/product.textured-knitted-polo-shirt-green.1150843004.html"},
   {id:2,cat:"tops",name:"Minimal Knitted Polo",brand:"COS",color:"Navy",price:79,seasons:["spring","summer","autumn"],hex:"#1B2A4A",note:"Milano-knit textuur. Werkt onder blazer of solo met donkere broek.",url:"https://www.cos.com/en_eur/men/menswear/knitwear/product.minimal-knitted-polo-shirt-blue.1190841002.html"},
   {id:3,cat:"tops",name:"Textured Polo Shirt",brand:"Arket",color:"Dark Blue",price:59,seasons:["spring","summer"],hex:"#1C2D4D",note:"Subtiel oppervlaktereliëf. Relaxed alternatief voor een overhemd.",url:"https://www.arket.com/en_eur/men/knitwear/polo/product.textured-polo-shirt-blue.1275498001.html"},
@@ -290,17 +310,20 @@ const ITEMS=[
   {id:8,cat:"tops",name:"Extra Fine Merino Crew Neck",brand:"Uniqlo",color:"Dark Grey",price:40,seasons:["autumn","spring"],hex:"#3D3D3D",note:"Onverslaanbare prijs-kwaliteit. 19.5 micron merino, anti-pill.",url:"https://www.uniqlo.com/nl/en/product/extra-fine-merino-crew-neck-jumper-460933.html"},
   {id:9,cat:"bottoms",name:"Barrel-Leg Drawstring Trousers",brand:"COS",color:"Beige",price:99,seasons:["spring","summer","autumn"],hex:"#D2C6A5",note:"Signature COS barrel-leg. Drawstring waist, casual maar clean.",url:"https://www.cos.com/en-eu/men/menswear/trousers/relaxed-fit/product/barrel-leg-drawstring-trousers-beige-1266352028"},
   {id:10,cat:"bottoms",name:"Elasticated Linen Wide-Leg Trousers",brand:"COS",color:"Navy",price:89,seasons:["spring","summer"],hex:"#1C2841",note:"Pure linnen wide-leg. Perfect bij wit T-shirt en sneakers.",url:"https://www.cos.com/en-eu/men/menswear/trousers/linen/product/elasticated-linen-wide-leg-trousers-navy-1263171001"},
-  {id:11,cat:"bottoms",name:"Relaxed Cotton Twill Trousers",brand:"Arket",color:"Dark Grey",price:79,seasons:["spring","autumn"],hex:"#4A4A4A",note:"Veelzijdige relaxed fit — draag met trui of blazer.",url:"https://www.arket.com/en-eu/product/relaxed-cotton-twill-trousers-dark-grey-1319461001/"},
+  {id:11,cat:"bottoms",name:"Relaxed Cotton Twill Trousers",brand:"Arket",color:"Dark Grey",price:79,seasons:["spring","autumn"],hex:"#4A4A4A",note:"Veelzijdige relaxed fit -- draag met trui of blazer.",url:"https://www.arket.com/en-eu/product/relaxed-cotton-twill-trousers-dark-grey-1319461001/"},
   {id:12,cat:"bottoms",name:"Linen Drawstring Trousers",brand:"Arket",color:"Beige",price:69,seasons:["spring","summer"],hex:"#C8B99A",note:"Lichte linnen weave, pull-on drawstring. Mediterrane stijl.",url:"https://www.arket.com/en-eu/product/linen-drawstring-trousers-beige-1027689004/"},
   {id:13,cat:"bottoms",name:"U Wide-Fit Pleated Chinos",brand:"Uniqlo",color:"Olive",price:50,seasons:["spring","summer","autumn"],hex:"#5C6B4E",note:"Lemaire-designed wide-fit met plooien. Elegant en betaalbaar.",url:"https://www.uniqlo.com/eu-nl/en/products/E457967-000/00"},
   {id:14,cat:"bottoms",name:"Cotton-Linen Drawstring Shorts",brand:"Arket",color:"Dark Blue",price:59,seasons:["summer"],hex:"#2C3E5A",note:"Linnen blend met hidden drawstring. Zomerse weekenden.",url:"https://www.arket.com/en-nl/product/cotton-linen-drawstring-shorts-dark-blue-0986471006/"},
   {id:15,cat:"layers",name:"Wool-Flannel Overshirt",brand:"COS",color:"Navy",price:135,seasons:["autumn"],hex:"#1B2A4A",note:"Heavyweight flannel. Moeiteloos gelaagd herfstlook.",url:"https://www.cos.com/en-nl/men/menswear/shirts/overshirts/product/wool-flannel-overshirt-navy-1256066002"},
-  {id:16,cat:"layers",name:"Water-Repellent Harrington Jacket",brand:"COS",color:"Beige",price:175,priceNote:"€175 (vaak in sale)",seasons:["spring","autumn"],hex:"#C8B99A",note:"De perfecte tussenseizoenjas. Water-repellent, klassiek.",url:"https://www.cos.com/en-nl/men/menswear/coatsjackets/jackets/product/water-repellent-harrington-jacket-beige-1265469002"},
-  {id:17,cat:"shoes",name:"Leather Penny Loafers",brand:"COS",color:"Black",price:150,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Meest veelzijdige schoen. Draag bij alles van shorts tot barrel-legs. DÉ schoen van 2026.",url:"https://www.cos.com/en-nl/men/accessories/shoes/formal/product/leather-penny-loafers-black-1218892001"},
-  {id:18,cat:"shoes",name:"Minimal Leather Trainers",brand:"COS",color:"Chalk (Off-White)",price:99,priceNote:"€99 (nu €69 in sale)",seasons:["spring","summer","autumn"],hex:"#F0EDE6",note:"Clean witte leren sneaker. Elk weekend-outfit naar hoger niveau.",url:"https://www.cos.com/en-eu/men/accessories/shoes/sneakers/product/minimal-leather-trainers-chalk-1288335001"}
+  {id:16,cat:"layers",name:"Water-Repellent Harrington Jacket",brand:"COS",color:"Beige",price:175,priceNote:"(vaak in sale)",seasons:["spring","autumn"],hex:"#C8B99A",note:"De perfecte tussenseizoenjas. Water-repellent, klassiek.",url:"https://www.cos.com/en-nl/men/menswear/coatsjackets/jackets/product/water-repellent-harrington-jacket-beige-1265469002"},
+  {id:17,cat:"shoes",name:"Leather Penny Loafers",brand:"COS",color:"Black",price:150,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Meest veelzijdige schoen. Draag bij alles van shorts tot barrel-legs.",url:"https://www.cos.com/en-nl/men/accessories/shoes/formal/product/leather-penny-loafers-black-1218892001"},
+  {id:18,cat:"shoes",name:"Minimal Leather Trainers",brand:"COS",color:"Chalk (Off-White)",price:99,priceNote:"(nu €69 in sale)",seasons:["spring","summer","autumn"],hex:"#F0EDE6",note:"Clean witte leren sneaker. Elk weekend-outfit naar hoger niveau.",url:"https://www.cos.com/en-eu/men/accessories/shoes/sneakers/product/minimal-leather-trainers-chalk-1288335001"},
+  {id:19,cat:"socks",name:"Merino Wool Socks 3-Pack",brand:"Arket",color:"Black/Navy/Dark Grey",price:29,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"RWS merinowol met versterkte hiel en teen. Temperatuurregelend en geurbestendig. Drie essentiële kleuren.",url:"https://www.arket.com/en-eu/men/underwear-and-socks/socks/"},
+  {id:20,cat:"socks",name:"Cotton-Blend Socks 5-Pack",brand:"Uniqlo",color:"Dark Assorted",price:15,seasons:["spring","summer","autumn"],hex:"#3D3D3D",note:"Supima cotton blend met mesh bovenvoet voor ventilatie. Onverslaanbare dagelijkse sokken.",url:"https://www.uniqlo.com/eu/en/product/socks-5-pairs-462043.html"},
+  {id:21,cat:"socks",name:"No-Show Socks 3-Pack",brand:"Uniqlo",color:"Beige/White",price:10,seasons:["spring","summer"],hex:"#E8DFD0",note:"Onzichtbaar in loafers en sneakers. Siliconen hielgrip voorkomt afglijden. Zomer-essential.",url:"https://www.uniqlo.com/eu/en/product/short-socks-3-pairs-462578.html"}
 ];
 
-const OUTFITS=[
+const MAX_OUTFITS=[
   {name:"Lente Smart",season:"spring",items:{top:1,bottom:9,shoe:17},desc:"Donkergroene textured polo op beige barrel-legs met zwarte loafers. Scherp maar ontspannen."},
   {name:"Rivièra Weekend",season:"summer",items:{top:4,bottom:14,shoe:17},desc:"Beige linen resort shirt met dark blue shorts en loafers. Mediterraans terras-proof."},
   {name:"Zomer Casual",season:"summer",items:{top:5,bottom:12,shoe:18},desc:"Olive open-collar shirt, beige linnen broek, chalk trainers. Aardse zomerlook."},
@@ -311,13 +334,13 @@ const OUTFITS=[
   {name:"Textuur Night",season:"autumn",items:{top:8,bottom:11,shoe:17,layer:16},desc:"Dark grey merino crew, dark grey twill, beige harrington, zwarte loafers. Textuurcontrast."}
 ];
 
-const COMBO=[
+const MAX_COMBO=[
   [1,1,1,1,1,1],[1,0,1,1,1,1],[1,0,1,1,1,0],
   [0,1,1,0,1,1],[1,1,1,1,0,1],[1,1,1,1,1,0],
   [1,0,1,1,1,0],[1,1,0,1,1,0]
 ];
 
-const SNEAKERS=[
+const MAX_SNEAKERS=[
   {name:"GEL-Kayano 14",cw:"Cream / Obsidian Grey",brand:"ASICS",price:"€145",cat:"Retro Runner",why:"Dé 'it' sneaker van 2026. Y2K tech-runner die perfect past bij wide-leg broeken.",url:"https://www.asics.com/us/en-us/gel-kayano-14/c/aa50320000/"},
   {name:"Zoom Vomero 5",cw:"Vast Grey / Platinum Tint",brand:"Nike",price:"€160",cat:"Retro Runner",why:"Beste overall sneaker van 2026. Tonaal, neutraal, past overal bij.",url:"https://www.nike.com/w/vomero-5-shoes-70s7fzy7ok"},
   {name:"990v6 Made in USA",cw:"Grey",brand:"New Balance",price:"€200",cat:"Heritage Runner",why:"Dad shoe turned grail. Understated, duur ogend, waanzinnig comfortabel.",url:"https://www.newbalance.com/pd/made-in-usa-990v6/M990V6-43094-PMG-NA.html"},
@@ -330,16 +353,94 @@ const SNEAKERS=[
   {name:"V2K Run",cw:"White / Metallic Silver",brand:"Nike",price:"€120",cat:"Retro Runner",why:"Budget-friendly Y2K tech-runner. Meest toegankelijke 2026-look.",url:"https://www.nike.com/w/nike-v2k-shoes-3picezy7ok"}
 ];
 
+const MAX_META={
+  heroTitle:"JOUW<span>Garderobe</span>",
+  heroSub:"21 items · 3 seizoenen · eindeloos combineren",
+  conceptTxt:'Een capsule wardrobe draait om <strong>intentie</strong>. Eenentwintig zorgvuldig gekozen stukken van <strong>Arket</strong>, <strong>COS</strong> en <strong>Uniqlo</strong> — elk bewust geselecteerd op kleur, textuur en veelzijdigheid. Geen overvolle kast, geen keuzestress. Alleen stukken die <strong>samenwerken</strong>.',
+  conceptDesc:'Dit palet is samengesteld voor lichte huid met donkerbruin haar. Warme neutralen als basis, aardtinten voor diepte, donkergroen en navy als accent. Wide-leg en barrel-leg silhouetten als signature. Elke kleur versterkt de andere — en versterkt jou.',
+  shoeTitle:'Twee paar.<br><em>Meer heb je niet nodig.</em>',
+  shoeDesc:'Loafers voor alles van shorts tot barrel-legs — dé schoen van 2026. Minimalistische leather trainers voor het weekend. Samen dekken ze elk moment.',
+  footerName:'Max',
+  footerBrands:'Arket × COS × Uniqlo',
+  palGroups:[{label:"Neutralen & Basis",colors:["#F0EDE6","#D2C6A5","#C8B99A"]},{label:"Donkere Basis",colors:["#1A1A1A","#3D3D3D","#4A4A4A","#1C2841","#2C3E5A"]},{label:"Accenten",colors:["#2D4A3E","#2C4033","#1B2A4A","#1A2744","#1C2D4D","#5C6B4E","#4A5A3C"]}]
+};
+
+/* ===== DATA: HER ===== */
+const HER_ITEMS=[
+  {id:101,cat:"tops",name:"The Clean Cut T-Shirt",brand:"COS",color:"Black",price:29,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Bestseller met perfecte pasvorm in zacht katoen. Basis die je elke week pakt.",url:"https://www.cos.com/en-eu/women/womenswear/tshirts/roundnecktshirts/product/the-clean-cut-t-shirt-black-0960679007"},
+  {id:102,cat:"tops",name:"Crew-Neck T-Shirt",brand:"Arket",color:"Light Beige",price:25,seasons:["spring","summer"],hex:"#E8DFD0",note:"Compacte long-staple katoen met subtiel ecru-tint. Versterkt blonde haarkleur.",url:"https://www.arket.com/en-eu/women/tops/product/crew-neck-t-shirt-light-beige-0630665033/"},
+  {id:103,cat:"tops",name:"Regular-Fit Linen Shirt",brand:"COS",color:"Navy",price:89,seasons:["spring","summer"],hex:"#1B2A4A",note:"Klassieke linnen blouse met concealed placket. Prachtig contrast met blond haar.",url:"https://www.cos.com/en-eu/women/womenswear/shirts/linenshirts/product/regular-fit-linen-shirt-navy-1085424001"},
+  {id:104,cat:"tops",name:"Relaxed Linen Shirt",brand:"Arket",color:"Beige",price:59,seasons:["spring","summer"],hex:"#C8B99A",note:"Relaxed fit met zachte linnen textuur. Draag open of gesloten. Moeiteloos.",url:"https://www.arket.com/en-eu/product/relaxed-linen-shirt-beige-1262613001/"},
+  {id:105,cat:"tops",name:"Merino Wool Crew-Neck Jumper",brand:"COS",color:"Navy",price:89,seasons:["autumn","spring"],hex:"#1A2744",note:"Premium merinowol met zijdeachtige glans. Essentieel anker in het kleurenpalet.",url:"https://www.cos.com/en-eu/women/womenswear/knitwear/crewneck/product/merino-wool-crew-neck-jumper-navy-1258538001"},
+  {id:106,cat:"tops",name:"Relaxed Cashmere-Wool Jumper",brand:"Arket",color:"Beige",price:159,seasons:["autumn","spring"],hex:"#D4C8B0",note:"Kasjmier-wolmix in warme kameel-beige. Prachtig bij lichte huid. Luxe dagelijks.",url:"https://www.arket.com/en-eu/product/relaxed-cashmere-wool-jumper-beige-1197416014/"},
+  {id:107,cat:"bottoms",name:"Gelso Pleated Trousers",brand:"The Frankie Shop",color:"Dark Grey Melange",price:220,seasons:["spring","autumn"],hex:"#4A4A52",note:"Signature oversized tailoring met geperste vouw. Sharp kantoorbroek.",url:"https://eu.thefrankieshop.com/products/gelso-pleated-trousers-dark-grey-melange"},
+  {id:108,cat:"bottoms",name:"Tansy Pleated Trousers",brand:"The Frankie Shop",color:"Black",price:199,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Oversized baggy silhouet met zachte stretch-suiting. Van koffie tot diner.",url:"https://eu.thefrankieshop.com/products/tansy-pleated-trousers-black"},
+  {id:109,cat:"bottoms",name:"Kamila Wide Leg Trousers",brand:"The Frankie Shop",color:"Khaki",price:173,seasons:["spring","summer","autumn"],hex:"#8B7D6B",note:"Wide-leg met riemlussen en geperste plooi. Warmte bij blond haar.",url:"https://eu.thefrankieshop.com/products/kamila-wide-leg-trousers-khaki"},
+  {id:110,cat:"bottoms",name:"Ripley Pleated Trousers",brand:"The Frankie Shop",color:"Ivory",price:250,seasons:["spring","summer"],hex:"#F0EDE5",note:"Lichte wol-blend met relaxed pasvorm. Ivory flatteert bleek-Scandinavisch.",url:"https://eu.thefrankieshop.com/products/ripley-pleated-trousers-ivory"},
+  {id:111,cat:"bottoms",name:"Piper Pleated Trousers",brand:"The Frankie Shop",color:"Beige",price:257,seasons:["spring","summer"],hex:"#C8B99A",note:"Linnen-viscose blend. Hoge taille, rechte pijp. Scandinavisch-luxe zomer.",url:"https://thefrankieshop.com/products/piper-pleated-trousers-beige"},
+  {id:112,cat:"bottoms",name:"Tailored Wool Shorts",brand:"Arket",color:"Black",price:99,seasons:["summer"],hex:"#1C1C1C",note:"Relaxed fit tot kniehoogte. 100% RWS wol. Past bij Frankie Shop blazers.",url:"https://www.arket.com/en-eu/product/tailored-wool-shorts-black-1226335001/"},
+  {id:113,cat:"layers",name:"Gelso Oversized Blazer",brand:"The Frankie Shop",color:"Black",price:250,seasons:["spring","autumn"],hex:"#1A1A1A",note:"Iconische oversized blazer met padded shoulders. Moeiteloos The Row-gevoel.",url:"https://eu.thefrankieshop.com/products/gelso-oversized-blazer-black"},
+  {id:114,cat:"layers",name:"Oversized Lightweight Trench Coat",brand:"COS",color:"Black",price:250,seasons:["spring","autumn"],hex:"#1C1C1C",note:"Lichtgewicht waterafstotende trenchcoat. Tijdloos tussenseizoensstuk.",url:"https://www.cos.com/en-eu/women/womenswear/coatsjackets/coats/product/oversized-lightweight-trench-coat-black-1130665001"},
+  {id:115,cat:"layers",name:"Merino Wool Cardigan",brand:"Arket",color:"Dark Blue",price:69,seasons:["spring","autumn"],hex:"#1B2A4A",note:"Puur merinowol met parelmoeren knopen. Perfecte basis-laag.",url:"https://www.arket.com/en-eu/product/merino-wool-cardigan-dark-blue-1235054003/"},
+  {id:116,cat:"layers",name:"Knitted Linen Cardigan",brand:"COS",color:"Ecru",price:119,seasons:["spring","summer"],hex:"#F5F0E8",note:"Ademend linnen vest voor warme avonden. Luchtige zomerlaag.",url:"https://www.cos.com/en-eu/women/womenswear/knitwear/cardigans/product/knitted-linen-cardigan-ecru-1315013002"},
+  {id:117,cat:"shoes",name:"Leather Ballet Flats",brand:"Arket",color:"Black",price:149,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Quiet-luxury ballerina met vierkante neus. Draag sockless bij alles.",url:"https://www.arket.com/en-eu/product/leather-ballet-flats-black-1229435001/"},
+  {id:118,cat:"shoes",name:"Leather Toe-Thong Sandals",brand:"COS",color:"Black",price:115,priceNote:"(nu €46 in sale)",seasons:["summer"],hex:"#0F0F0F",note:"Minimalistische sandaal met gewatteerd voetbed. Perfecte zomerschoen.",url:"https://www.cos.com/en-eu/women/accessories/shoes/sandals/product/strappy-leather-thong-sandals-black-1230595001"},
+  {id:119,cat:"shoes",name:"Minimal Leather Trainers",brand:"COS",color:"Chalk (Off-White)",price:99,seasons:["spring","summer","autumn"],hex:"#F0EDE6",note:"Gestroomlijnde leren sneaker in krijtkleur. Past bij alles.",url:"https://www.cos.com/en-nl/women/accessories/shoes/sneakers/product/minimal-suede-trainers-chalk-1262817004"},
+  {id:120,cat:"socks",name:"Merino Wool Socks 3-Pack",brand:"Arket",color:"Black/Navy",price:29,seasons:["spring","autumn"],hex:"#1A1A1A",note:"RWS merinowol met ribgebreide boord. Warm en ademend voor tussenseizoenen met ballet flats of sneakers.",url:"https://www.arket.com/en-eu/women/underwear-and-socks/socks/"},
+  {id:121,cat:"socks",name:"Sheer Ankle Socks 2-Pack",brand:"COS",color:"Black",price:15,seasons:["spring","summer","autumn"],hex:"#0F0F0F",note:"Semi-transparant met versterkte teen. Verfijnd detail bij ballet flats of loafers.",url:"https://www.cos.com/en-eu/women/accessories/socks/"},
+  {id:122,cat:"socks",name:"No-Show Socks 3-Pack",brand:"Uniqlo",color:"Beige/White",price:10,seasons:["spring","summer"],hex:"#E8DFD0",note:"Onzichtbaar in sneakers en flats. Siliconen hielgrip. Zomer-must-have.",url:"https://www.uniqlo.com/eu/en/product/short-socks-3-pairs-462578.html"}
+];
+
+const HER_OUTFITS=[
+  {name:"Lente Chic",season:"spring",items:{top:103,bottom:107,shoe:117},desc:"Navy linnen blouse op dark grey Frankie Shop plooibroek met zwarte ballet flats. Effortless power dressing."},
+  {name:"Zomer Minimaal",season:"summer",items:{top:102,bottom:110,shoe:118},desc:"Ecru crew-neck tee met ivory Ripley trousers en strappy sandalen. Tonaal en luchtig."},
+  {name:"Weekend Terras",season:"summer",items:{top:104,bottom:111,shoe:119},desc:"Beige linnen shirt met Piper plooibroek en chalk sneakers. Scandinavische zomerlook."},
+  {name:"All Black",season:"spring",items:{top:101,bottom:108,shoe:117,layer:113},desc:"Black Clean Cut tee onder Gelso blazer met Tansy trousers en ballet flats. The Row-energie."},
+  {name:"Herfst Warm",season:"autumn",items:{top:106,bottom:107,shoe:117,layer:115},desc:"Cashmere-wool jumper in kameel-beige, navy cardigan, dark grey plooibroek. Cozy maar polished."},
+  {name:"Herfst Trench",season:"autumn",items:{top:105,bottom:108,shoe:119,layer:114},desc:"Navy merino crew onder zwarte trenchcoat met zwarte Tansy trousers. Classic autumn uniform."},
+  {name:"Zomer Smart",season:"summer",items:{top:103,bottom:112,shoe:118},desc:"Navy linnen blouse met tailored wool shorts en sandalen. Elegant zomeroffice."},
+  {name:"Tonal Layer",season:"spring",items:{top:102,bottom:109,shoe:119,layer:116},desc:"Ecru tee, ecru linnen cardigan, khaki wide-legs en chalk trainers. Zacht kleurenspel."}
+];
+
+const HER_COMBO=[
+  [1,1,1,1,1,1],[1,1,1,1,1,1],[1,1,1,0,0,1],
+  [0,1,1,1,1,1],[1,1,0,1,1,0],[1,1,1,1,1,0]
+];
+
+const HER_META={
+  heroTitle:"SAN'S<span>Garderobe</span>",
+  heroSub:"22 items · 3 seizoenen · Scandinavische luxe",
+  conceptTxt:'Een capsule wardrobe gebouwd op <strong>quiet luxury</strong>. Tweeëntwintig stukken van <strong>COS</strong>, <strong>Arket</strong> en <strong>The Frankie Shop</strong> — geselecteerd op silhouet, textuur en een palet dat blond haar en lichte huid laat stralen. <strong>Minder keuzes, meer impact</strong>.',
+  conceptDesc:'Dit palet is samengesteld voor zeer blond haar met lichte huid. Warme neutralen als basis — ecru, kameel, ivoor. Zwart en navy als ankers. Khaki voor aardse diepte. Oversized tailoring van The Frankie Shop als signature. Elk stuk versterkt het andere.',
+  shoeTitle:'Drie essentials.<br><em>Meer heb je niet nodig.</em>',
+  shoeDesc:'Ballet flats voor quiet luxury. Strappy sandalen voor de zomer. Chalk trainers voor het weekend. Drie silhouetten, elk seizoen gedekt.',
+  footerName:'San',
+  footerBrands:'COS × Arket × The Frankie Shop',
+  palGroups:[{label:"Lichte Neutralen",colors:["#F0EDE6","#F0EDE5","#F5F0E8","#E8DFD0","#D4C8B0","#C8B99A"]},{label:"Donkere Basis",colors:["#1A1A1A","#1C1C1C","#0F0F0F","#4A4A52","#1B2A4A","#1A2744"]},{label:"Aardtinten",colors:["#8B7D6B"]}]
+};
+
+/* ===== ENGINE ===== */
 const SL={spring:"LEN",summer:"ZOM",autumn:"HER"};
 const SN={spring:"Lente",summer:"Zomer",autumn:"Herfst"};
+let WHO='max';
+let ITEMS,OUTFITS,COMBO,SNEAKERS,META;
+
+function setData(){
+  if(WHO==='max'){ITEMS=MAX_ITEMS;OUTFITS=MAX_OUTFITS;COMBO=MAX_COMBO;SNEAKERS=MAX_SNEAKERS;META=MAX_META}
+  else{ITEMS=HER_ITEMS;OUTFITS=HER_OUTFITS;COMBO=HER_COMBO;SNEAKERS=null;META=HER_META}
+}
+
 const byId=id=>ITEMS.find(i=>i.id===id);
-const imgSrc=id=>`images/item-${String(id).padStart(2,'0')}.jpg`;
-const isLight=h=>['#FFFFFF','#F5F0E8','#F0EDE6','#EDE8DD','#E8E2D6','#D9CEBC','#D2C6A5','#C8B99A','#C4B6A0','#D4C5A9'].includes(h);
+const imgSrc=id=>{
+  if(id>=100) return `images/her-${String(id-100).padStart(2,'0')}.jpg`;
+  return `images/item-${String(id).padStart(2,'0')}.jpg`;
+};
+const isLight=h=>['#FFFFFF','#F5F0E8','#F0EDE6','#F0EDE5','#EDE8DD','#E8E2D6','#E8DFD0','#D9CEBC','#D2C6A5','#D4C8B0','#C8B99A','#C4B6A0','#D4C5A9'].includes(h);
 
 function mkImg(item,cls){
   const img=document.createElement('img');img.src=imgSrc(item.id);img.alt=item.name;img.loading='lazy';if(cls)img.className=cls;
   img.onerror=function(){
-    const fb=document.createElement('div');fb.className=cls?'ifb':'ifb';fb.style.background=item.hex;
+    const fb=document.createElement('div');fb.className='ifb';fb.style.background=item.hex;
     if(isLight(item.hex)){fb.style.color='var(--txt)';fb.style.textShadow='none'}
     fb.innerHTML=`${item.name}<span class="ifb-b">${item.brand}</span>`;this.parentNode.replaceChild(fb,this);
   };return img;
@@ -355,22 +456,34 @@ function mkFlat(item,label){
   d.appendChild(img);const l=document.createElement('div');l.className='ofl-l';l.textContent=label;d.appendChild(l);return d;
 }
 
-// HERO PALETTE
-(()=>{const p=document.getElementById('hPal');const s=new Set();ITEMS.forEach(i=>{if(s.has(i.hex))return;s.add(i.hex);const d=document.createElement('div');d.className='hero-dot';d.style.background=i.hex;if(isLight(i.hex))d.style.borderColor='#ccc';p.appendChild(d)})})();
+function renderAll(){
+  setData();
+  document.body.setAttribute('data-who',WHO);
+  document.title=`Capsule Wardrobe — ${WHO==='max'?'Max':'San'}`;
+  document.getElementById('heroTitle').innerHTML=META.heroTitle;
+  document.getElementById('heroSub').textContent=META.heroSub;
+  document.getElementById('conceptTxt').innerHTML=META.conceptTxt;
+  document.getElementById('conceptDesc').textContent=META.conceptDesc;
+  document.getElementById('ftT').innerHTML=`Samengesteld voor ${META.footerName} · 2026`;
+  document.getElementById('ftB').innerHTML=META.footerBrands;
+  document.getElementById('outfitTitle').innerHTML=`${OUTFITS.length} outfits,<br><em>oneindig draagbaar</em>`;
 
-// COLOR PALETTE
-(()=>{const c=document.getElementById('palG');
-  [{label:"Neutralen & Basis",colors:["#F0EDE6","#D2C6A5","#C8B99A","#C8B99A"]},{label:"Donkere Basis",colors:["#1A1A1A","#3D3D3D","#4A4A4A","#1C2841","#2C3E5A"]},{label:"Accenten",colors:["#2D4A3E","#2C4033","#1B2A4A","#1A2744","#1C2D4D","#5C6B4E","#4A5A3C"]}].forEach(g=>{
+  // Hero palette
+  const hPal=document.getElementById('hPal');hPal.innerHTML='';
+  const seen=new Set();ITEMS.forEach(i=>{if(seen.has(i.hex))return;seen.add(i.hex);const d=document.createElement('div');d.className='hero-dot';d.style.background=i.hex;if(isLight(i.hex))d.style.borderColor='#ccc';hPal.appendChild(d)});
+
+  // Color palette
+  const palG=document.getElementById('palG');palG.innerHTML='';
+  META.palGroups.forEach(g=>{
     const el=document.createElement('div');el.innerHTML=`<p class="pal-gl">${g.label}</p>`;const row=document.createElement('div');row.className='pal-row';
-    const seen=new Set();g.colors.forEach(hex=>{if(seen.has(hex))return;seen.add(hex);const items=ITEMS.filter(i=>i.hex===hex);if(!items.length)return;
+    const s2=new Set();g.colors.forEach(hex=>{if(s2.has(hex))return;s2.add(hex);const items=ITEMS.filter(i=>i.hex===hex);if(!items.length)return;
       const ci=document.createElement('div');ci.className='pal-c';const sw=document.createElement('div');sw.className='sw';sw.style.background=hex;if(isLight(hex))sw.style.borderColor='#ccc';
       const tp=document.createElement('div');tp.className='tp';tp.textContent=items.map(i=>i.name).join(', ');ci.appendChild(sw);ci.appendChild(tp);row.appendChild(ci);
-    });el.appendChild(row);c.appendChild(el);
+    });el.appendChild(row);palG.appendChild(el);
   });
-})();
 
-// DE KAST
-(()=>{const v=document.getElementById('kV');
+  // De Kast
+  const kV=document.getElementById('kV');kV.innerHTML='';
   [{label:'Tops',key:'tops'},{label:'Bottoms',key:'bottoms'},{label:'Layers',key:'layers'}].forEach(cat=>{
     const block=document.createElement('div');block.className='cb rv';block.innerHTML=`<h3 class="cl">${cat.label}</h3>`;
     const grid=document.createElement('div');grid.className='ig';
@@ -381,11 +494,12 @@ function mkFlat(item,label){
       const inf=document.createElement('div');inf.className='inf';
       inf.innerHTML=`<span class="ibr">${item.brand}</span><div class="inm">${item.name}</div><div class="icl">${item.color}</div><div class="imt"><div class="ipr">€${item.price}${item.priceNote?` <span class="ipn">${item.priceNote}</span>`:''}</div><div class="iss">${item.seasons.map(s=>`<span class="sb ${s}">${SL[s]}</span>`).join('')}</div></div><div class="ino">${item.note}</div>`;
       card.appendChild(iw);card.appendChild(inf);grid.appendChild(card);
-    });block.appendChild(grid);v.appendChild(block);
+    });block.appendChild(grid);kV.appendChild(block);
   });
+
   // Shoes callout
   const shoes=ITEMS.filter(i=>i.cat==='shoes');const sc=document.createElement('div');sc.className='shc rv';
-  sc.innerHTML=`<p class="sec-l">Schoenen</p><h2 class="sec-t">Twee paar.<br><em>Meer heb je niet nodig.</em></h2><p class="shi">Loafers voor alles van shorts tot barrel-legs — dé schoen van 2026. Minimalistische leather trainers voor het weekend. Samen dekken ze elk moment.</p>`;
+  sc.innerHTML=`<p class="sec-l">Schoenen</p><h2 class="sec-t">${META.shoeTitle}</h2><p class="shi">${META.shoeDesc}</p>`;
   const sg=document.createElement('div');sg.className='shg';
   shoes.forEach(shoe=>{
     const card=document.createElement('a');card.className='shk';card.href=shoe.url;card.target='_blank';card.rel='noopener';
@@ -395,11 +509,31 @@ function mkFlat(item,label){
     iw.appendChild(img);const inf=document.createElement('div');inf.className='shki-inf';
     inf.innerHTML=`<div class="shkn">${shoe.name}</div><div class="shkb">${shoe.brand}</div><div class="shkp">€${shoe.price}${shoe.priceNote?` <span style="font-size:13px;font-family:var(--ff-b);font-weight:300;color:rgba(255,255,255,.4)">${shoe.priceNote}</span>`:''}</div><div class="shkno">${shoe.note}</div>`;
     card.appendChild(iw);card.appendChild(inf);sg.appendChild(card);
-  });sc.appendChild(sg);v.appendChild(sc);
-})();
+  });sc.appendChild(sg);kV.appendChild(sc);
 
-// OUTFITS
-(()=>{const slider=document.getElementById('oSl');
+  // Socks
+  const socks=ITEMS.filter(i=>i.cat==='socks');
+  if(socks.length){
+    const skSec=document.createElement('div');skSec.className='cb rv';
+    skSec.innerHTML='<h3 class="cl">Sokken</h3>';
+    const skGrid=document.createElement('div');skGrid.className='ig';
+    socks.forEach(sock=>{
+      const card=document.createElement('a');card.className='ic';card.href=sock.url;card.target='_blank';card.rel='noopener';card.dataset.seasons=JSON.stringify(sock.seasons);
+      const iw=document.createElement('div');iw.className='iw';
+      const fb=document.createElement('div');fb.className='ifb';fb.style.background=sock.hex;
+      if(isLight(sock.hex)){fb.style.color='var(--txt)';fb.style.textShadow='none'}
+      fb.innerHTML=`${sock.name}<span class="ifb-b">${sock.brand}</span>`;
+      iw.appendChild(fb);
+      const ov=document.createElement('div');ov.className='io';iw.appendChild(ov);
+      const inf=document.createElement('div');inf.className='inf';
+      inf.innerHTML=`<span class="ibr">${sock.brand}</span><div class="inm">${sock.name}</div><div class="icl">${sock.color}</div><div class="imt"><div class="ipr">€${sock.price}</div><div class="iss">${sock.seasons.map(s=>`<span class="sb ${s}">${SL[s]}</span>`).join('')}</div></div><div class="ino">${sock.note}</div>`;
+      card.appendChild(iw);card.appendChild(inf);skGrid.appendChild(card);
+    });
+    skSec.appendChild(skGrid);kV.appendChild(skSec);
+  }
+
+  // Outfits
+  const oSl=document.getElementById('oSl');oSl.innerHTML='';
   OUTFITS.forEach(o=>{
     const card=document.createElement('div');card.className=`oc ${o.season}`;card.dataset.season=o.season;
     const top=byId(o.items.top),bot=byId(o.items.bottom),shoe=byId(o.items.shoe),layer=o.items.layer?byId(o.items.layer):null;
@@ -413,55 +547,79 @@ function mkFlat(item,label){
     const links=all.map(i=>`<a href="${i.url}" target="_blank" rel="noopener">${i.brand} ${i.name}</a>`).join('<br>');
     card.innerHTML=`<div class="ost">${SN[o.season]}</div><div class="onm">${o.name}</div><div class="ods">${o.desc}</div>`;
     card.appendChild(flat);card.innerHTML+=`<div class="osw">${sw}</div><div class="oil">${links}</div><div class="otp">€${total}</div>`;
-    slider.appendChild(card);
+    oSl.appendChild(card);
   });
-  document.getElementById('slP').onclick=()=>slider.scrollBy({left:-380,behavior:'smooth'});
-  document.getElementById('slN').onclick=()=>slider.scrollBy({left:380,behavior:'smooth'});
-})();
 
-// STICKY NAV
-(()=>{const nav=document.getElementById('sNav'),kS=document.getElementById('kSec'),oS=document.getElementById('oSec');
-  nav.addEventListener('click',e=>{const b=e.target.closest('.nb');if(!b)return;
-    if(b.dataset.view){nav.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('act'));b.classList.add('act');
-      if(b.dataset.view==='kast'){kS.style.display='';oS.style.display='none'}else{kS.style.display='none';oS.style.display='';initRv()}}
-    if(b.dataset.season){nav.querySelectorAll('[data-season]').forEach(x=>x.classList.remove('act'));b.classList.add('act');const s=b.dataset.season;
-      document.querySelectorAll('.ic').forEach(c=>{const ss=JSON.parse(c.dataset.seasons||'[]');c.classList.toggle('hid',s!=='all'&&!ss.includes(s))});
-      document.querySelectorAll('.oc').forEach(c=>{c.style.display=(s==='all'||c.dataset.season===s)?'':'none'})}
-  });
-})();
-
-// MATRIX
-(()=>{const w=document.getElementById('mxW');const tops=ITEMS.filter(i=>i.cat==='tops'),bots=ITEMS.filter(i=>i.cat==='bottoms');
+  // Matrix
+  const mxW=document.getElementById('mxW');mxW.innerHTML='';
+  const tops=ITEMS.filter(i=>i.cat==='tops'),bots=ITEMS.filter(i=>i.cat==='bottoms');
   const t=document.createElement('table');t.className='mx';
   let h='<thead><tr><th></th>';bots.forEach(b=>{h+=`<th>${b.name.split(' ').slice(0,2).join(' ')}<br><span style="font-weight:300;color:var(--txt4)">${b.color}</span></th>`});h+='</tr></thead>';
   let bd='<tbody>';tops.forEach((top,ti)=>{bd+=`<tr data-top="${ti}"><td>${top.name}<br><span style="font-size:11px;color:var(--txt4)">${top.color}</span></td>`;
-    bots.forEach((bot,bi)=>{bd+=`<td data-col="${bi}"><span class="md ${COMBO[ti][bi]?'y':'n'}"></span></td>`});bd+='</tr>'});bd+='</tbody>';
-  t.innerHTML=h+bd;w.appendChild(t);
+    bots.forEach((bot,bi)=>{const v=COMBO[ti]&&COMBO[ti][bi]?1:0;bd+=`<td data-col="${bi}"><span class="md ${v?'y':'n'}"></span></td>`});bd+='</tr>'});bd+='</tbody>';
+  t.innerHTML=h+bd;mxW.appendChild(t);
   t.querySelectorAll('tbody tr').forEach(row=>{row.addEventListener('click',()=>{const was=row.classList.contains('hl');t.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('hl'));t.querySelectorAll('td,th').forEach(td=>td.classList.remove('mchl'));if(!was)row.classList.add('hl')})});
   t.querySelectorAll('thead th').forEach((th,i)=>{if(!i)return;th.style.cursor='pointer';th.addEventListener('click',()=>{const ci=i-1,was=th.classList.contains('mchl');t.querySelectorAll('td,th').forEach(el=>el.classList.remove('mchl'));t.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('hl'));if(!was){th.classList.add('mchl');t.querySelectorAll(`td[data-col="${ci}"]`).forEach(td=>td.classList.add('mchl'))}})});
-})();
 
-// BUDGET
-(()=>{const c=document.getElementById('buC');const total=ITEMS.reduce((s,i)=>s+i.price,0);const brands={};
+  // Budget
+  const buC=document.getElementById('buC');const total=ITEMS.reduce((s,i)=>s+i.price,0);const brands={};
   ITEMS.forEach(i=>{const b=i.brand.includes('/')?i.brand.split('/')[0].trim():i.brand;brands[b]=(brands[b]||0)+i.price});
   const mx=Math.max(...Object.values(brands));const cpo=Math.round(total/OUTFITS.length);
   let bH='';Object.entries(brands).sort((a,b)=>b[1]-a[1]).forEach(([n,a])=>{bH+=`<div class="br-r"><span class="br-n">${n}</span><div class="br-bw"><div class="br-b" style="width:0%" data-target="${(a/mx*100).toFixed(0)}"></div></div><span class="br-a">€${a}</span></div>`});
-  c.innerHTML=`<div class="bu-tot">€${total}</div><div class="bu-tl">Totale investering · ${ITEMS.length} items</div><div class="bu-g"><div class="bu-c"><div class="bu-cv">€${cpo}</div><div class="bu-cl">Per outfit</div></div><div class="bu-c"><div class="bu-cv">${ITEMS.length}</div><div class="bu-cl">Items totaal</div></div><div class="bu-c"><div class="bu-cv">${OUTFITS.length}</div><div class="bu-cl">Combinaties</div></div><div class="bu-c"><div class="bu-cv">3</div><div class="bu-cl">Merken</div></div></div><div class="bu-br">${bH}</div>`;
-})();
+  buC.innerHTML=`<div class="bu-tot">€${total}</div><div class="bu-tl">Totale investering · ${ITEMS.length} items</div><div class="bu-g"><div class="bu-c"><div class="bu-cv">€${cpo}</div><div class="bu-cl">Per outfit</div></div><div class="bu-c"><div class="bu-cv">${ITEMS.length}</div><div class="bu-cl">Items totaal</div></div><div class="bu-c"><div class="bu-cv">${OUTFITS.length}</div><div class="bu-cl">Combinaties</div></div><div class="bu-c"><div class="bu-cv">${Object.keys(brands).length}</div><div class="bu-cl">Merken</div></div></div><div class="bu-br">${bH}</div>`;
 
-// SNEAKERS
-(()=>{const g=document.getElementById('snkG');
-  SNEAKERS.forEach(s=>{const card=document.createElement('a');card.className='snk-card';card.href=s.url;card.target='_blank';card.rel='noopener';
-    card.innerHTML=`<div class="snk-brand">${s.brand}</div><div class="snk-name">${s.name}</div><div class="snk-cw">${s.cw}</div><span class="snk-cat">${s.cat}</span><div class="snk-why">${s.why}</div><div class="snk-price">${s.price}</div>`;
-    g.appendChild(card);
-  });
-})();
+  // Sneakers (Max only)
+  const snkSec=document.getElementById('snkSec');
+  const snkG=document.getElementById('snkG');snkG.innerHTML='';
+  if(SNEAKERS){
+    snkSec.style.display='';
+    SNEAKERS.forEach(s=>{const card=document.createElement('a');card.className='snk-card';card.href=s.url;card.target='_blank';card.rel='noopener';
+      card.innerHTML=`<div class="snk-brand">${s.brand}</div><div class="snk-name">${s.name}</div><div class="snk-cw">${s.cw}</div><span class="snk-cat">${s.cat}</span><div class="snk-why">${s.why}</div><div class="snk-price">${s.price}</div>`;
+      snkG.appendChild(card);
+    });
+  }else{snkSec.style.display='none'}
+
+  // Re-init reveals
+  initRv();
+
+  // Reset nav
+  document.querySelectorAll('[data-view]').forEach(b=>{b.classList.remove('act');if(b.dataset.view==='kast')b.classList.add('act')});
+  document.querySelectorAll('[data-season]').forEach(b=>{b.classList.remove('act');if(b.dataset.season==='all')b.classList.add('act')});
+  document.getElementById('kSec').style.display='';
+  document.getElementById('oSec').style.display='none';
+}
+
+// WHO TOGGLE
+document.querySelector('.who-toggle').addEventListener('click',e=>{
+  const btn=e.target.closest('.who-btn');if(!btn)return;
+  const newWho=btn.dataset.who;if(newWho===WHO)return;
+  WHO=newWho;
+  document.querySelectorAll('.who-btn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(renderAll,300);
+});
+
+// STICKY NAV
+document.getElementById('sNav').addEventListener('click',e=>{const b=e.target.closest('.nb');if(!b)return;
+  if(b.dataset.view){document.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('act'));b.classList.add('act');
+    if(b.dataset.view==='kast'){document.getElementById('kSec').style.display='';document.getElementById('oSec').style.display='none'}else{document.getElementById('kSec').style.display='none';document.getElementById('oSec').style.display='';initRv()}}
+  if(b.dataset.season){document.querySelectorAll('[data-season]').forEach(x=>x.classList.remove('act'));b.classList.add('act');const s=b.dataset.season;
+    document.querySelectorAll('.ic').forEach(c=>{const ss=JSON.parse(c.dataset.seasons||'[]');c.classList.toggle('hid',s!=='all'&&!ss.includes(s))});
+    document.querySelectorAll('.oc').forEach(c=>{c.style.display=(s==='all'||c.dataset.season===s)?'':'none'})}
+});
+
+// SLIDER NAV
+document.getElementById('slP').onclick=()=>document.getElementById('oSl').scrollBy({left:-380,behavior:'smooth'});
+document.getElementById('slN').onclick=()=>document.getElementById('oSl').scrollBy({left:380,behavior:'smooth'});
 
 // SCROLL REVEAL
-function initRv(){const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('v');en.target.querySelectorAll('.br-b').forEach(b=>{setTimeout(()=>{b.style.width=b.dataset.target+'%'},300)})}})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.rv:not(.v)').forEach(el=>obs.observe(el))}initRv();
+function initRv(){const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('v');en.target.querySelectorAll('.br-b').forEach(b=>{setTimeout(()=>{b.style.width=b.dataset.target+'%'},300)})}})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.rv:not(.v)').forEach(el=>obs.observe(el))}
 
 // PARALLAX
 (()=>{const bg=document.getElementById('hBg');let tick=false;window.addEventListener('scroll',()=>{if(!tick){requestAnimationFrame(()=>{if(window.scrollY<window.innerHeight)bg.style.transform=`translateY(${window.scrollY*.3}px)`;tick=false});tick=true}})})();
+
+// INIT
+renderAll();
 </script>
 </body>
 </html>
