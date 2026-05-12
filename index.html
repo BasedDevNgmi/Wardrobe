@@ -26,11 +26,73 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .rv{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
 .rv.v{opacity:1;transform:translateY(0)}.rv-1{transition-delay:.1s}.rv-2{transition-delay:.2s}.rv-3{transition-delay:.3s}
 
-/* WHO TOGGLE */
-.who-toggle{position:absolute;top:2rem;right:2rem;z-index:10;display:flex;align-items:center;gap:0;background:rgba(255,255,255,.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:100px;padding:4px;border:1px solid rgba(255,255,255,.4)}
-.who-btn{font-family:var(--ff-d);font-size:16px;font-weight:400;padding:8px 22px;border:none;background:transparent;color:var(--txt3);cursor:pointer;border-radius:100px;transition:all .4s;letter-spacing:.02em}
-.who-btn.act{background:var(--txt);color:var(--bg);font-weight:600}
-body[data-who="her"] .who-btn.act{background:var(--accent);color:#fff}
+/* WARDROBE TRIGGER */
+.wp-trigger{position:absolute;top:2rem;right:2rem;z-index:10;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.25);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:100px;padding:10px 22px;border:1px solid rgba(255,255,255,.35);cursor:pointer;font-family:var(--ff-d);font-size:17px;font-weight:400;color:var(--txt);letter-spacing:.02em;transition:all .4s cubic-bezier(.16,1,.3,1)}
+.wp-trigger:hover{background:rgba(255,255,255,.45);transform:scale(1.04);box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.wp-trigger-arrow{font-size:11px;opacity:.4;transition:transform .4s}
+
+/* WARDROBE PICKER OVERLAY */
+.wp-overlay{position:fixed;inset:0;z-index:10000;background:rgba(26,22,18,.55);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:flex;justify-content:center;align-items:flex-start;padding:clamp(16px,4vw,60px);overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .5s cubic-bezier(.16,1,.3,1)}
+.wp-overlay.open{opacity:1;pointer-events:all}
+.wp-inner{background:var(--bg);border-radius:24px;padding:clamp(28px,5vw,56px);max-width:860px;width:100%;position:relative;box-shadow:0 40px 80px rgba(0,0,0,.18),0 0 0 1px rgba(255,255,255,.1);transform:translateY(30px) scale(.97);transition:transform .5s cubic-bezier(.16,1,.3,1);opacity:0;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s}
+.wp-overlay.open .wp-inner{transform:translateY(0) scale(1);opacity:1}
+.wp-close{position:absolute;top:20px;right:20px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:transparent;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--txt3);transition:all .3s}
+.wp-close:hover{background:var(--txt);color:var(--bg);border-color:var(--txt);transform:rotate(90deg)}
+.wp-title{font-family:var(--ff-d);font-weight:300;font-size:clamp(32px,5vw,48px);margin-bottom:.5rem;text-align:center}
+.wp-title em{font-style:italic;font-weight:400;color:var(--accent)}
+.wp-subtitle{text-align:center;font-size:13px;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2rem}
+.wp-tabs{display:flex;gap:0;justify-content:center;background:var(--bg-warm);border-radius:100px;padding:4px;margin-bottom:2.5rem;max-width:220px;margin-left:auto;margin-right:auto}
+.wp-tab{font-family:var(--ff-d);font-size:16px;font-weight:400;padding:8px 28px;border:none;background:transparent;color:var(--txt3);cursor:pointer;border-radius:100px;transition:all .4s;letter-spacing:.02em}
+.wp-tab.act{background:var(--txt);color:var(--bg);font-weight:600}
+.wp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.wp-card{background:var(--bg-warm);border-radius:16px;padding:24px;cursor:pointer;border:2px solid transparent;transition:all .4s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.wp-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .4s;background:linear-gradient(135deg,rgba(45,90,61,.06),rgba(27,42,74,.04));pointer-events:none}
+.wp-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.07);border-color:var(--border)}
+.wp-card:hover::before{opacity:1}
+.wp-card.act{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 12px 32px rgba(45,90,61,.1)}
+.wp-card.act::before{opacity:1}
+.wp-card-pal{display:flex;gap:5px;margin-bottom:16px}
+.wp-card-dot{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,.5);box-shadow:0 1px 4px rgba(0,0,0,.08);transition:transform .3s}
+.wp-card:hover .wp-card-dot{transform:scale(1.15)}
+.wp-card-name{font-family:var(--ff-d);font-size:22px;font-weight:400;font-style:italic;line-height:1.2;margin-bottom:6px}
+.wp-card-sub{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--txt3);margin-bottom:12px}
+.wp-card-brands{font-size:12px;color:var(--txt3);font-weight:300;line-height:1.5}
+
+/* WARDROBE SWITCH TRANSITION */
+.wt-flash{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0}
+.wt-flash.go{animation:wtFlash 1.2s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes wtFlash{
+  0%{opacity:0;transform:scale(1.5);filter:blur(60px)}
+  15%{opacity:.7;transform:scale(1);filter:blur(30px)}
+  40%{opacity:.5;filter:blur(10px)}
+  100%{opacity:0;filter:blur(0)}
+}
+.wt-gradient{position:fixed;inset:0;z-index:9997;pointer-events:none;opacity:0;transition:opacity .8s}
+.wt-gradient.go{animation:wtGrad 1.8s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes wtGrad{
+  0%{opacity:0;transform:rotate(0deg) scale(2)}
+  20%{opacity:.4;transform:rotate(45deg) scale(1.5)}
+  50%{opacity:.25;transform:rotate(90deg) scale(1.2)}
+  100%{opacity:0;transform:rotate(180deg) scale(1)}
+}
+.wt-ripple{position:fixed;z-index:9996;pointer-events:none;border-radius:50%;transform:scale(0);opacity:.5}
+.wt-ripple.go{animation:wtRipple 1.4s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes wtRipple{
+  0%{transform:scale(0);opacity:.4}
+  60%{opacity:.15}
+  100%{transform:scale(4);opacity:0}
+}
+body.switching *{transition-duration:0s!important}
+body.switching .hero,body.switching .sec,body.switching .snav{animation:wtFadeContent .8s cubic-bezier(.16,1,.3,1)}
+@keyframes wtFadeContent{
+  0%{opacity:0;transform:translateY(12px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.hero-title-switch{animation:wtTitleIn .9s cubic-bezier(.16,1,.3,1)}
+@keyframes wtTitleIn{
+  0%{opacity:0;transform:translateY(40px) scale(.95);filter:blur(8px)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
 
 /* HERO */
 .hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--bg-warm),var(--bg) 50%,#ece5d8);transition:background .6s}
@@ -78,7 +140,6 @@ body[data-who="her"] .snav{background:rgba(251,248,246,.92)}
 .snav::-webkit-scrollbar{display:none}
 .nb{font-family:var(--ff-b);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--border);background:transparent;color:var(--txt2);border-radius:100px;cursor:pointer;transition:all .3s;white-space:nowrap;flex-shrink:0}
 .nb:hover{border-color:var(--txt2)}.nb.act{background:var(--txt);color:var(--bg);border-color:var(--txt)}
-
 .ndiv{width:1px;height:24px;background:var(--border);flex-shrink:0}
 
 /* ITEM CARDS */
@@ -208,16 +269,20 @@ body[data-who="her"] .shc{background:#5B4B5B}
 .ft-t{font-size:13px;font-weight:300;color:var(--txt4);letter-spacing:.05em}
 .ft-b{font-family:var(--ff-d);font-size:18px;font-weight:400;font-style:italic;color:var(--txt3);margin-top:6px}
 
-@media(max-width:768px){.ig{grid-template-columns:1fr}.shg{grid-template-columns:1fr}.oc{flex:0 0 88vw}.bu-g{grid-template-columns:1fr 1fr}.snk-grid{grid-template-columns:1fr}.who-toggle{top:1rem;right:1rem}.who-btn{font-size:14px;padding:6px 16px}}
+@media(max-width:768px){.ig{grid-template-columns:1fr}.shg{grid-template-columns:1fr}.oc{flex:0 0 88vw}.bu-g{grid-template-columns:1fr 1fr}.snk-grid{grid-template-columns:1fr}.wp-trigger{top:1rem;right:1rem;font-size:15px;padding:8px 16px}.wp-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-who="max">
 
+<!-- Transition layers -->
+<div class="wt-flash" id="wtFlash"></div>
+<div class="wt-gradient" id="wtGrad"></div>
+
 <section class="hero">
   <div class="hero-bg" id="hBg"></div>
-  <div class="who-toggle">
-    <button class="who-btn act" data-who="max">Max</button>
-    <button class="who-btn" data-who="her">San</button>
+  <div class="wp-trigger" id="wpTrigger">
+    <span id="wpLabel">Basis Capsule</span>
+    <span class="wp-trigger-arrow">▾</span>
   </div>
   <div class="hero-c">
     <h1 class="rv" id="heroTitle">JOUW<span>Garderobe</span></h1>
@@ -297,8 +362,22 @@ body[data-who="her"] .shc{background:#5B4B5B}
   <p class="ft-b" id="ftB">Arket &times; COS &times; Uniqlo</p>
 </footer>
 
+<!-- WARDROBE PICKER OVERLAY -->
+<div class="wp-overlay" id="wpOverlay">
+  <div class="wp-inner">
+    <button class="wp-close" id="wpClose">&times;</button>
+    <h2 class="wp-title">Kies je <em>stijl</em></h2>
+    <p class="wp-subtitle">Capsule wardrobes voor elke mood</p>
+    <div class="wp-tabs" id="wpTabs">
+      <button class="wp-tab act" data-person="max">Max</button>
+      <button class="wp-tab" data-person="her">San</button>
+    </div>
+    <div class="wp-grid" id="wpGrid"></div>
+  </div>
+</div>
+
 <script>
-/* ===== DATA: MAX ===== */
+/* ===== DATA: MAX ORIGINAL ===== */
 const MAX_ITEMS=[
   {id:1,cat:"tops",name:"Textured Knitted Polo",brand:"COS",color:"Dark Green",price:69,seasons:["spring","summer"],hex:"#2D4A3E",note:"Racking-stitch textuur in organic cotton. Moeiteloos zomers.",url:"https://www.cos.com/en-nl/men/menswear/polo-shirts/product/textured-knitted-polo-shirt-green-1150843004"},
   {id:2,cat:"tops",name:"Minimal Knitted Polo",brand:"COS",color:"Navy",price:79,seasons:["spring","summer","autumn"],hex:"#1B2A4A",note:"Milano-knit textuur. Werkt onder blazer of solo met donkere broek.",url:"https://www.cos.com/en-nl/men/menswear/knitwear/product/minimal-knitted-polo-shirt-blue-1190841002"},
@@ -361,6 +440,7 @@ const MAX_SNEAKERS=[
 ];
 
 const MAX_META={
+  styleName:"Basis Capsule",
   heroTitle:"JOUW<span>Garderobe</span>",
   heroSub:"25 items · 3 seizoenen · eindeloos combineren",
   conceptTxt:'Een capsule wardrobe draait om <strong>intentie</strong>. Vijfentwintig zorgvuldig gekozen stukken van <strong>Arket</strong>, <strong>COS</strong>, <strong>Uniqlo</strong> en <strong>Asket</strong> — elk bewust geselecteerd op kleur, textuur en veelzijdigheid. Van <strong>raw denim</strong> tot relaxed sweatshirts — smart én casual.',
@@ -372,10 +452,10 @@ const MAX_META={
   palGroups:[{label:"Neutralen & Basis",colors:["#F0EDE6","#D2C6A5","#C8B99A"]},{label:"Donkere Basis",colors:["#1A1A1A","#3D3D3D","#4A4A4A","#1C2841","#2C3E5A"]},{label:"Accenten",colors:["#2D4A3E","#2C4033","#1B2A4A","#1A2744","#1C2D4D","#5C6B4E","#4A5A3C"]}]
 };
 
-/* ===== DATA: HER ===== */
+/* ===== DATA: SAN ORIGINAL ===== */
 const HER_ITEMS=[
   {id:101,cat:"tops",name:"The Clean Cut T-Shirt",brand:"COS",color:"Black",price:29,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Bestseller met perfecte pasvorm in zacht katoen. Basis die je elke week pakt.",url:"https://www.cos.com/en-nl/women/womenswear/tshirts/roundnecktshirts/product/the-clean-cut-t-shirt-black-0960679007"},
-  {id:102,cat:"tops",name:"CO Racerback Tank",brand:"CO (via The Frankie Shop)",color:"Cream",price:270,seasons:["spring","summer"],hex:"#F5F0E8",note:"Linnen-zijde mix racerback tank. Luxe zomertop die solo of onder blazer werkt. Weekend-casual met edge.",url:"https://eu.thefrankieshop.com/products/co-racerback-tank-cream"},
+  {id:102,cat:"tops",name:"CO Racerback Tank",brand:"CO (via The Frankie Shop)",color:"Cream",price:270,seasons:["spring","summer"],hex:"#F5F0E8",note:"Linnen-zijde mix racerback tank. Luxe zomertop die solo of onder blazer werkt.",url:"https://eu.thefrankieshop.com/products/co-racerback-tank-cream"},
   {id:103,cat:"tops",name:"Regular-Fit Linen Shirt",brand:"COS",color:"Navy",price:89,seasons:["spring","summer"],hex:"#1B2A4A",note:"Klassieke linnen blouse met concealed placket. Prachtig contrast met blond haar.",url:"https://www.cos.com/en-nl/women/womenswear/shirts/linenshirts/product/regular-fit-linen-shirt-navy-1085424001"},
   {id:104,cat:"tops",name:"Relaxed Linen Shirt",brand:"Arket",color:"Beige",price:59,seasons:["spring","summer"],hex:"#C8B99A",note:"Relaxed fit met zachte linnen textuur. Draag open of gesloten. Moeiteloos.",url:"https://www.arket.com/en-nl/product/relaxed-linen-shirt-beige-1262613001/"},
   {id:105,cat:"tops",name:"Merino Wool Crew-Neck Jumper",brand:"COS",color:"Navy",price:89,seasons:["autumn","spring"],hex:"#1A2744",note:"Premium merinowol met zijdeachtige glans. Essentieel anker in het kleurenpalet.",url:"https://www.cos.com/en-nl/women/womenswear/knitwear/crewneck/product/merino-wool-crew-neck-jumper-navy-1258538001"},
@@ -419,6 +499,7 @@ const HER_COMBO=[
 ];
 
 const HER_META={
+  styleName:"Basis Capsule",
   heroTitle:"SAN'S<span>Garderobe</span>",
   heroSub:"25 items · 3 seizoenen · Scandinavische luxe",
   conceptTxt:'Een capsule wardrobe gebouwd op <strong>quiet luxury</strong>. Vijfentwintig stukken van <strong>COS</strong>, <strong>Arket</strong> en <strong>The Frankie Shop</strong> — van oversized tailoring tot <strong>Italiaans denim</strong>. Smart wanneer het moet, casual wanneer het kan. <strong>Minder keuzes, meer impact</strong>.',
@@ -430,23 +511,770 @@ const HER_META={
   palGroups:[{label:"Lichte Neutralen",colors:["#F0EDE6","#F0EDE5","#F5F0E8","#E8DFD0","#D4C8B0","#C8B99A"]},{label:"Donkere Basis",colors:["#1A1A1A","#1C1C1C","#0F0F0F","#4A4A52","#1B2A4A","#1A2744"]},{label:"Aardtinten",colors:["#8B7D6B"]}]
 };
 
+/* ===== DATA: ALD / NEW YORK PREP ===== */
+const ALD_ITEMS=[
+  {id:201,cat:"tops",name:"Striped Cotton-Jersey Rugby Shirt",brand:"Aimé Leon Dore",color:"Forest Green / Cream / Burgundy",price:245,seasons:["spring","autumn"],hex:"#2D5A3D",note:"Dikke strepen, leren patch op de borst. Genoeg karakter om de rest van je outfit te dragen.",url:"https://www.mrporter.com/en-nl/mens/designer/aime-leon-dore"},
+  {id:202,cat:"tops",name:"Slim-Fit Button-Down Cotton Oxford",brand:"Drake's",color:"Sky Blue",price:195,seasons:["spring","summer","autumn"],hex:"#A8C5D8",note:"Somerset-fabriek, parelmoer knopen, single-needle stiksels. Draag gekreukeld uit de broek.",url:"https://www.drakes.com/"},
+  {id:203,cat:"tops",name:"Button-Down Oxford Shirt",brand:"Beams Plus",color:"White",price:135,seasons:["spring","summer","autumn"],hex:"#F5F2EC",note:"Handgemaakt in Japan, perfecte box-pleat. De definitieve OCBD.",url:"https://www.endclothing.com/en-de/beams-plus"},
+  {id:204,cat:"tops",name:"Merino Wool Knit Polo",brand:"Aimé Leon Dore",color:"Navy",price:265,seasons:["autumn","spring"],hex:"#1B2A4A",note:"Italiaans merinogaren, drukknopen. Half polo, half trui — perfect voor twijfelachtige herfstdagen.",url:"https://www.mrporter.com/en-nl/mens/designer/aime-leon-dore"},
+  {id:205,cat:"tops",name:"Classic Fit Mesh Polo Shirt",brand:"Polo Ralph Lauren",color:"Burnt Orange",price:110,seasons:["spring","summer"],hex:"#CC5500",note:"Het origineel. Iets te groot voor de juiste laid-back vibe, met pleated chino's en loafers.",url:"https://www.mrporter.com/en-nl/mens/designer/polo-ralph-lauren"},
+  {id:206,cat:"tops",name:"Heritage-Weight Cotton Tee",brand:"J.Crew",color:"Faded Olive",price:55,seasons:["spring","summer","autumn"],hex:"#7A8C65",note:"Zwaarder katoen, garment-dyed voor vervaagde kleur. Het anker van de kast.",url:"https://www.jcrew.com/"},
+  {id:207,cat:"tops",name:"Gingham Oxford Shirt",brand:"Beams Plus",color:"Blue / White Gingham",price:145,seasons:["spring","summer"],hex:"#6B9DC2",note:"Japanse interpretatie van Ivy League. Perfect onder marineblauwe blazer.",url:"https://www.endclothing.com/en-de/beams-plus"},
+  {id:208,cat:"tops",name:"Garment-Dyed Crewneck Sweatshirt",brand:"J.Crew",color:"Faded Burgundy",price:88,seasons:["autumn","spring"],hex:"#6B2737",note:"Dikke French terry, garment-dyed vintage look. Perfecte lazy Saturday trui.",url:"https://www.jcrew.com/"},
+  {id:209,cat:"tops",name:"Brushed Shetland Wool Sweater",brand:"Drake's",color:"Moss Green",price:325,seasons:["autumn","spring"],hex:"#4A5C3A",note:"Zachte Shetland wol met lichte borstel. Over Oxford shirt voor het volle professorseffect.",url:"https://www.drakes.com/"},
+  {id:210,cat:"bottoms",name:"2-Pleat Chino",brand:"Beams Plus",color:"Dark Navy",price:165,seasons:["spring","summer","autumn"],hex:"#1C2B45",note:"Dubbele plooi, afgeknipt boven de enkel. Gemaakt in Japan, valt perfect.",url:"https://www.endclothing.com/en-de/beams-plus"},
+  {id:211,cat:"bottoms",name:"Whitman Relaxed-Fit Pleated Chino",brand:"Polo Ralph Lauren",color:"Khaki Tan",price:145,seasons:["spring","summer","autumn"],hex:"#C4A882",note:"Relaxed maar niet slordig — één plooi, zacht katoenen chino-stof.",url:"https://www.endclothing.com/en-de/polo-ralph-lauren"},
+  {id:212,cat:"bottoms",name:"Sullivan Slim-Fit Stretch Denim",brand:"Polo Ralph Lauren",color:"Medium Indigo",price:135,seasons:["spring","summer","autumn"],hex:"#3A5070",note:"Slim met genoeg stretch. Draag met alles van sneakers tot loafers.",url:"https://www.mrporter.com/en-nl/mens/designer/polo-ralph-lauren"},
+  {id:213,cat:"bottoms",name:"Tapered Pleated Cotton-Twill Trousers",brand:"Beams Plus",color:"Olive",price:175,seasons:["spring","autumn"],hex:"#6B7645",note:"Taps toelopend, gepluisde manchet. Met Oxford en loafers ziet het eruit als meer moeite dan het was.",url:"https://www.mrporter.com/en-nl/mens/designer/beams-plus"},
+  {id:214,cat:"bottoms",name:"Straight-Leg Pleated Linen Trousers",brand:"Polo Ralph Lauren",color:"Ecru",price:175,seasons:["spring","summer"],hex:"#EDE0C8",note:"Linnen met rechte pijp en voorste plooi. Kreukelt prachtig, draag het als feature.",url:"https://www.mrporter.com/en-nl/mens/designer/polo-ralph-lauren"},
+  {id:215,cat:"bottoms",name:"Prepster Corduroy Easy Pant",brand:"Polo Ralph Lauren",color:"Warm Camel",price:155,seasons:["autumn","spring"],hex:"#C19A6B",note:"Fijngeribde corduroy, relaxed coupe. De herfstbroek die alles bijelkaar houdt.",url:"https://www.ralphlauren.com/"},
+  {id:216,cat:"layers",name:"Heritage Wool Varsity Jacket",brand:"Aimé Leon Dore",color:"Dark Brown / Cream",price:900,seasons:["autumn","spring"],hex:"#3D2B1A",note:"Wollen lichaam, leren mouwen, ALD-borduursel. Investering in je reputatie.",url:"https://eu.aimeleondore.com/"},
+  {id:217,cat:"layers",name:"Ludlow Varsity Jacket",brand:"J.Crew",color:"Charcoal / Tan",price:348,seasons:["autumn","spring"],hex:"#4A4A4A",note:"Italiaans wollen lichaam met leren details. Betaalbaar varsity-alternatief.",url:"https://www.jcrew.com/"},
+  {id:218,cat:"layers",name:"MW Fatigue Jacket",brand:"Universal Works",color:"Light Olive",price:185,seasons:["spring","autumn"],hex:"#8C9A5E",note:"Militaire M65-snit, vier zakken, verborgen knopen. Jas of zwaar overhemd.",url:"https://www.endclothing.com/en-de/universal-works"},
+  {id:219,cat:"layers",name:"Garment-Dyed Overshirt",brand:"J.Crew",color:"Faded Stone",price:148,seasons:["spring","summer","autumn"],hex:"#BEB5A5",note:"Lichtgewicht ripstop katoen, garment-dyed vintage look. Zomeravondlaag.",url:"https://www.jcrew.com/"},
+  {id:220,cat:"shoes",name:"BB550",brand:"New Balance",color:"White / Forest Green",price:130,seasons:["spring","summer","autumn"],hex:"#FFFFFF",note:"Leren upper, dikke zool, retro basketbalvibes. Draag met chino's, jeans, alles.",url:"https://nl.newbalance.eu/en/pd/bb550/BB550V1-36485.html"},
+  {id:221,cat:"shoes",name:"990v6 Made in USA",brand:"New Balance",color:"Grey / Navy",price:250,seasons:["spring","summer","autumn"],hex:"#8C8C8C",note:"Het ultieme dad-shoe zonder schaamte. Gemaakt in Massachusetts, 40 jaar erfgoed.",url:"https://nl.newbalance.eu/en/shop-by-model/990/"},
+  {id:222,cat:"shoes",name:"Michael Loafer",brand:"Paraboot",color:"Dark Brown",price:430,seasons:["spring","autumn"],hex:"#4A2C0A",note:"Noorse stiksels, dikke rubberzool. De beste loafer van Europa.",url:"https://www.paraboot.com/"},
+  {id:223,cat:"socks",name:"Laburnum Merino Wool Socks",brand:"Pantherella",color:"Charcoal",price:22,seasons:["autumn","spring"],hex:"#4A4A4A",note:"Handgekoppeld teennaad, fijne 5x3 rib. Het subtiele detail dat verschil maakt.",url:"https://www.pantherella.com/"},
+  {id:224,cat:"socks",name:"Quakers Striped Merino Socks",brand:"Pantherella",color:"Navy / Cream Stripe",price:24,seasons:["spring","autumn"],hex:"#1B2A4A",note:"Subtiele streping op marineblauwe achtergrond. Laat zien bij de Paraboot.",url:"https://www.pantherella.com/"},
+  {id:225,cat:"socks",name:"Racton Argyle Merino Socks",brand:"Pantherella",color:"Forest Green / Camel",price:26,seasons:["autumn","spring"],hex:"#2D5A3D",note:"Klassiek Argyle in aardse kleuren. 'Per ongeluk goed gekleed' energy.",url:"https://www.pantherella.com/"}
+];
+
+const ALD_OUTFITS=[
+  {name:"De Professor",season:"autumn",items:{top:209,bottom:213,shoe:222},desc:"Moss green Shetland trui, olive twill chino's, Paraboot Michael. Bibliotheek-chic."},
+  {name:"Zaterdag Markt",season:"spring",items:{top:201,bottom:212,shoe:220},desc:"ALD rugby shirt met medium indigo jeans en BB550 wit-groen. Onverslaanbaar."},
+  {name:"Terras in Juni",season:"summer",items:{top:205,bottom:214,shoe:220},desc:"Burnt orange mesh polo met ecru linnen broek en BB550. Hollandse zomer."},
+  {name:"Late Herfst",season:"autumn",items:{top:204,bottom:215,shoe:222,layer:216},desc:"ALD varsity jacket over navy merino polo, camel corduroy, Paraboot. Statement."},
+  {name:"Casual Vrijdag",season:"spring",items:{top:206,bottom:210,shoe:221,layer:218},desc:"Faded olive heritage tee, navy 2-pleat Beams Plus, olive fatigue jacket, 990v6."},
+  {name:"De Surf Check",season:"autumn",items:{top:208,bottom:212,shoe:220,layer:219},desc:"Faded burgundy sweatshirt, indigo jeans, stone overshirt, BB550."}
+];
+
+const ALD_COMBO=[
+  [1,1,1,1,1,1],[1,1,1,1,1,1],[1,1,1,1,1,1],
+  [1,1,1,1,1,0],[1,1,1,1,1,1],[1,1,1,1,1,1],
+  [1,1,1,1,1,1],[1,1,1,1,1,0],[1,0,1,1,1,1]
+];
+
+const ALD_META={
+  styleName:'Atlantic Ivy Scholar',
+  heroTitle:"JOUW<span>Garderobe</span>",
+  heroSub:"25 items · New York meets Ivy League",
+  conceptTxt:'De garderobe van de man die Proust leest maar ook weet wanneer de golven goed zijn. <strong>Aimé Leon Dore</strong> zet de toon — New York-energie met Ivy League-roots — aangevuld met Britse precisie van <strong>Drake\'s</strong> en Japanse perfectie van <strong>Beams Plus</strong>.',
+  conceptDesc:'Geen logoparade, geen ironie — gewoon kleren die langer meegaan dan trends. Aardtinten als basis, forest green en burgundy als accent. Van rugbyveld naar terras, kantoor naar markt.',
+  shoeTitle:'Drie schoenen.<br><em>Elk een statement.</em>',
+  shoeDesc:'BB550 voor casual, 990v6 voor heritage, Paraboot Michael voor alles wat telt. Drie silhouetten die de hele week dekken.',
+  footerName:'Max',
+  footerBrands:'Aimé Leon Dore × Drake\'s × Beams Plus × New Balance × Paraboot',
+  palGroups:[{label:"Warme Neutralen",colors:["#F5F2EC","#EDE0C8","#C4A882","#C19A6B","#BEB5A5"]},{label:"Donkere Basis",colors:["#1B2A4A","#1C2B45","#3A5070","#4A4A4A","#3D2B1A"]},{label:"Accenten",colors:["#2D5A3D","#4A5C3A","#6B7645","#7A8C65","#8C9A5E","#CC5500","#6B2737","#A8C5D8","#6B9DC2"]}]
+};
+
+/* ===== DATA: JAPANESE WORKWEAR ===== */
+const JW_ITEMS=[
+  {id:301,cat:"tops",name:"Chambray Work Shirt",brand:"OrSlow",color:"Indigo",price:289,seasons:["spring","autumn"],hex:"#2B4A6E",note:"Selvedge chambray, triple-stitched. Japans vakmanschap op z'n best.",url:"https://www.endclothing.com/en-de/orslow"},
+  {id:302,cat:"tops",name:"Button-Down Oxford",brand:"Beams Plus",color:"White",price:135,seasons:["spring","summer","autumn"],hex:"#F5F2EC",note:"Box pleat, perfecte kraag. Ivy-basis van elke Japanse garderobe.",url:"https://www.endclothing.com/en-de/beams-plus"},
+  {id:303,cat:"tops",name:"Boro Patchwork Tee",brand:"Kapital",color:"Natural / Indigo",price:165,seasons:["spring","summer"],hex:"#D4CFC2",note:"Slow-stitched boro patchwork op heavy cotton. Elk shirt is uniek.",url:"https://www.endclothing.com/en-de/kapital"},
+  {id:304,cat:"tops",name:"Indigo Jersey Tee",brand:"OrSlow",color:"Dark Indigo",price:95,seasons:["spring","summer","autumn"],hex:"#1C2D4D",note:"Rope-dyed indigo jersey. Vervaagt prachtig met dragen.",url:"https://www.endclothing.com/en-de/orslow"},
+  {id:305,cat:"tops",name:"Camp Collar Shirt",brand:"Engineered Garments",color:"Olive Paisley",price:225,seasons:["spring","summer"],hex:"#5C6B4E",note:"Camp collar met subtiel paisley. New York meets Harajuku.",url:"https://www.endclothing.com/en-de/engineered-garments"},
+  {id:306,cat:"tops",name:"Sashiko Crew Sweatshirt",brand:"Kapital",color:"Navy",price:245,seasons:["autumn","spring"],hex:"#1B2744",note:"Sashiko-stitching detail op French terry. Wabi-sabi luxe.",url:"https://www.endclothing.com/en-de/kapital"},
+  {id:307,cat:"tops",name:"Loopwheel Henley",brand:"Merz b. Schwanen",color:"Natural White",price:89,seasons:["spring","summer","autumn"],hex:"#EDE8DD",note:"Loopwheeled jersey. Perfecte basis voor layering.",url:"https://www.endclothing.com/en-de/merz-b-schwanen"},
+  {id:308,cat:"tops",name:"Noragi Jacket/Top",brand:"Kapital",color:"Kakishibu Brown",price:395,seasons:["spring","autumn"],hex:"#8B6B45",note:"Persimmon-dyed noragi. Draag als top of dunne laag. Wabi-sabi icoon.",url:"https://www.endclothing.com/en-de/kapital"},
+  {id:309,cat:"tops",name:"Thermal Henley L/S",brand:"OrSlow",color:"Grey Marl",price:115,seasons:["autumn","spring"],hex:"#8A8A8A",note:"Waffle-knit thermal, medium weight. Perfecte tussenlaag.",url:"https://www.endclothing.com/en-de/orslow"},
+  {id:310,cat:"bottoms",name:"107 Slim Fit Selvedge",brand:"OrSlow",color:"2 Year Wash",price:295,seasons:["spring","summer","autumn"],hex:"#3D5A82",note:"13.5oz selvedge denim. Perfecte vintage fade.",url:"https://www.endclothing.com/en-de/orslow"},
+  {id:311,cat:"bottoms",name:"US Army Fatigue Pants",brand:"OrSlow",color:"Green",price:265,seasons:["spring","summer","autumn"],hex:"#5A6B45",note:"Legendarische fatigue pants. Relaxed herringbone twill.",url:"https://www.endclothing.com/en-de/orslow"},
+  {id:312,cat:"bottoms",name:"Century Denim Wide Leg",brand:"Kapital",color:"Dark Indigo",price:485,seasons:["spring","autumn"],hex:"#1A2744",note:"14oz selvedge, wide leg. Statement denim.",url:"https://www.endclothing.com/en-de/kapital"},
+  {id:313,cat:"bottoms",name:"Fatigue Pant",brand:"Engineered Garments",color:"Dark Navy Twill",price:295,seasons:["spring","autumn"],hex:"#1C2841",note:"Relaxed taper, button fly. EG's meest iconische broek.",url:"https://www.endclothing.com/en-de/engineered-garments"},
+  {id:314,cat:"bottoms",name:"Pleated Wide Chino",brand:"Beams Plus",color:"Khaki",price:165,seasons:["spring","summer"],hex:"#C4A882",note:"2-pleat wide leg. Japanse Ivy League interpretatie.",url:"https://www.endclothing.com/en-de/beams-plus"},
+  {id:315,cat:"bottoms",name:"Baker Shorts",brand:"Engineered Garments",color:"Olive Ripstop",price:205,seasons:["summer"],hex:"#6B7645",note:"Relaxed utility shorts in ripstop. Zomerse workwear.",url:"https://www.endclothing.com/en-de/engineered-garments"},
+  {id:316,cat:"layers",name:"Bedford Jacket",brand:"Engineered Garments",color:"Dark Navy Twill",price:495,seasons:["spring","autumn"],hex:"#1B2A4A",note:"Bedrijfsjas van de creatieve klasse. Unstructured, vier zakken.",url:"https://www.endclothing.com/en-de/engineered-garments"},
+  {id:317,cat:"layers",name:"Coverall Jacket",brand:"OrSlow",color:"One Wash Denim",price:365,seasons:["spring","autumn"],hex:"#2B4A6E",note:"Franse werkjas in Japans selvedge denim. Tijdloos en stoer.",url:"https://www.endclothing.com/en-de/orslow"},
+  {id:318,cat:"layers",name:"Ring Coat",brand:"Kapital",color:"Navy Wool",price:695,seasons:["autumn"],hex:"#1A2744",note:"Oversized silhouet met Kapital's kenmerkende details. Draagbaar kunstwerk.",url:"https://www.endclothing.com/en-de/kapital"},
+  {id:319,cat:"layers",name:"Loiter Jacket",brand:"Engineered Garments",color:"Olive Cotton Twill",price:465,seasons:["spring","autumn"],hex:"#5C6B4E",note:"Unstructured blazer met workwear DNA. Smart casual voor de kenner.",url:"https://www.endclothing.com/en-de/engineered-garments"},
+  {id:320,cat:"shoes",name:"FBT Lhamo",brand:"visvim",color:"Dark Brown Elk",price:895,seasons:["spring","autumn"],hex:"#4A2C0A",note:"Elk leather moccasin. Ultieme statement van Japanse Americana.",url:"https://www.visvim.tv/"},
+  {id:321,cat:"shoes",name:"Blucher Rocker",brand:"Yuketen",color:"Brown CXL",price:495,seasons:["spring","summer","autumn"],hex:"#6B4A2A",note:"Handgemaakt Horween Chromexcel moccasin. Made in Maine.",url:"https://yuketen.com/"},
+  {id:322,cat:"shoes",name:"Gym Classic",brand:"Moonstar",color:"White Canvas",price:95,seasons:["spring","summer"],hex:"#F5F2EC",note:"Vulcanized sole, made in Kurume. Ultieme Japanse canvas sneaker.",url:"https://www.endclothing.com/en-de/moonstar"},
+  {id:323,cat:"socks",name:"56 Yarns Sashiko Socks",brand:"Kapital",color:"Indigo",price:38,seasons:["spring","autumn"],hex:"#2B4A6E",note:"56 garen sashiko-sokken met verborgen smiley. Puur Kapital.",url:"https://www.endclothing.com/en-de/kapital"},
+  {id:324,cat:"socks",name:"Merino Boot Socks",brand:"Anonymous Ism",color:"Charcoal",price:28,seasons:["autumn","spring"],hex:"#4A4A4A",note:"Japanse merinowol met versterkte hiel. Onzichtbaar maar onmisbaar.",url:"https://www.endclothing.com/en-de/anonymous-ism"},
+  {id:325,cat:"socks",name:"Double Face Crew Socks",brand:"RoToTo",color:"Natural / Indigo",price:22,seasons:["spring","summer"],hex:"#D4CFC2",note:"Double-face knit in organic cotton. Schoonheid in constructie.",url:"https://www.endclothing.com/en-de/rototo"}
+];
+
+const JW_OUTFITS=[
+  {name:"Indigo Layering",season:"autumn",items:{top:304,bottom:310,shoe:321,layer:317},desc:"Dark indigo tee onder denim coverall met slim selvedge jeans en Yuketen. Triple indigo."},
+  {name:"Workwear Weekend",season:"spring",items:{top:301,bottom:311,shoe:322},desc:"Chambray work shirt met fatigue pants en Moonstar canvas sneakers. Eerlijk en effortless."},
+  {name:"Ivy meets Harajuku",season:"summer",items:{top:302,bottom:314,shoe:322},desc:"Witte Oxford, khaki wide chinos, canvas sneakers. Japanse Ivy League op zomerse dagen."},
+  {name:"De Kenner",season:"autumn",items:{top:309,bottom:313,shoe:320,layer:316},desc:"Thermal henley, navy fatigue pants, Bedford jacket, visvim FBT. Alleen insiders herkennen dit."},
+  {name:"Sashiko Zaterdag",season:"spring",items:{top:306,bottom:310,shoe:321},desc:"Sashiko crew sweatshirt met selvedge jeans en Yuketen. Textuur op textuur."},
+  {name:"Zomer Noragi",season:"summer",items:{top:307,bottom:315,shoe:322,layer:308},desc:"Henley onder noragi met baker shorts en Moonstar. Japans-casual."}
+];
+
+const JW_COMBO=[
+  [1,1,1,1,1,1],[1,1,0,1,1,1],[1,1,1,1,1,1],
+  [1,1,1,1,1,1],[1,1,0,1,1,1],[1,1,1,1,0,0],
+  [1,1,1,1,1,1],[1,1,1,1,0,0],[1,1,1,1,1,0]
+];
+
+const JW_META={
+  styleName:'Indigo Americana',
+  heroTitle:"JOUW<span>Garderobe</span>",
+  heroSub:"25 items · Japanse Workwear",
+  conceptTxt:'De garderobe van een man die weet dat de <strong>beste kleren gemaakt worden om gedragen te worden</strong>. <strong>OrSlow</strong>, <strong>Kapital</strong> en <strong>Engineered Garments</strong> vormen het hart — Japans vakmanschap met Amerikaanse workwear-wortels.',
+  conceptDesc:'Indigo als rode draad, aangevuld met natural whites, olive en aardtinten. Selvedge denim, sashiko details, heritage texturen. Kleding die mooier wordt naarmate je haar draagt.',
+  shoeTitle:'Drie paar.<br><em>Van moccasin tot canvas.</em>',
+  shoeDesc:'visvim FBT voor statement, Yuketen voor handgemaakt vakmanschap, Moonstar voor dagelijks. Drie niveaus van Japanse craftmanship.',
+  footerName:'Max',
+  footerBrands:'OrSlow × Kapital × Engineered Garments × Beams Plus × visvim',
+  palGroups:[{label:"Indigo & Natural",colors:["#2B4A6E","#1C2D4D","#3D5A82","#EDE8DD","#D4CFC2","#F5F2EC"]},{label:"Aardtinten",colors:["#5C6B4E","#6B7645","#5A6B45","#8B6B45","#C4A882","#4A2C0A","#6B4A2A"]},{label:"Donkere Basis",colors:["#1B2A4A","#1A2744","#1C2841","#4A4A4A","#8A8A8A"]}]
+};
+
+/* ===== DATA: ITALIAN RIVIERA ===== */
+const IR_ITEMS=[
+  {id:401,cat:"tops",name:"Linen Camp Collar Shirt",brand:"Barena Venezia",color:"Ecru",price:275,seasons:["spring","summer"],hex:"#F0EBD8",note:"Unstructured linnen, camp collar. Venetiaans vakmanschap voor luie zomerdagen.",url:"https://www.mrporter.com/en-nl/mens/designer/barena"},
+  {id:402,cat:"tops",name:"Piqué Cotton Polo",brand:"Brunello Cucinelli",color:"Warm Sand",price:495,seasons:["spring","summer"],hex:"#D4C5A9",note:"Slim-fit piqué met parelmoer knopen. Het subtiele verschil dat alles maakt.",url:"https://www.brunellocucinelli.com/en-nl/man/polo-shirts/"},
+  {id:403,cat:"tops",name:"Linen-Cotton Tee",brand:"Aspesi",color:"White",price:95,seasons:["spring","summer"],hex:"#FFFFFF",note:"Luchtig linnen-katoen blend. De perfecte Rivièra basis.",url:"https://www.aspesi.com/en-nl/men/"},
+  {id:404,cat:"tops",name:"Bengal Stripe Linen Shirt",brand:"Drake's",color:"Navy/White",price:225,seasons:["spring","summer"],hex:"#1B2A4A",note:"Bengal stripes in puur linnen. Van strand naar diner.",url:"https://www.drakes.com/"},
+  {id:405,cat:"tops",name:"Cotton-Silk Knit Polo",brand:"Loro Piana",color:"Sage Green",price:650,seasons:["spring","summer"],hex:"#8B9A6B",note:"Katoenen-zijde blend, ongelooflijk zacht. Stille luxe voelbaar.",url:"https://www.loropiana.com/en-nl/man/"},
+  {id:406,cat:"tops",name:"Garment-Dyed Linen Shirt",brand:"Aspesi",color:"Sky Blue",price:185,seasons:["spring","summer"],hex:"#A8C5D8",note:"Garment-dyed voor perfecte verbleekte tint. Effortless Italiano.",url:"https://www.aspesi.com/en-nl/men/"},
+  {id:407,cat:"tops",name:"Merino Crew Neck",brand:"Brunello Cucinelli",color:"Navy",price:595,seasons:["autumn","spring"],hex:"#1A2744",note:"Ultrafijne merino, naadloos afgewerkt. De trui voor als het ertoe doet.",url:"https://www.brunellocucinelli.com/en-nl/man/knitwear/"},
+  {id:408,cat:"tops",name:"Linen Henley",brand:"Barena Venezia",color:"Natural",price:175,seasons:["summer"],hex:"#E8DFD0",note:"Relaxed linnen henley. Opgestroopte mouwen op het terras.",url:"https://www.mrporter.com/en-nl/mens/designer/barena"},
+  {id:409,cat:"tops",name:"Cashmere-Silk Polo",brand:"Loro Piana",color:"Caramel",price:750,seasons:["spring","autumn"],hex:"#C49A6C",note:"Cashmere-zijde, fluisterzacht. Het meest luxueuze poloshirt dat je ooit draagt.",url:"https://www.loropiana.com/en-nl/man/"},
+  {id:410,cat:"bottoms",name:"Pleated Linen Trousers",brand:"De Petrillo",color:"Ecru",price:345,seasons:["spring","summer"],hex:"#EDE0C8",note:"Napolitaanse tailoring in puur linnen. Forward pleats, no break. La bella figura.",url:"https://www.mrporter.com/en-nl/mens/designer/de-petrillo"},
+  {id:411,cat:"bottoms",name:"Drawstring Trousers",brand:"Barena Venezia",color:"Light Grey",price:245,seasons:["spring","summer"],hex:"#B8B0A5",note:"Drawstring waist, tapered leg. Venetiaans comfort met Milanese elegantie.",url:"https://www.mrporter.com/en-nl/mens/designer/barena"},
+  {id:412,cat:"bottoms",name:"Chino Bermuda Shorts",brand:"Aspesi",color:"Sand",price:165,seasons:["summer"],hex:"#D4C5A9",note:"Clean chino shorts, slim cut. Van jacht naar diner.",url:"https://www.aspesi.com/en-nl/men/"},
+  {id:413,cat:"bottoms",name:"Cotton-Linen Trousers",brand:"Brunello Cucinelli",color:"Navy",price:595,seasons:["spring","summer","autumn"],hex:"#1C2841",note:"Cotton-linen blend met perfect drape. Past overal.",url:"https://www.brunellocucinelli.com/en-nl/man/trousers/"},
+  {id:414,cat:"bottoms",name:"Gurkha Trouser",brand:"De Petrillo",color:"Tobacco",price:365,seasons:["spring","autumn"],hex:"#8B6B45",note:"Dubbele gesp, high-rise. Napolitaans vakmanschap in een vergeten silhouet.",url:"https://www.mrporter.com/en-nl/mens/designer/de-petrillo"},
+  {id:415,cat:"bottoms",name:"Wide-Leg Linen Pants",brand:"Loro Piana",color:"Ivory",price:795,seasons:["summer"],hex:"#F5F0E8",note:"Pure linnen, wide leg, zachte tailleband. Summer of Loro Piana.",url:"https://www.loropiana.com/en-nl/man/"},
+  {id:416,cat:"layers",name:"Unstructured Linen Blazer",brand:"De Petrillo",color:"Cream",price:695,seasons:["spring","summer"],hex:"#F0EBD8",note:"Half-lined, spalla camicia. Napolitaanse blazer die aanvoelt als een shirt.",url:"https://www.mrporter.com/en-nl/mens/designer/de-petrillo"},
+  {id:417,cat:"layers",name:"Cotton Field Jacket",brand:"Aspesi",color:"Olive",price:395,seasons:["spring","autumn"],hex:"#5C6B4E",note:"Vier zakken, garment-dyed, lightweight. Italiaanse M-65.",url:"https://www.aspesi.com/en-nl/men/"},
+  {id:418,cat:"layers",name:"Cashmere Zip Cardigan",brand:"Loro Piana",color:"Taupe",price:1250,seasons:["autumn","spring"],hex:"#B8A99A",note:"Baby cashmere met YKK rits. Het duurste vest dat je koopt — en het laatste.",url:"https://www.loropiana.com/en-nl/man/"},
+  {id:419,cat:"layers",name:"Cotton-Linen Overshirt",brand:"Barena Venezia",color:"Light Blue",price:285,seasons:["spring","summer"],hex:"#A8C5D8",note:"Oversized overshirt in katoen-linnen. Venetiaans blauw als zomerlaag.",url:"https://www.mrporter.com/en-nl/mens/designer/barena"},
+  {id:420,cat:"shoes",name:"Open Walk Espadrilles",brand:"Loro Piana",color:"Sand",price:495,seasons:["summer"],hex:"#D4C5A9",note:"Open Walk sole, suède upper. Ultieme Rivièra schoen.",url:"https://www.loropiana.com/en-nl/man/shoes/"},
+  {id:421,cat:"shoes",name:"Barth Boat Shoe",brand:"Paraboot",color:"Brown",price:290,seasons:["spring","summer"],hex:"#6B4A2A",note:"Dikke rubberzool, Frans vakmanschap voor de haven.",url:"https://www.paraboot.com/"},
+  {id:422,cat:"shoes",name:"Suede Loafers",brand:"Brunello Cucinelli",color:"Taupe",price:790,seasons:["spring","summer","autumn"],hex:"#B8A99A",note:"Unlined suède, flexibele zool. Sockless dragen voor het volle effect.",url:"https://www.brunellocucinelli.com/en-nl/man/shoes/"},
+  {id:423,cat:"socks",name:"Cashmere Ankle Socks",brand:"Loro Piana",color:"Natural",price:85,seasons:["autumn","spring"],hex:"#E8DFD0",note:"Baby cashmere voor je voeten. Decadent maar onmisbaar.",url:"https://www.loropiana.com/en-nl/man/accessories/"},
+  {id:424,cat:"socks",name:"Linen No-Show Socks",brand:"Pantherella",color:"Ecru",price:18,seasons:["spring","summer"],hex:"#F0EBD8",note:"Linnen blend no-shows. Onzichtbaar in loafers en espadrilles.",url:"https://www.pantherella.com/"},
+  {id:425,cat:"socks",name:"Cotton Ribbed Socks",brand:"Pantherella",color:"Navy",price:22,seasons:["spring","autumn"],hex:"#1B2A4A",note:"Fijne katoenen rib. De basis die nooit teleurstelt.",url:"https://www.pantherella.com/"}
+];
+
+const IR_OUTFITS=[
+  {name:"Capri Diner",season:"summer",items:{top:401,bottom:410,shoe:422},desc:"Ecru camp collar shirt, ecru linnen Napolitaanse broek, taupe suède loafers. Tonaal zomerperfectie."},
+  {name:"Portofino Ochtend",season:"summer",items:{top:403,bottom:412,shoe:420},desc:"Witte linen tee met sand bermuda shorts en Loro Piana espadrilles. Ochtendbriefje aan de kust."},
+  {name:"Rivièra Avond",season:"spring",items:{top:404,bottom:413,shoe:422},desc:"Navy Bengal stripe linnen shirt, navy cotton-linen trousers, taupe loafers. Elegantie zonder moeite."},
+  {name:"Herfst Napoli",season:"autumn",items:{top:407,bottom:414,shoe:422,layer:416},desc:"Navy merino crew onder cream linnen blazer, tobacco gurkha trouser, suède loafers."},
+  {name:"Lago di Como",season:"spring",items:{top:405,bottom:411,shoe:421,layer:417},desc:"Sage green silk-cotton polo, light grey drawstring trousers, olive field jacket, boat shoes."},
+  {name:"Amalfi Sunset",season:"summer",items:{top:408,bottom:415,shoe:420},desc:"Natural linnen henley met ivory wide-legs en sand espadrilles. Gouden uur kleding."}
+];
+
+const IR_COMBO=[
+  [1,1,1,1,1,1],[1,1,1,1,1,1],[1,1,1,1,1,1],
+  [1,1,0,1,1,1],[1,1,1,1,1,1],[1,1,1,1,0,1],
+  [1,1,0,1,1,0],[1,1,1,0,1,1],[1,0,1,1,1,1]
+];
+
+const IR_META={
+  styleName:'Dolce Nonchalance',
+  heroTitle:"JOUW<span>Garderobe</span>",
+  heroSub:"25 items · Italiaanse Rivièra",
+  conceptTxt:'De garderobe van een man die <strong>la dolce vita</strong> niet als vakantie ziet maar als levensstijl. <strong>Loro Piana</strong>, <strong>Brunello Cucinelli</strong> en <strong>De Petrillo</strong> — Napolitaanse tailoring met Venetiaans gemak. Elke stof ademt, elke snit flatteert.',
+  conceptDesc:'Ecru en ivoor als basis, navy als anker, sage green en caramel als accent. Linnen overal, cashmere waar het telt. Kleding gemaakt voor zomers die nooit eindigen.',
+  shoeTitle:'Drie paar.<br><em>Sockless paradise.</em>',
+  shoeDesc:'Loro Piana espadrilles voor het strand, Paraboot voor de haven, Cucinelli loafers voor het diner. Alles sockless, naturellement.',
+  footerName:'Max',
+  footerBrands:'Loro Piana × Brunello Cucinelli × De Petrillo × Barena × Aspesi',
+  palGroups:[{label:"Lichte Neutralen",colors:["#F0EBD8","#FFFFFF","#EDE0C8","#D4C5A9","#E8DFD0","#F5F0E8"]},{label:"Donkere Basis",colors:["#1B2A4A","#1A2744","#1C2841","#B8B0A5"]},{label:"Accenten",colors:["#8B9A6B","#A8C5D8","#C49A6C","#8B6B45","#5C6B4E","#B8A99A"]}]
+};
+
+/* ===== DATA: SCANDI MINIMAL (SAN) ===== */
+const SM_ITEMS=[
+  {id:701,cat:"tops",name:"Twisted Seam T-Shirt",brand:"Totême",color:"Off-White",price:130,seasons:["spring","summer","autumn"],hex:"#F0EDE6",note:"Gedraaide naden, boxy fit. Scandinavisch minimalisme gedefinieerd.",url:"https://www.toteme-studio.com/"},
+  {id:702,cat:"tops",name:"Wool-Blend Ribbed Tank",brand:"The Row",color:"Black",price:390,seasons:["spring","summer"],hex:"#1A1A1A",note:"Fijngebreide rib, perfecte lengte. The Row op z'n puurst.",url:"https://www.therow.com/"},
+  {id:703,cat:"tops",name:"Regular-Fit Silk Shirt",brand:"COS",color:"Ivory",price:135,seasons:["spring","summer"],hex:"#F5F0E8",note:"Matte zijde, concealed placket. Licht en luxueus tegelijk.",url:"https://www.cos.com/en-nl/women/womenswear/shirts/"},
+  {id:704,cat:"tops",name:"Merino Wool Roll-Neck",brand:"Filippa K",color:"Black",price:195,seasons:["autumn","spring"],hex:"#0F0F0F",note:"Extra-fijne merino col. Architecturaal en warm.",url:"https://www.filippa-k.com/en/"},
+  {id:705,cat:"tops",name:"Oversized Cotton Shirt",brand:"Acne Studios",color:"Powder Blue",price:280,seasons:["spring","summer"],hex:"#B8C8D8",note:"Oversized met dropped shoulder. Het verschil zit in de constructie.",url:"https://www.acnestudios.com/"},
+  {id:706,cat:"tops",name:"Cashmere Crew Neck",brand:"Totême",color:"Oatmeal",price:420,seasons:["autumn","spring"],hex:"#D9CEBC",note:"Grade-A kasjmier, relaxed fit. De perfecte neutrale trui.",url:"https://www.toteme-studio.com/"},
+  {id:707,cat:"tops",name:"Organic Cotton Tee",brand:"Arket",color:"Grey Melange",price:25,seasons:["spring","summer","autumn"],hex:"#8A8A8A",note:"Mid-weight organic cotton, perfecte basics. Koop er drie.",url:"https://www.arket.com/en-nl/women/tops/t-shirts/"},
+  {id:708,cat:"tops",name:"Fitted Rib Knit Top",brand:"COS",color:"Dark Brown",price:55,seasons:["spring","autumn"],hex:"#4A3228",note:"Ribgebreide top met subtiele textuur. Scandi basisstuk.",url:"https://www.cos.com/en-nl/women/womenswear/knitwear/"},
+  {id:709,cat:"tops",name:"Wool Polo Knit",brand:"Filippa K",color:"Taupe",price:225,seasons:["autumn","spring"],hex:"#B8A99A",note:"Gepolijst polo-knit in merinowol. Effortless tussen casual en dressy.",url:"https://www.filippa-k.com/en/"},
+  {id:710,cat:"bottoms",name:"Straight-Leg Wool Trousers",brand:"Totême",color:"Black",price:350,seasons:["spring","autumn"],hex:"#1A1A1A",note:"Clean straight-leg in crêpe wol. Het perfecte broeksilhouet.",url:"https://www.toteme-studio.com/"},
+  {id:711,cat:"bottoms",name:"Relaxed Tailored Trousers",brand:"COS",color:"Dark Grey",price:99,seasons:["spring","summer","autumn"],hex:"#4A4A4A",note:"Wide leg, mid-rise, perfecte drape. COS op z'n best.",url:"https://www.cos.com/en-nl/women/womenswear/trousers/"},
+  {id:712,cat:"bottoms",name:"Wide-Leg Jeans",brand:"Acne Studios",color:"Mid Blue",price:290,seasons:["spring","summer","autumn"],hex:"#5A7A9A",note:"Relaxed wide-leg, vintage wash. De Scandi-denim standaard.",url:"https://www.acnestudios.com/"},
+  {id:713,cat:"bottoms",name:"Pleated Wool Shorts",brand:"The Row",color:"Ivory",price:590,seasons:["summer"],hex:"#F0EDE5",note:"Tailored wollen shorts, knife-edge pleat. Zomer in de stad.",url:"https://www.therow.com/"},
+  {id:714,cat:"bottoms",name:"Linen Wide-Leg Trousers",brand:"Arket",color:"Beige",price:79,seasons:["spring","summer"],hex:"#C8B99A",note:"Zuiver linnen, relaxed silhouet. Betaalbare Scandi zomer.",url:"https://www.arket.com/en-nl/women/trousers/"},
+  {id:715,cat:"bottoms",name:"Tailored Slim Trousers",brand:"Filippa K",color:"Navy",price:245,seasons:["spring","autumn"],hex:"#1B2A4A",note:"Slim maar niet skinny, wollen blend. Kantoor-naar-borrel broek.",url:"https://www.filippa-k.com/en/"},
+  {id:716,cat:"layers",name:"Oversized Wool Coat",brand:"Totême",color:"Black",price:890,seasons:["autumn"],hex:"#0F0F0F",note:"Signature oversized silhouet, dubbele knopenrij. Architectuur voor je schouders.",url:"https://www.toteme-studio.com/"},
+  {id:717,cat:"layers",name:"Wool-Blend Blazer",brand:"Filippa K",color:"Dark Grey",price:450,seasons:["spring","autumn"],hex:"#3D3D3D",note:"Unstructured blazer met zacht schouderlijn. Scandinavische tailoring.",url:"https://www.filippa-k.com/en/"},
+  {id:718,cat:"layers",name:"Knitted Cardigan",brand:"COS",color:"Oatmeal",price:89,seasons:["spring","autumn"],hex:"#D9CEBC",note:"Oversized cardigan in zachte blend. De ultieme layering essential.",url:"https://www.cos.com/en-nl/women/womenswear/knitwear/cardigans/"},
+  {id:719,cat:"layers",name:"Leather Jacket",brand:"Acne Studios",color:"Black",price:1850,seasons:["spring","autumn"],hex:"#1A1A1A",note:"Iconische biker jacket. Investering van een leven. Draag over alles.",url:"https://www.acnestudios.com/"},
+  {id:720,cat:"shoes",name:"Square-Toe Ballet Flats",brand:"Totême",color:"Black",price:390,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Architecturale vierkante neus. De Scandi flat die je pakt voor alles.",url:"https://www.toteme-studio.com/"},
+  {id:721,cat:"shoes",name:"Minimal Sneakers",brand:"COS",color:"White",price:99,seasons:["spring","summer","autumn"],hex:"#FFFFFF",note:"Clean leather sneaker. Simpel, correct, en overal goed.",url:"https://www.cos.com/en-nl/women/accessories/shoes/sneakers/"},
+  {id:722,cat:"shoes",name:"Leather Mules",brand:"The Row",color:"Tan",price:890,seasons:["spring","summer"],hex:"#C4A882",note:"Softest leather, square toe. Stille luxe in slipvorm.",url:"https://www.therow.com/"},
+  {id:723,cat:"socks",name:"Merino Wool Socks",brand:"Arket",color:"Black",price:12,seasons:["spring","autumn"],hex:"#1A1A1A",note:"Fijne merinowol, ribgebreide boord. Basis zonder compromis.",url:"https://www.arket.com/en-nl/women/underwear-and-socks/socks/"},
+  {id:724,cat:"socks",name:"Sheer Ankle Socks",brand:"Filippa K",color:"Nude",price:18,seasons:["spring","summer"],hex:"#E8DFD0",note:"Semi-transparant, subtiel. Verfijning in het onzichtbare.",url:"https://www.filippa-k.com/en/"},
+  {id:725,cat:"socks",name:"Ribbed Cotton Socks",brand:"COS",color:"Dark Brown",price:10,seasons:["autumn","spring"],hex:"#4A3228",note:"Dikke katoenrib. Warm en onopvallend.",url:"https://www.cos.com/en-nl/women/accessories/socks/"}
+];
+
+const SM_OUTFITS=[
+  {name:"Stockholm Ochtend",season:"spring",items:{top:701,bottom:710,shoe:720},desc:"Off-white twisted seam tee, zwarte straight-leg wol, vierkante ballet flats. Puur."},
+  {name:"Galerij Opening",season:"autumn",items:{top:704,bottom:711,shoe:720,layer:717},desc:"Zwarte col onder dark grey blazer, wide-leg tailored trousers, zwarte flats."},
+  {name:"Weekend Kopenhagen",season:"summer",items:{top:705,bottom:712,shoe:721},desc:"Powder blue oversized shirt, mid blue wide-leg jeans, witte sneakers. Nonchalant."},
+  {name:"Scandi Luxe",season:"autumn",items:{top:706,bottom:710,shoe:720,layer:716},desc:"Oatmeal cashmere crew onder zwarte oversized wollen jas. Totême head to toe."},
+  {name:"Lente Layer",season:"spring",items:{top:707,bottom:714,shoe:721,layer:718},desc:"Grey tee, oatmeal cardigan, beige linnen wide-legs, witte sneakers. Zachte lagen."},
+  {name:"Zomer Minimaal",season:"summer",items:{top:703,bottom:713,shoe:722},desc:"Ivory zijden shirt met ivory wollen shorts en tan leather mules. Fluisterzacht."}
+];
+
+const SM_COMBO=[
+  [1,1,1,1,1,1],[1,1,1,1,0,1],[1,1,1,1,1,1],
+  [1,1,0,0,0,1],[1,1,1,1,1,1],[1,1,1,1,1,1],
+  [1,1,1,1,1,1],[1,1,0,0,1,1],[1,1,1,1,1,1]
+];
+
+const SM_META={
+  styleName:'Nordic Still Life',
+  heroTitle:"SAN'S<span>Garderobe</span>",
+  heroSub:"25 items · Scandinavisch Minimaal",
+  conceptTxt:'De garderobe als stilleven — elk stuk zorgvuldig gekozen voor vorm, niet decoratie. <strong>Totême</strong>, <strong>The Row</strong> en <strong>Filippa K</strong> als ruggengraat. <strong>Architecturale silhouetten</strong>, perfecte stoffen, nul ruis.',
+  conceptDesc:'Zwart, ivoor en oatmeal als kern. Powder blue als enige concessie aan kleur. Oversized proporties, scherpe tailoring, nul compromis.',
+  shoeTitle:'Drie paar.<br><em>Form follows function.</em>',
+  shoeDesc:'Vierkante ballet flats voor architectuur, witte sneakers voor comfort, leather mules voor luxe. Drie vormen, nul frivolitiet.',
+  footerName:'San',
+  footerBrands:'Totême × The Row × Filippa K × COS × Acne Studios',
+  palGroups:[{label:"Lichte Neutralen",colors:["#F0EDE6","#F5F0E8","#F0EDE5","#D9CEBC","#C8B99A","#E8DFD0"]},{label:"Donkere Basis",colors:["#1A1A1A","#0F0F0F","#3D3D3D","#4A4A4A","#4A3228","#1B2A4A"]},{label:"Accenten",colors:["#B8C8D8","#5A7A9A","#8A8A8A","#B8A99A","#C4A882"]}]
+};
+
+/* ===== DATA: FRENCH GIRL (SAN) ===== */
+const FG_ITEMS=[
+  {id:801,cat:"tops",name:"Marinière Stripe Tee",brand:"Sézane",color:"Navy / Ecru",price:65,seasons:["spring","summer","autumn"],hex:"#1B2A4A",note:"Bretonse strepen in zware jersey. De basis van elke Parisienne garderobe.",url:"https://www.sezane.com/en"},
+  {id:802,cat:"tops",name:"Silk Camisole",brand:"Rouje",color:"Black",price:95,seasons:["spring","summer"],hex:"#1A1A1A",note:"Zijden camisole met kant detail. Draag solo of onder blazer.",url:"https://www.rouje.com/en"},
+  {id:803,cat:"tops",name:"Cotton Poplin Shirt",brand:"A.P.C.",color:"White",price:175,seasons:["spring","summer","autumn"],hex:"#FFFFFF",note:"Perfecte witte blouse. Onberispelijk Frans, moeiteloos chic.",url:"https://www.apc.fr/en/"},
+  {id:804,cat:"tops",name:"Mohair Crew Neck",brand:"Sézane",color:"Cardinal Red",price:135,seasons:["autumn","spring"],hex:"#C0392B",note:"Fuzzy mohair in diep rood. Opvallend maar niet schreeuwerig.",url:"https://www.sezane.com/en"},
+  {id:805,cat:"tops",name:"Breton Stripe L/S",brand:"A.P.C.",color:"Navy / White",price:115,seasons:["spring","autumn"],hex:"#1C2841",note:"Dikker dan de Sézane, stoerder. Elke Française heeft er twee.",url:"https://www.apc.fr/en/"},
+  {id:806,cat:"tops",name:"Linen V-Neck Tee",brand:"Rouje",color:"Ecru",price:55,seasons:["spring","summer"],hex:"#F0EBD8",note:"Luchtig linnen met subtiele V-hals. Moeiteloos zomers.",url:"https://www.rouje.com/en"},
+  {id:807,cat:"tops",name:"Cashmere Turtleneck",brand:"Sézane",color:"Camel",price:175,seasons:["autumn","spring"],hex:"#C49A6C",note:"Zachte kasjmier col. Draag met jeans en ballet flats voor instant Parijs.",url:"https://www.sezane.com/en"},
+  {id:808,cat:"tops",name:"Printed Wrap Top",brand:"Rouje",color:"Floral / Navy",price:115,seasons:["spring","summer"],hex:"#2C3E5A",note:"Wikkeltop met vintage bloemenprint. Romantisch zonder kitsch.",url:"https://www.rouje.com/en"},
+  {id:809,cat:"tops",name:"Petit Bateau Tank",brand:"Petit Bateau",color:"White",price:25,seasons:["spring","summer","autumn"],hex:"#F5F2EC",note:"Ribbed cotton tank, smal en lang. De basis onder alles.",url:"https://www.petit-bateau.com/"},
+  {id:810,cat:"bottoms",name:"High-Rise Straight Jeans",brand:"A.P.C.",color:"Raw Indigo",price:225,seasons:["spring","summer","autumn"],hex:"#1A2744",note:"Japans denim, straight-leg, high-rise. De perfecte French Girl jean.",url:"https://www.apc.fr/en/"},
+  {id:811,cat:"bottoms",name:"Silk Midi Skirt",brand:"Sézane",color:"Black",price:155,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Satijn midi met zijsplit. Van kantoor naar diner zonder omkleding.",url:"https://www.sezane.com/en"},
+  {id:812,cat:"bottoms",name:"Tailored Wide-Leg Trousers",brand:"A.P.C.",color:"Navy",price:265,seasons:["spring","autumn"],hex:"#1B2A4A",note:"Clean wide-leg in zuivere wol. Parijse tailoring op z'n scherpst.",url:"https://www.apc.fr/en/"},
+  {id:813,cat:"bottoms",name:"Wrap Midi Skirt",brand:"Rouje",color:"Leopard Print",price:135,seasons:["spring","autumn"],hex:"#8B6B45",note:"Wikkelrok met subtiel luipaardprint. Het ene patroon dat je mag dragen.",url:"https://www.rouje.com/en"},
+  {id:814,cat:"bottoms",name:"Cotton Chino Shorts",brand:"Isabel Marant Étoile",color:"Ecru",price:195,seasons:["summer"],hex:"#F0EBD8",note:"High-waist met omgeslagen zoom. Moeiteloos zomers.",url:"https://www.isabelmarant.com/"},
+  {id:815,cat:"bottoms",name:"Linen Palazzo Pants",brand:"Sézane",color:"Sand",price:145,seasons:["summer"],hex:"#D4C5A9",note:"Wijde linnen palazzo broek. Van het strand naar het diner.",url:"https://www.sezane.com/en"},
+  {id:816,cat:"layers",name:"Le Blazer",brand:"Isabel Marant",color:"Black",price:690,seasons:["spring","autumn"],hex:"#1A1A1A",note:"Licht getailleerd, single button. DE Franse blazer.",url:"https://www.isabelmarant.com/"},
+  {id:817,cat:"layers",name:"Trench Coat",brand:"A.P.C.",color:"Beige",price:595,seasons:["spring","autumn"],hex:"#C8B99A",note:"Klassieke trench met moderne proportie. Parijs in een jas.",url:"https://www.apc.fr/en/"},
+  {id:818,cat:"layers",name:"Alpaca Cardigan",brand:"Sézane",color:"Navy",price:155,seasons:["autumn","spring"],hex:"#1B2A4A",note:"Oversized alpaca cardigan met gouden knopen. Cozy grandeur.",url:"https://www.sezane.com/en"},
+  {id:819,cat:"layers",name:"Denim Jacket",brand:"A.P.C.",color:"Washed Indigo",price:325,seasons:["spring","summer"],hex:"#5A7A9A",note:"Boxy oversized denim jacket. Over jurken en blouses.",url:"https://www.apc.fr/en/"},
+  {id:820,cat:"shoes",name:"Cendrillon Ballet Flats",brand:"Repetto",color:"Black",price:295,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"De originele Parijse ballet flat. Nappa leer, grosgrain strik.",url:"https://www.repetto.com/"},
+  {id:821,cat:"shoes",name:"Tropéziennes Sandals",brand:"K.Jacques",color:"Natural Tan",price:245,seasons:["summer"],hex:"#C4A882",note:"Handgemaakt in Saint-Tropez. Leren sandaal van de Rivièra.",url:"https://www.kjacques.fr/en/"},
+  {id:822,cat:"shoes",name:"Dicker Boots",brand:"Isabel Marant",color:"Taupe Suede",price:650,seasons:["autumn","spring"],hex:"#B8A99A",note:"Iconische suède western boot. Het statement-stuk aan je voeten.",url:"https://www.isabelmarant.com/"},
+  {id:823,cat:"socks",name:"Sheer Ankle Socks",brand:"Falke",color:"Black",price:14,seasons:["spring","autumn"],hex:"#1A1A1A",note:"Semi-transparant, verstevigde teen. Parijse verfijning.",url:"https://www.falke.com/"},
+  {id:824,cat:"socks",name:"Cotton No-Show",brand:"Petit Bateau",color:"White",price:8,seasons:["spring","summer"],hex:"#F5F2EC",note:"Onzichtbaar in ballet flats. De stille helper van zomer.",url:"https://www.petit-bateau.com/"},
+  {id:825,cat:"socks",name:"Cashmere Bed Socks",brand:"Sézane",color:"Camel",price:45,seasons:["autumn"],hex:"#C49A6C",note:"Kasjmier voor thuis. Luxe die niemand ziet maar jij voelt.",url:"https://www.sezane.com/en"}
+];
+
+const FG_OUTFITS=[
+  {name:"Parijs Ochtend",season:"spring",items:{top:801,bottom:810,shoe:820},desc:"Marinière, raw indigo jeans, zwarte Repetto flats. De uniform van de Parisienne."},
+  {name:"Rive Gauche",season:"autumn",items:{top:804,bottom:812,shoe:822,layer:816},desc:"Cardinal red mohair, navy wide-legs, zwarte blazer, Dicker boots. Intellectuele bohème."},
+  {name:"Saint-Tropez",season:"summer",items:{top:806,bottom:815,shoe:821},desc:"Ecru linnen V-neck, sand palazzo pants, K.Jacques sandalen. Rivièra zonder moeite."},
+  {name:"Galerie Vivienne",season:"spring",items:{top:803,bottom:811,shoe:820,layer:817},desc:"Witte blouse, zwarte midi rok, beige trench, Repetto flats. Parijse perfectie."},
+  {name:"Café de Flore",season:"autumn",items:{top:807,bottom:810,shoe:822,layer:818},desc:"Camel turtleneck, raw denim, navy alpaca cardigan, Dicker boots. Literaire chic."},
+  {name:"Le Weekend",season:"summer",items:{top:808,bottom:814,shoe:821,layer:819},desc:"Floral wrap top, ecru shorts, denim jacket, K.Jacques sandalen. Romantisch casual."}
+];
+
+const FG_COMBO=[
+  [1,1,1,1,1,1],[1,1,1,0,0,1],[1,1,1,1,1,1],
+  [0,1,1,1,0,0],[1,1,1,1,1,1],[1,0,1,1,1,1],
+  [0,1,1,1,0,0],[1,1,1,1,1,1],[1,1,1,0,1,1]
+];
+
+const FG_META={
+  styleName:'Rivoli sans effort',
+  heroTitle:"SAN'S<span>Garderobe</span>",
+  heroSub:"25 items · French Girl Chic",
+  conceptTxt:'De garderobe die eruitziet alsof je er <strong>niet over nadenkt</strong> — maar dat doe je wel. <strong>Sézane</strong>, <strong>A.P.C.</strong> en <strong>Isabel Marant</strong> als kern. Strepen, zijde, ruwe denim en altijd ballet flats. <strong>Moeiteloos is een vak.</strong>',
+  conceptDesc:'Navy en zwart als basis, cardinal red en camel als accent, ecru voor zomers. Één print toegestaan: luipaard. De rest is textuur, textuur, textuur.',
+  shoeTitle:'Drie iconen.<br><em>Très Parisienne.</em>',
+  shoeDesc:'Repetto flats voor elke dag, K.Jacques sandalen voor de zomer, Isabel Marant Dicker boots voor de herfst. Parijs aan je voeten.',
+  footerName:'San',
+  footerBrands:'Sézane × A.P.C. × Rouje × Isabel Marant × Repetto',
+  palGroups:[{label:"Neutralen",colors:["#FFFFFF","#F5F2EC","#F0EBD8","#D4C5A9","#C8B99A","#C49A6C"]},{label:"Donkere Basis",colors:["#1A1A1A","#1B2A4A","#1C2841","#1A2744","#2C3E5A"]},{label:"Accenten",colors:["#C0392B","#8B6B45","#5A7A9A","#B8A99A","#C4A882"]}]
+};
+
+/* ===== DATA: 90s MINIMALISM (SAN) ===== */
+const NM_ITEMS=[
+  {id:1001,cat:"tops",name:"Logo-Free Cotton Tee",brand:"Helmut Lang",color:"White",price:120,seasons:["spring","summer","autumn"],hex:"#FFFFFF",note:"De tee die het allemaal begon. Perfecte snit, nul decoratie.",url:"https://www.helmutlang.com/"},
+  {id:1002,cat:"tops",name:"Ribbed Tank Top",brand:"The Row",color:"Black",price:290,seasons:["spring","summer"],hex:"#1A1A1A",note:"Fijngeribde tank, sluiting onzichtbaar. Reductie als luxe.",url:"https://www.therow.com/"},
+  {id:1003,cat:"tops",name:"Twisted Cotton Shirt",brand:"Lemaire",color:"Chalk",price:380,seasons:["spring","summer","autumn"],hex:"#F0EDE6",note:"Gedraaide naden, asymmetrisch. Architectuur in katoen.",url:"https://www.lemaire.fr/en/"},
+  {id:1004,cat:"tops",name:"Oversized Cashmere Sweater",brand:"Khaite",color:"Ivory",price:780,seasons:["autumn","spring"],hex:"#F5F0E8",note:"Baby cashmere, oversized silhouet. Luxe die je voelt, niet ziet.",url:"https://khaite.com/"},
+  {id:1005,cat:"tops",name:"Scoop Neck Long Sleeve",brand:"Helmut Lang",color:"Grey Marl",price:145,seasons:["spring","autumn"],hex:"#8A8A8A",note:"Scoop neck, lang silhouet. Jaren '90 DNA in elke vezel.",url:"https://www.helmutlang.com/"},
+  {id:1006,cat:"tops",name:"Merino Turtleneck",brand:"Totême",color:"Black",price:280,seasons:["autumn","spring"],hex:"#0F0F0F",note:"Slim turtleneck in extra-fijne merino. De zwarte col als uniform.",url:"https://www.toteme-studio.com/"},
+  {id:1007,cat:"tops",name:"Cotton Jersey Tank",brand:"Maison Margiela",color:"Nude",price:195,seasons:["spring","summer"],hex:"#E8DFD0",note:"Viersteken label. Tank als canvas — nul afleiding.",url:"https://www.maisonmargiela.com/"},
+  {id:1008,cat:"tops",name:"Wool-Silk Blend Knit",brand:"The Row",color:"Charcoal",price:690,seasons:["autumn","spring"],hex:"#3D3D3D",note:"Wol-zijde blend, naadloze constructie. Technische perfectie vermomd als eenvoud.",url:"https://www.therow.com/"},
+  {id:1009,cat:"tops",name:"Mélange Knit Top",brand:"Lemaire",color:"Sand",price:320,seasons:["spring","summer"],hex:"#D4C5A9",note:"Geweven mélange, boxy fit. Lemaire's meesterlijke textuur.",url:"https://www.lemaire.fr/en/"},
+  {id:1010,cat:"bottoms",name:"Straight-Leg Trousers",brand:"Helmut Lang",color:"Black",price:395,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"De broek die alles begon. Smalle rechte pijp, mid-rise. Iconisch.",url:"https://www.helmutlang.com/"},
+  {id:1011,cat:"bottoms",name:"Wide-Leg Fluid Trousers",brand:"Lemaire",color:"Dark Brown",price:490,seasons:["spring","autumn"],hex:"#3D2B1A",note:"Vloeiende wide-leg in crêpe. Elke stap is een statement.",url:"https://www.lemaire.fr/en/"},
+  {id:1012,cat:"bottoms",name:"Straight Denim",brand:"Totême",color:"Washed Black",price:270,seasons:["spring","summer","autumn"],hex:"#2A2A2A",note:"Straight-leg in gewassen zwart. De enige zwarte jean die je nodig hebt.",url:"https://www.toteme-studio.com/"},
+  {id:1013,cat:"bottoms",name:"Tailored Wool Shorts",brand:"The Row",color:"Ivory",price:590,seasons:["summer"],hex:"#F0EDE5",note:"Tailored, mid-thigh. Zomer-tailoring op z'n scherpst.",url:"https://www.therow.com/"},
+  {id:1014,cat:"bottoms",name:"Pleated Midi Skirt",brand:"Khaite",color:"Black",price:480,seasons:["spring","autumn"],hex:"#0F0F0F",note:"Diepe plooien, midi lengte. Architecturaal en vrouwelijk.",url:"https://khaite.com/"},
+  {id:1015,cat:"bottoms",name:"Low-Rise Wide Trousers",brand:"Maison Margiela",color:"Navy",price:650,seasons:["spring","autumn"],hex:"#1B2A4A",note:"Low-rise, extreme wide-leg. Statement voor de moedigen.",url:"https://www.maisonmargiela.com/"},
+  {id:1016,cat:"layers",name:"Deconstructed Blazer",brand:"Helmut Lang",color:"Black",price:790,seasons:["spring","autumn"],hex:"#1A1A1A",note:"Raw edges, deconstructie als manifesto. De anti-blazer.",url:"https://www.helmutlang.com/"},
+  {id:1017,cat:"layers",name:"Oversized Trench Coat",brand:"Lemaire",color:"Sand",price:1100,seasons:["spring","autumn"],hex:"#D4C5A9",note:"Oversized silhouet, katoenen gabardine. De trench herbedacht.",url:"https://www.lemaire.fr/en/"},
+  {id:1018,cat:"layers",name:"Leather Bomber Jacket",brand:"Khaite",color:"Black",price:2800,seasons:["autumn","spring"],hex:"#0F0F0F",note:"Lams-leer, cropped silhouet. Investering van een generatie.",url:"https://khaite.com/"},
+  {id:1019,cat:"layers",name:"Wool Car Coat",brand:"The Row",color:"Grey",price:3200,seasons:["autumn"],hex:"#6B6054",note:"Dubbelzijdige wol, onzichtbare naden. Perfectie in overjas-vorm.",url:"https://www.therow.com/"},
+  {id:1020,cat:"shoes",name:"Tabi Ballet Flats",brand:"Maison Margiela",color:"Black",price:530,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Split-toe icoon. De schoen die mode in twee deelde.",url:"https://www.maisonmargiela.com/"},
+  {id:1021,cat:"shoes",name:"Minimal Leather Slides",brand:"The Row",color:"Black",price:690,seasons:["summer"],hex:"#0F0F0F",note:"Eén band, nul versiering. Reduceren tot essentie.",url:"https://www.therow.com/"},
+  {id:1022,cat:"shoes",name:"Pointed-Toe Mules",brand:"Khaite",color:"Cream",price:790,seasons:["spring","summer","autumn"],hex:"#F0EDE6",note:"Sculpted hak, puntige neus. Architecturale schoenen voor architecturale kleding.",url:"https://khaite.com/"},
+  {id:1023,cat:"socks",name:"Sheer Knee-Highs",brand:"Falke",color:"Black",price:16,seasons:["spring","autumn"],hex:"#1A1A1A",note:"Transparant, mat zwart. Zichtbaar of niet — altijd goed.",url:"https://www.falke.com/"},
+  {id:1024,cat:"socks",name:"Cotton Ankle Socks",brand:"Comme des Garçons",color:"White",price:22,seasons:["spring","summer"],hex:"#FFFFFF",note:"Hartjeslogo als subtiel statement. De enige sokken met een POV.",url:"https://www.doverstreetmarket.com/"},
+  {id:1025,cat:"socks",name:"No-Show Socks",brand:"Falke",color:"Nude",price:12,seasons:["spring","summer"],hex:"#E8DFD0",note:"Onzichtbaar. Precies het punt.",url:"https://www.falke.com/"}
+];
+
+const NM_OUTFITS=[
+  {name:"De Reductie",season:"spring",items:{top:1001,bottom:1010,shoe:1020},desc:"Witte tee, zwarte straight-legs, Margiela Tabi's. Minimaal maar geladen."},
+  {name:"Intellectueel Zwart",season:"autumn",items:{top:1006,bottom:1014,shoe:1020,layer:1016},desc:"Zwarte col, zwarte plooirok, deconstructed blazer, Tabi flats. All-black als ideologie."},
+  {name:"Lemaire Zondag",season:"spring",items:{top:1003,bottom:1011,shoe:1022},desc:"Chalk twisted shirt, dark brown wide-legs, cream mules. Vloeiend en intentioneel."},
+  {name:"De Architect",season:"autumn",items:{top:1008,bottom:1010,shoe:1020,layer:1017},desc:"Charcoal wol-zijde knit, zwarte broek, sand trench, Tabi's. Lagen als tekening."},
+  {name:"Zomer Leeg",season:"summer",items:{top:1002,bottom:1013,shoe:1021},desc:"Zwarte ribbed tank, ivory wollen shorts, zwarte slides. Maximale impact, minimale stof."},
+  {name:"Khaite Avond",season:"autumn",items:{top:1004,bottom:1012,shoe:1022,layer:1018},desc:"Ivory cashmere, washed black denim, leather bomber, cream mules. Textuurcontrast."}
+];
+
+const NM_COMBO=[
+  [1,1,1,1,1,1],[1,1,1,1,1,1],[1,1,1,1,0,1],
+  [0,1,1,1,1,0],[1,1,1,0,1,1],[1,1,1,1,1,1],
+  [1,1,1,1,0,1],[1,1,1,1,1,0],[1,1,1,1,1,1]
+];
+
+const NM_META={
+  styleName:'Lege Luxe',
+  heroTitle:"SAN'S<span>Garderobe</span>",
+  heroSub:"25 items · 90s Minimalism",
+  conceptTxt:'De garderobe als <strong>manifest</strong>. Geen decoratie, geen logo, geen excuses. <strong>Helmut Lang</strong>, <strong>The Row</strong> en <strong>Lemaire</strong> — de architecten van het lege. Elke naad is bewust, elke afwezigheid is <strong>een keuze</strong>.',
+  conceptDesc:'Zwart, wit, charcoal en ivory. Nul kleuren, maximale impact. De kleding zelf is het statement — geen accessoire, geen print, geen afleiding.',
+  shoeTitle:'Drie silhouetten.<br><em>Nul decoratie.</em>',
+  shoeDesc:'Margiela Tabi voor iconische reductie, The Row slides voor zuivere vorm, Khaite mules voor architecturaal drama.',
+  footerName:'San',
+  footerBrands:'Helmut Lang × The Row × Lemaire × Khaite × Maison Margiela',
+  palGroups:[{label:"Licht",colors:["#FFFFFF","#F5F0E8","#F0EDE6","#F0EDE5","#E8DFD0","#D4C5A9"]},{label:"Donker",colors:["#1A1A1A","#0F0F0F","#2A2A2A","#3D3D3D","#3D2B1A","#1B2A4A","#6B6054"]},{label:"Neutraal",colors:["#8A8A8A"]}]
+};
+
+/* ===== GORPCORE — NATTE GRIND UNIFORM ===== */
+const GC_ITEMS=[
+  {id:501,cat:"outerwear",name:"Beta LT Jacket",brand:"Arc'teryx",color:"Black",price:550,seasons:["spring","autumn"],hex:"#1A1A1A",note:"Gore-Tex hardshell. Van Vondelpark tot Vaalserberg, altijd droog."},
+  {id:502,cat:"outerwear",name:"Nuptse Vest",brand:"The North Face Purple Label",color:"Black",price:320,seasons:["autumn"],hex:"#0F0F0F",note:"Japanse exclusieve lijn. Puffer vest voor layering."},
+  {id:503,cat:"outerwear",name:"Light Insulation Jacket",brand:"And Wander",color:"Khaki",price:420,seasons:["spring","autumn"],hex:"#7B7355",note:"Japanse outdoor aesthetiek. Licht geïsoleerd, trail-to-city."},
+  {id:504,cat:"outerwear",name:"0 Pertex Shield Jacket",brand:"Goldwin",color:"Ink Blue",price:480,seasons:["spring","autumn"],hex:"#2B3A4A",note:"Japanse technische perfectie. Stille luxe voor buiten."},
+  {id:505,cat:"tops",name:"Atom LT Hoody",brand:"Arc'teryx",color:"Pilot (Grey)",price:280,seasons:["spring","autumn"],hex:"#5A5A5A",note:"Coreloft synthetisch geïsoleerd. Midlayer die solo kan."},
+  {id:506,cat:"tops",name:"Veilance Frame Polo",brand:"Arc'teryx Veilance",color:"Black",price:190,seasons:["spring","summer"],hex:"#1A1A1A",note:"Merino-blend technische polo. Arc'teryx luxelijn."},
+  {id:507,cat:"tops",name:"Pertex Wind T-shirt",brand:"And Wander",color:"Off-White",price:110,seasons:["spring","summer"],hex:"#F0EDE6",note:"Windbestendig T-shirt. Functioneel minimalisme."},
+  {id:508,cat:"tops",name:"Merino Crew",brand:"Goldwin",color:"Dark Navy",price:140,seasons:["spring","autumn"],hex:"#1B2A4A",note:"Ultrafijne merino. Japanse pasvorm, nul kriebel."},
+  {id:509,cat:"tops",name:"ACG Dri-FIT UV Tee",brand:"Nike ACG",color:"Summit White",price:55,seasons:["spring","summer"],hex:"#F5F0E8",note:"UV-beschermend technisch T-shirt. Budget gorpcore."},
+  {id:510,cat:"tops",name:"Base Layer Half Zip",brand:"Goldwin",color:"Fog Grey",price:160,seasons:["autumn"],hex:"#A09484",note:"Polartec Power Grid. Ademend, warmte-regulerend."},
+  {id:511,cat:"bottoms",name:"Gamma Quick Dry Pants",brand:"Arc'teryx",color:"Black",price:170,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Sneldrogend, stretch. Everyday hike-to-café broek."},
+  {id:512,cat:"bottoms",name:"ACG Cargo Pants",brand:"Nike ACG",color:"Khaki",price:130,seasons:["spring","summer","autumn"],hex:"#8B7D5E",note:"Ruime cargo met trail-ready details. Amsterdam-fiets-proof."},
+  {id:513,cat:"bottoms",name:"5-Pocket Pants",brand:"And Wander",color:"Charcoal",price:240,seasons:["spring","autumn"],hex:"#3D3D3D",note:"Technisch weefsel in vijf-pocket silhouet. Vervaagt de lijn."},
+  {id:514,cat:"bottoms",name:"Wide Tapered Pants",brand:"Goldwin",color:"Dark Navy",price:220,seasons:["spring","summer","autumn"],hex:"#1B2A4A",note:"Japanse silhouet. Wijd bovenaan, getapered onderaan."},
+  {id:515,cat:"bottoms",name:"Convey Shorts",brand:"Arc'teryx",color:"Forage",price:90,seasons:["summer"],hex:"#4A553A",note:"Lichtgewicht wandelshort. 9-inch inseam."},
+  {id:516,cat:"accessories",name:"Mantis 2 Sling",brand:"Arc'teryx",color:"Black",price:65,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"De gorpcore sling bag. Compact, georganiseerd."},
+  {id:517,cat:"accessories",name:"Trail Cap",brand:"Salomon",color:"Deep Dove",price:35,seasons:["spring","summer"],hex:"#6B6054",note:"Lichtgewicht trailrunning cap. Mesh ventilatie."},
+  {id:518,cat:"accessories",name:"Merino Beanie",brand:"Arc'teryx",color:"Black Heather",price:40,seasons:["autumn"],hex:"#2A2A2A",note:"Ribbed merino. Warm zonder bulk."},
+  {id:519,cat:"shoes",name:"XT-6 Advanced",brand:"Salomon",color:"Black/Phantom",price:195,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"DE gorpcore sneaker. Trail heritage, city approved."},
+  {id:520,cat:"shoes",name:"XT-Slate Advanced",brand:"Salomon",color:"Pewter/Rainy Day",price:210,seasons:["spring","autumn"],hex:"#8A8A8A",note:"Robuuster XT silhouet. Earth tones."},
+  {id:521,cat:"shoes",name:"XA Pro 3D",brand:"Salomon",color:"Olive Night",price:140,seasons:["spring","summer","autumn"],hex:"#3B4A3C",note:"De OG trail runner. Grip voor Amsterdamse kasseien."},
+  {id:522,cat:"shoes",name:"ACG Mountain Fly 2 Low",brand:"Nike ACG",color:"Gridiron",price:170,seasons:["spring","summer","autumn"],hex:"#4A4A4A",note:"Hiking-sneaker hybride. React demping."},
+  {id:523,cat:"accessories",name:"Covert Gloves",brand:"Arc'teryx",color:"Black",price:55,seasons:["autumn"],hex:"#1A1A1A",note:"Windbestendig, touchscreen compatible."},
+  {id:524,cat:"tops",name:"Norvan Shell",brand:"Arc'teryx",color:"Smoke Bluff",price:350,seasons:["spring","autumn"],hex:"#6B7355",note:"Ultralight Gore-Tex voor trail running. 215 gram."},
+  {id:525,cat:"accessories",name:"Granville Crossbody",brand:"Arc'teryx",color:"Black",price:90,seasons:["spring","summer","autumn"],hex:"#0F0F0F",note:"Weerbestendige crossbody. Grotere broer van de Mantis."},
+];
+const GC_OUTFITS=[
+  {name:"Vondelpark Trail",season:"spring",desc:"Technisch layering voor wisselvallig weer.",items:[503,506,511,519,516],shoes:519},
+  {name:"Amstel Gorpcore",season:"summer",desc:"Zomer gorpcore: licht, functioneel, stijlvol.",items:[509,515,517,522],shoes:522},
+  {name:"Herfst Expedition",season:"autumn",desc:"Volledig gelaagd voor koude natte dagen.",items:[501,505,514,520,518],shoes:520},
+  {name:"City Trail Runner",season:"spring",desc:"Van kantoor naar het bos.",items:[524,508,513,521,525],shoes:521},
+  {name:"Japanse Outdoor",season:"autumn",desc:"And Wander × Goldwin: Japanse trail elegantie.",items:[504,510,514,519,516],shoes:519},
+  {name:"Weekend Wandelaar",season:"summer",desc:"Licht en klaar voor spontane hike.",items:[507,512,517,522],shoes:522},
+];
+const GC_COMBO=[
+  [0,0,0,0,0,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,0,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+  [0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+  [1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1],
+  [1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1],
+  [1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1],
+  [1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1],
+  [1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1],
+  [1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,0,1,0,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1],
+  [1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1],
+  [1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+];
+const GC_META={
+  styleName:'Natte Grind Uniform',
+  heroTitle:"MAX'S<span>Garderobe</span>",
+  heroSub:"25 items · Gorpcore",
+  conceptTxt:'De stad is een <strong>trail</strong>. Gore-Tex voor de grachtenregen, Salomon voor de kasseien. <strong>Arc\'teryx</strong>, <strong>And Wander</strong> en <strong>Goldwin</strong> — technisch zonder compromis, stijlvol zonder excuses.',
+  conceptDesc:'Zwart, olijf, khaki en fog grey. Functionele kleuren die vuil verdoezelen en bij alles combineren. De natuur dicteert het palet.',
+  shoeTitle:'Vier trail silhouetten.<br><em>Stad-bewezen.</em>',
+  shoeDesc:'Salomon XT-6 als icoon, XA Pro voor de puristen, Nike ACG voor de hybride wandelaar.',
+  footerName:'Max',
+  footerBrands:"Arc'teryx × Salomon × And Wander × Goldwin × Nike ACG",
+  palGroups:[{label:"Donker",colors:["#1A1A1A","#0F0F0F","#2A2A2A","#2B3A4A","#1B2A4A"]},{label:"Natuur",colors:["#3B4A3C","#4A553A","#6B7355","#7B7355","#8B7D5E"]},{label:"Licht",colors:["#F0EDE6","#F5F0E8","#A09484","#8A8A8A","#5A5A5A"]}]
+};
+
+/* ===== OLD MONEY — STILLE RIJKDOM ===== */
+const OM_ITEMS=[
+  {id:601,cat:"outerwear",name:"Cashmere Overcoat",brand:"Brunello Cucinelli",color:"Camel",price:4200,seasons:["autumn"],hex:"#C19A6B",note:"Double-face kasjmier. Onmiskenbaar stil statement."},
+  {id:602,cat:"outerwear",name:"Suede Safari Jacket",brand:"Loro Piana",color:"Cognac",price:3800,seasons:["spring","autumn"],hex:"#8B6B4A",note:"Buttersoft suède. Van Monaco naar de Zuidas."},
+  {id:603,cat:"outerwear",name:"Trofeo Blazer",brand:"Ermenegildo Zegna",color:"Navy",price:2800,seasons:["spring","summer","autumn"],hex:"#1B2A4A",note:"Trofeo wol. Ongestructureerd, onberispelijk."},
+  {id:604,cat:"outerwear",name:"Unstructured Linen Blazer",brand:"COS",color:"Sand",price:175,seasons:["spring","summer"],hex:"#C9B99A",note:"Budgetvriendelijk alternatief. Clean silhouet."},
+  {id:605,cat:"tops",name:"Cashmere Crew",brand:"Loro Piana",color:"Oatmeal",price:1200,seasons:["autumn"],hex:"#D4C5A9",note:"Baby cashmere. Het standaard oude-geld uniform."},
+  {id:606,cat:"tops",name:"Suede-Front Zip Cardigan",brand:"Brunello Cucinelli",color:"Stone",price:3600,seasons:["autumn"],hex:"#A09484",note:"Suède paneel vooraan, kasjmier achterpaneel."},
+  {id:607,cat:"tops",name:"Piqué Polo",brand:"Loro Piana",color:"White",price:450,seasons:["spring","summer"],hex:"#FFFFFF",note:"Katoen-zijde mix. De yacht club polo."},
+  {id:608,cat:"tops",name:"Silk-Cotton T-Shirt",brand:"Brunello Cucinelli",color:"Light Grey",price:495,seasons:["spring","summer"],hex:"#C4C0B8",note:"Zijde-katoen blend. T-shirt dat €500 voelt."},
+  {id:609,cat:"tops",name:"Oxford BD Shirt",brand:"Massimo Dutti",color:"White",price:60,seasons:["spring","summer","autumn"],hex:"#FFFFFF",note:"Instapprijs maar perfecte fit. Dagelijks wit hemd."},
+  {id:610,cat:"tops",name:"Linen Popover Shirt",brand:"COS",color:"Sage",price:89,seasons:["spring","summer"],hex:"#B5C4B1",note:"Relaxed linnen met halve knoopsluiting. Effortless."},
+  {id:611,cat:"tops",name:"Merino Roll Neck",brand:"Arket",color:"Dark Navy",price:69,seasons:["autumn"],hex:"#1B2A4A",note:"Fijne merino coltrui. Fundamentstuk."},
+  {id:612,cat:"bottoms",name:"Cotton Chinos",brand:"Brunello Cucinelli",color:"Beige",price:850,seasons:["spring","summer","autumn"],hex:"#D4C5A9",note:"Garment-dyed. De perfecte chino met zachte hand."},
+  {id:613,cat:"bottoms",name:"Wool Flannel Trousers",brand:"Ermenegildo Zegna",color:"Charcoal",price:680,seasons:["autumn"],hex:"#3D3D3D",note:"Flannel wol. Sluiterend langs het been."},
+  {id:614,cat:"bottoms",name:"Linen Drawstring Trousers",brand:"Loro Piana",color:"Ivory",price:890,seasons:["spring","summer"],hex:"#F0EDE5",note:"Solaire linnen. Vakantie-in-een-broek."},
+  {id:615,cat:"bottoms",name:"Slim Chinos",brand:"Massimo Dutti",color:"Navy",price:50,seasons:["spring","summer","autumn"],hex:"#1B2A4A",note:"Betaalbaar dagelijks. Goede constructie voor de prijs."},
+  {id:616,cat:"bottoms",name:"Bermuda Shorts",brand:"Loro Piana",color:"Sand",price:650,seasons:["summer"],hex:"#C9B99A",note:"Knie-lengte bermuda in luxe katoen."},
+  {id:617,cat:"accessories",name:"Cashmere Scarf",brand:"Brunello Cucinelli",color:"Oatmeal",price:595,seasons:["autumn"],hex:"#D4C5A9",note:"Groot cashmere sjaal. Draag losjes gedrapeerd."},
+  {id:618,cat:"accessories",name:"Braided Leather Belt",brand:"Loro Piana",color:"Dark Brown",price:450,seasons:["spring","summer","autumn"],hex:"#3D2B1A",note:"Handgevlochten. Geen gesp nodig, past altijd."},
+  {id:619,cat:"accessories",name:"Suede Weekend Bag",brand:"Brunello Cucinelli",color:"Tobacco",price:2800,seasons:["spring","summer","autumn"],hex:"#8B6B4A",note:"Suède weekendtas. Reizen als een Agnelli."},
+  {id:620,cat:"shoes",name:"Suede Penny Loafer",brand:"Edward Green",color:"Tobacco Suede",price:850,seasons:["spring","summer","autumn"],hex:"#8B6B4A",note:"Engelse loafer in suède. Sockless in de zomer."},
+  {id:621,cat:"shoes",name:"Classic Driving Shoe",brand:"Tod's",color:"Dark Brown",price:520,seasons:["spring","summer"],hex:"#3D2B1A",note:"Gommino noppenzool. Weekend-auto-schoen geworden icoon."},
+  {id:622,cat:"shoes",name:"White Tennis Sneaker",brand:"COS",color:"White",price:99,seasons:["spring","summer"],hex:"#FFFFFF",note:"Clean wit leer. Dressed-down old money."},
+  {id:623,cat:"shoes",name:"Chelsea Boot",brand:"Arket",color:"Dark Brown",price:189,seasons:["autumn"],hex:"#3D2B1A",note:"Suède chelsea. Elegant voor herfst."},
+  {id:624,cat:"accessories",name:"Silk Pocket Square",brand:"Drake's",color:"Navy Paisley",price:85,seasons:["spring","summer","autumn"],hex:"#1B2A4A",note:"Hand-rolled rand. Subtiel patroon in borstzak."},
+  {id:625,cat:"accessories",name:"Tortoise Sunglasses",brand:"Persol",color:"Havana",price:280,seasons:["spring","summer"],hex:"#8B6B4A",note:"Steve McQueen model 714. Tijdloos."},
+];
+const OM_OUTFITS=[
+  {name:"Zuidas Power Casual",season:"spring",desc:"Ongestructureerd blazer over polo. Board meeting to drinks.",items:[603,607,612,620,618],shoes:620},
+  {name:"Riviera Weekend",season:"summer",desc:"Linnen head to toe. Saint-Tropez-aan-de-Amstel.",items:[610,614,616,621,625],shoes:621},
+  {name:"Herfst Heritage",season:"autumn",desc:"Cashmere layering. Oud geld, nieuwe dag.",items:[601,605,613,623,617],shoes:623},
+  {name:"Casual Magnaat",season:"spring",desc:"T-shirt dat meer kost dan de meeste blazers.",items:[604,608,612,622,624],shoes:622},
+  {name:"Club Classique",season:"autumn",desc:"Suède en kasjmier. Lid sinds geboorte.",items:[602,606,615,620,618],shoes:620},
+  {name:"Zondag Brunch",season:"summer",desc:"Moeiteloos luxe voor een late ochtend.",items:[609,615,622,625],shoes:622},
+];
+const OM_COMBO=[
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,0,1,0,1,1,1,1,1,0,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+];
+const OM_META={
+  styleName:'Stille Rijkdom',
+  heroTitle:"MAX'S<span>Garderobe</span>",
+  heroSub:"25 items · Old Money",
+  conceptTxt:'Stille <strong>rijkdom</strong> fluistert. Geen logo, geen hype, geen haast. <strong>Loro Piana</strong>, <strong>Brunello Cucinelli</strong> en <strong>Zegna</strong> — stoffen die spreken zonder woorden. De beste garderobe is die waarvan niemand het merk kent, maar iedereen de <strong>kwaliteit voelt</strong>.',
+  conceptDesc:'Camel, navy, oatmeal en ivoor. Het palet van oude Europese huizen. Elke kleur voelt alsof het er altijd al was.',
+  shoeTitle:'Drie generaties.<br><em>Geen trend.</em>',
+  shoeDesc:'Edward Green loafers voor de club, Tod\'s voor de weekendrit, COS tennissneakers voor dressed-down momenten.',
+  footerName:'Max',
+  footerBrands:'Brunello Cucinelli × Loro Piana × Zegna × Edward Green × Tod\'s',
+  palGroups:[{label:"Warm",colors:["#C19A6B","#D4C5A9","#C9B99A","#8B6B4A","#C4C0B8"]},{label:"Donker",colors:["#1B2A4A","#3D3D3D","#3D2B1A","#0F0F0F"]},{label:"Licht",colors:["#FFFFFF","#F0EDE5","#B5C4B1","#F0EDE6"]}]
+};
+
+/* ===== SEBAS WL — AMSTERDAM TEXTURE LAB ===== */
+const SW_ITEMS=[
+  {id:1201,cat:"outerwear",name:"Compress Blazer",brand:"Our Legacy",color:"Dark Brown",price:520,seasons:["spring","autumn"],hex:"#3D2B1A",note:"Overdyed, gewassen textuur. Structured maar lived-in."},
+  {id:1202,cat:"outerwear",name:"Balmacaan Coat",brand:"Lemaire",color:"Deep Taupe",price:1200,seasons:["autumn"],hex:"#6B6054",note:"Oversized silhouet. Parijs via Amsterdam."},
+  {id:1203,cat:"outerwear",name:"Chore Jacket",brand:"Our Legacy",color:"Olive",price:450,seasons:["spring","autumn"],hex:"#6B7355",note:"Werkjas in waxed katoen. Patina bouwt op."},
+  {id:1204,cat:"outerwear",name:"Light Padded Overshirt",brand:"COS",color:"Khaki",price:135,seasons:["spring","autumn"],hex:"#7B7355",note:"Quilted overshirt. Layering essential."},
+  {id:1205,cat:"tops",name:"Borrowed BD Shirt",brand:"Our Legacy",color:"White Seer",price:280,seasons:["spring","summer"],hex:"#F5F0E8",note:"Iconisch oversized overhemd. Seersucker textuur."},
+  {id:1206,cat:"tops",name:"Twisted Mock Neck",brand:"Lemaire",color:"Dark Chocolate",price:390,seasons:["autumn"],hex:"#3D2B1A",note:"Gedraaide naden. Signature Lemaire asymmetrie."},
+  {id:1207,cat:"tops",name:"Seamless Crew Tee",brand:"Auralee",color:"Heather Grey",price:140,seasons:["spring","summer"],hex:"#A09484",note:"Wholegarment gebreid T-shirt. Japanse perfectie."},
+  {id:1208,cat:"tops",name:"Baby Cashmere Knit Polo",brand:"Auralee",color:"Camel",price:480,seasons:["spring","autumn"],hex:"#C19A6B",note:"Ultrazoacht baby cashmere. Relaxed polo silhouet."},
+  {id:1209,cat:"tops",name:"Rib Tank Top",brand:"Our Legacy",color:"Off-White",price:90,seasons:["summer"],hex:"#F0EDE6",note:"Geribde tanktop onder overhemden. Layering texture."},
+  {id:1210,cat:"tops",name:"Heavyweight Pocket Tee",brand:"COS",color:"Moss",price:35,seasons:["spring","summer"],hex:"#6B7355",note:"Dikke katoen, borst pocket. Budget maar goed."},
+  {id:1211,cat:"tops",name:"Merino Crew Sweater",brand:"Arket",color:"Dark Brown",price:69,seasons:["autumn"],hex:"#3D2B1A",note:"Fijne merino. Goede basics voor layering."},
+  {id:1212,cat:"bottoms",name:"Borrowed Chino",brand:"Our Legacy",color:"Olive Twill",price:310,seasons:["spring","summer","autumn"],hex:"#6B7355",note:"Relaxed, licht gedropt kruis. Signature Our Legacy fit."},
+  {id:1213,cat:"bottoms",name:"Twisted Pants",brand:"Lemaire",color:"Deep Taupe",price:580,seasons:["spring","autumn"],hex:"#6B6054",note:"Gedraaide zijnaden. Het silhouet dat alles veranderde."},
+  {id:1214,cat:"bottoms",name:"Wide Leg Trousers",brand:"Auralee",color:"Ink Black",price:380,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"High-rise, wijde pijp. Clean Japanse proportie."},
+  {id:1215,cat:"bottoms",name:"Relaxed Chinos",brand:"COS",color:"Beige",price:79,seasons:["spring","summer","autumn"],hex:"#D4C5A9",note:"Betaalbaar maar goede silhouet. Everyday."},
+  {id:1216,cat:"bottoms",name:"Pleated Shorts",brand:"Our Legacy",color:"Stone",price:220,seasons:["summer"],hex:"#A09484",note:"Box pleat, relaxed fit. Zomer texture."},
+  {id:1217,cat:"accessories",name:"Sling Bag",brand:"Lemaire",color:"Dark Coffee",price:580,seasons:["spring","summer","autumn"],hex:"#3D2B1A",note:"Croissant-vormige sling. Iconisch."},
+  {id:1218,cat:"accessories",name:"Woven Belt",brand:"Our Legacy",color:"Olive",price:120,seasons:["spring","summer","autumn"],hex:"#6B7355",note:"Gevlochten leer. Subtiel textuur detail."},
+  {id:1219,cat:"accessories",name:"Bucket Hat",brand:"Auralee",color:"Camel",price:160,seasons:["spring","summer"],hex:"#C19A6B",note:"Soft cotton bucket. Japanse proportie."},
+  {id:1220,cat:"shoes",name:"990v6",brand:"New Balance",color:"Grey",price:200,seasons:["spring","summer","autumn"],hex:"#8A8A8A",note:"De dad-shoe die mode werd. Grijs-op-grijs."},
+  {id:1221,cat:"shoes",name:"2002R",brand:"New Balance",color:"Rain Cloud",price:150,seasons:["spring","summer","autumn"],hex:"#A09484",note:"Meer gedurfd silhouet. Earth tones."},
+  {id:1222,cat:"shoes",name:"Derby Shoe",brand:"Lemaire",color:"Dark Brown",price:720,seasons:["spring","autumn"],hex:"#3D2B1A",note:"Square-toe derby. Lemaire's kenmerkende schoenvorm."},
+  {id:1223,cat:"shoes",name:"Paraboot Michael",brand:"Paraboot",color:"Marron",price:450,seasons:["spring","summer","autumn"],hex:"#5C3D2E",note:"Norwegian welt. Onverwoestbaar, alleen mooier met patina."},
+  {id:1224,cat:"accessories",name:"Cashmere Scarf",brand:"Arket",color:"Oatmeal",price:79,seasons:["autumn"],hex:"#D4C5A9",note:"Betaalbaar cashmere. Groot en warm."},
+  {id:1225,cat:"accessories",name:"Canvas Tote",brand:"Our Legacy",color:"Olive",price:180,seasons:["spring","summer","autumn"],hex:"#6B7355",note:"Heavy canvas draagtas. Work bag aesthetic."},
+];
+const SW_OUTFITS=[
+  {name:"Texture Layering",season:"autumn",desc:"Elke laag voegt textuur toe. Wol, suède, katoen.",items:[1202,1206,1213,1222,1217],shoes:1222},
+  {name:"Amsterdam Casual",season:"spring",desc:"Our Legacy head to toe. Relaxed maar bewust.",items:[1203,1205,1212,1223,1218],shoes:1223},
+  {name:"Japanse Zomer",season:"summer",desc:"Auralee's zachtheid ontmoet Amsterdam warmte.",items:[1207,1216,1219,1221],shoes:1221},
+  {name:"Lemaire Monday",season:"spring",desc:"Twisted silhouetten voor de werkweek.",items:[1204,1208,1213,1222,1217],shoes:1222},
+  {name:"Weekend Textures",season:"autumn",desc:"Casual maar elke stof vertelt een verhaal.",items:[1201,1211,1215,1220,1224],shoes:1220},
+  {name:"New Balance Daily",season:"summer",desc:"Basics met de juiste schoenen underneath.",items:[1210,1214,1220,1225],shoes:1220},
+];
+const SW_COMBO=[
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+];
+const SW_META={
+  styleName:'Amsterdam Texture Lab',
+  heroTitle:"MAX'S<span>Garderobe</span>",
+  heroSub:"25 items · Sebas WL",
+  conceptTxt:'<strong>Textuur</strong> boven kleur. Elk kledingstuk draagt een verhaal in het weefsel. <strong>Our Legacy</strong> voor de patina, <strong>Lemaire</strong> voor het silhouet, <strong>Auralee</strong> voor de verfijning. Dit is mode als <strong>materiaalonderzoek</strong>.',
+  conceptDesc:'Bruin, olijf, taupe en camel. Aardtinten die met de tijd mooier worden. Geen kleur schreeuwt — alles fluistert.',
+  shoeTitle:'Vier schoenen.<br><em>Elk een standpunt.</em>',
+  shoeDesc:'New Balance 990v6 voor dagelijks, Lemaire derby voor de statement, Paraboot Michael voor eeuwig.',
+  footerName:'Max',
+  footerBrands:'Our Legacy × Lemaire × Auralee × New Balance × Paraboot',
+  palGroups:[{label:"Aarde",colors:["#3D2B1A","#5C3D2E","#6B6054","#6B7355","#7B7355"]},{label:"Zand",colors:["#C19A6B","#D4C5A9","#A09484","#8A8A8A"]},{label:"Licht",colors:["#F5F0E8","#F0EDE6","#1A1A1A"]}]
+};
+
+/* ===== COASTAL GRANDMA — KUSTLIJN STILLE LUXE ===== */
+const CG_ITEMS=[
+  {id:901,cat:"outerwear",name:"Cashmere Cardigan Coat",brand:"Jenni Kayne",color:"Oatmeal",price:595,seasons:["spring","autumn"],hex:"#D4C5A9",note:"Oversized kasjmier cardigan als jas. Het coastal grandma icoon."},
+  {id:902,cat:"outerwear",name:"Linen Blazer",brand:"Vince",color:"Wheat",price:495,seasons:["spring","summer"],hex:"#D4C5A9",note:"Ongestructureerd linnen. Van strand naar lunch."},
+  {id:903,cat:"outerwear",name:"Long Cardigan",brand:"Eileen Fisher",color:"Natural",price:298,seasons:["spring","autumn"],hex:"#E8DFD0",note:"Organisch katoen, open front. Duurzaam comfort."},
+  {id:904,cat:"outerwear",name:"Cotton Trench",brand:"COS",color:"Sand",price:190,seasons:["spring","autumn"],hex:"#C9B99A",note:"Lichtgewicht trenchcoat. Kustwind-proof."},
+  {id:905,cat:"tops",name:"Cashmere Crew Sweater",brand:"Jenni Kayne",color:"Ivory",price:395,seasons:["autumn"],hex:"#F0EDE5",note:"Everyday cashmere. De kern van de kustgarderobe."},
+  {id:906,cat:"tops",name:"Linen Button-Down",brand:"James Perse",color:"White",price:225,seasons:["spring","summer"],hex:"#FFFFFF",note:"Gewassen linnen. Effortless Californische chic."},
+  {id:907,cat:"tops",name:"Pima Cotton Tee",brand:"Vince",color:"Off-White",price:95,seasons:["spring","summer"],hex:"#F0EDE6",note:"Ultrazachte pima katoen. Perfect onder alles."},
+  {id:908,cat:"tops",name:"Breton Stripe Top",brand:"Saint James",color:"Ecru/Navy",price:89,seasons:["spring","summer"],hex:"#1B2A4A",note:"Iconische Bretonse streep. Nancy Meyers approved."},
+  {id:909,cat:"tops",name:"Silk Shell Top",brand:"Eileen Fisher",color:"Bone",price:198,seasons:["spring","summer"],hex:"#E8DFD0",note:"Zijden shell. Elegant layering piece."},
+  {id:910,cat:"tops",name:"Ribbed Tank",brand:"COS",color:"Cream",price:25,seasons:["summer"],hex:"#F5F0E8",note:"Fijngeribde tank. Zomer basis."},
+  {id:911,cat:"tops",name:"Oversized Linen Shirt",brand:"Arket",color:"Sky Blue",price:69,seasons:["spring","summer"],hex:"#A8C0D6",note:"Hemelsblauw linnen. Het kustpalet in één stuk."},
+  {id:912,cat:"bottoms",name:"Wide-Leg Linen Pants",brand:"Jenni Kayne",color:"Natural",price:295,seasons:["spring","summer"],hex:"#E8DFD0",note:"Wijde linnen broek. Vloeiend bewegend in de zeebries."},
+  {id:913,cat:"bottoms",name:"Tailored Chinos",brand:"Vince",color:"Khaki",price:295,seasons:["spring","summer","autumn"],hex:"#C9B99A",note:"Relaxed maar tailored. Gouden midden."},
+  {id:914,cat:"bottoms",name:"Linen Midi Skirt",brand:"Eileen Fisher",color:"Driftwood",price:178,seasons:["spring","summer"],hex:"#A09484",note:"A-lijn midi in gewassen linnen."},
+  {id:915,cat:"bottoms",name:"Cotton Palazzo",brand:"COS",color:"White",price:89,seasons:["summer"],hex:"#FFFFFF",note:"Brede palazzo. Zomerse elegantie."},
+  {id:916,cat:"bottoms",name:"Wool Trousers",brand:"Arket",color:"Oatmeal",price:99,seasons:["autumn"],hex:"#D4C5A9",note:"Zachte wol voor de herfst. Warm palet."},
+  {id:917,cat:"accessories",name:"Straw Market Tote",brand:"Loewe",color:"Natural",price:550,seasons:["spring","summer"],hex:"#D4C5A9",note:"Iraca palm mandje. De markt-naar-strand tas."},
+  {id:918,cat:"accessories",name:"Cashmere Wrap",brand:"Jenni Kayne",color:"Oat",price:295,seasons:["spring","autumn"],hex:"#D4C5A9",note:"Grote kasjmier wrap. Sjaal, plaid, dekentje op het strand."},
+  {id:919,cat:"accessories",name:"Tortoiseshell Sunglasses",brand:"Le Specs",color:"Tort",price:79,seasons:["spring","summer"],hex:"#8B6B4A",note:"Oversized oval. Kust-chic."},
+  {id:920,cat:"shoes",name:"Arizona Sandals",brand:"Birkenstock",color:"Taupe Suede",price:130,seasons:["spring","summer"],hex:"#A09484",note:"De enige sandaal die je nodig hebt. Kust-icoon."},
+  {id:921,cat:"shoes",name:"Suede Loafers",brand:"Jenni Kayne",color:"Saddle",price:350,seasons:["spring","summer","autumn"],hex:"#8B6B4A",note:"Mocassin silhouet. Barvoets of met sokken."},
+  {id:922,cat:"shoes",name:"Leather Slides",brand:"Vince",color:"Off-White",price:225,seasons:["summer"],hex:"#F0EDE6",note:"Clean slides voor warme dagen."},
+  {id:923,cat:"shoes",name:"Canvas Sneakers",brand:"Superga",color:"White",price:65,seasons:["spring","summer"],hex:"#FFFFFF",note:"Klassieke witte canvas. Italiaans strandstadje."},
+  {id:924,cat:"accessories",name:"Gold Hoop Earrings",brand:"Mejuri",color:"Gold",price:98,seasons:["spring","summer","autumn"],hex:"#C19A6B",note:"Medium hoops. De enige sieraad die je nodig hebt."},
+  {id:925,cat:"accessories",name:"Linen Scarf",brand:"COS",color:"Dusty Blue",price:39,seasons:["spring","summer"],hex:"#A8C0D6",note:"Lichtgewicht linnen sjaal voor koele avonden."},
+];
+const CG_OUTFITS=[
+  {name:"Kust Ochtend",season:"summer",desc:"Naar de markt met mandtas en Birkenstocks.",items:[906,912,920,917,919],shoes:920},
+  {name:"Strand Lunch",season:"spring",desc:"Linnen van top tot teen. Zeebries welkom.",items:[902,907,913,921,924],shoes:921},
+  {name:"Herfst Kustlijn",season:"autumn",desc:"Cashmere lagen voor wandeling langs zee.",items:[901,905,916,921,918],shoes:921},
+  {name:"Breton Weekend",season:"spring",desc:"Streepjes en chino. Nancy Meyers scene.",items:[904,908,913,923,919],shoes:923},
+  {name:"Mediterrane Zomer",season:"summer",desc:"Wit, crème en zijde. La dolce kust.",items:[909,915,922,924],shoes:922},
+  {name:"Drijfhout Dagen",season:"spring",desc:"Aardse tinten voor een lange strandwandeling.",items:[903,911,914,920,925],shoes:920},
+];
+const CG_COMBO=[
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+];
+const CG_META={
+  styleName:'Kustlijn Stille Luxe',
+  heroTitle:"SAN'S<span>Garderobe</span>",
+  heroSub:"25 items · Coastal Grandma",
+  conceptTxt:'De <strong>kustlijn</strong> als levensstijl. Linnen, kasjmier en zand-tinten — kleding die ruikt naar <strong>zeelucht en lavendel</strong>. <strong>Jenni Kayne</strong>, <strong>Vince</strong> en <strong>Eileen Fisher</strong> voor vrouwen die weten dat <strong>comfort luxe is</strong>.',
+  conceptDesc:'Oatmeal, wheat, sky blue en natural. Het palet van een winterochtend aan zee. Zachte grenzen tussen kleur en licht.',
+  shoeTitle:'Vier silhouetten.<br><em>Zand tussen de tenen.</em>',
+  shoeDesc:'Birkenstock Arizona als fundering, Jenni Kayne loafers voor de lunch, Superga voor wandelingen langs de pier.',
+  footerName:'San',
+  footerBrands:'Jenni Kayne × Vince × Eileen Fisher × Saint James × Birkenstock',
+  palGroups:[{label:"Zand",colors:["#D4C5A9","#E8DFD0","#C9B99A","#A09484","#8B6B4A"]},{label:"Kust",colors:["#A8C0D6","#1B2A4A"]},{label:"Licht",colors:["#FFFFFF","#F0EDE6","#F0EDE5","#F5F0E8","#C19A6B"]}]
+};
+
+/* ===== QUIET LUXURY — FLUISTER RIJKDOM ===== */
+const QL_ITEMS=[
+  {id:1101,cat:"outerwear",name:"Oversized Blazer",brand:"The Frankie Shop",color:"Charcoal",price:345,seasons:["spring","autumn"],hex:"#3D3D3D",note:"Brede schouders, dropped waist. De It-blazer."},
+  {id:1102,cat:"outerwear",name:"Wool Coat",brand:"COS",color:"Dark Grey",price:250,seasons:["autumn"],hex:"#4A4A4A",note:"Minimale wol jas. Clean lijn, warm."},
+  {id:1103,cat:"outerwear",name:"Linen Overshirt",brand:"Arket",color:"Sand",price:79,seasons:["spring","summer"],hex:"#C9B99A",note:"Overhemd-als-jasje. Licht en veelzijdig."},
+  {id:1104,cat:"outerwear",name:"Cashmere Cardigan",brand:"Massimo Dutti",color:"Camel",price:149,seasons:["spring","autumn"],hex:"#C19A6B",note:"Lange kasjmier-blend cardigan. Moeiteloos."},
+  {id:1105,cat:"tops",name:"Merino Roll Neck",brand:"COS",color:"Cream",price:79,seasons:["autumn"],hex:"#F5F0E8",note:"Fijne merino coltrui. Foundation piece."},
+  {id:1106,cat:"tops",name:"Silk Camisole",brand:"Arket",color:"Champagne",price:49,seasons:["spring","summer"],hex:"#E8DFD0",note:"Zijden camisole. Draag solo of onder blazer."},
+  {id:1107,cat:"tops",name:"Oversized Cotton Shirt",brand:"The Frankie Shop",color:"White",price:165,seasons:["spring","summer"],hex:"#FFFFFF",note:"Oversized wit overhemd. Signature TFS."},
+  {id:1108,cat:"tops",name:"Ribbed Tank",brand:"COS",color:"Black",price:25,seasons:["summer"],hex:"#1A1A1A",note:"Fijne rib tank. Basis die werkt."},
+  {id:1109,cat:"tops",name:"Pima Cotton Tee",brand:"Uniqlo",color:"Off-White",price:15,seasons:["spring","summer"],hex:"#F0EDE6",note:"Perfecte basis-T. Prijs-kwaliteit imbatable."},
+  {id:1110,cat:"tops",name:"Crew Knit Sweater",brand:"Massimo Dutti",color:"Navy",price:79,seasons:["autumn"],hex:"#1B2A4A",note:"Fijne breisweater. Rustig, donker, elegant."},
+  {id:1111,cat:"tops",name:"Linen Blouse",brand:"Arket",color:"Sage",price:59,seasons:["spring","summer"],hex:"#B5C4B1",note:"Relaxed linnen blouse. Zachte kleur."},
+  {id:1112,cat:"bottoms",name:"Pleated Trousers",brand:"The Frankie Shop",color:"Charcoal",price:195,seasons:["spring","summer","autumn"],hex:"#3D3D3D",note:"Wijde plooibroek. Het TFS silhouet."},
+  {id:1113,cat:"bottoms",name:"Tailored Wool Trousers",brand:"COS",color:"Black",price:99,seasons:["spring","autumn"],hex:"#1A1A1A",note:"Rechte wollen broek. Sharp en clean."},
+  {id:1114,cat:"bottoms",name:"Linen Wide Leg",brand:"Arket",color:"Oatmeal",price:69,seasons:["spring","summer"],hex:"#D4C5A9",note:"Wijde linnen broek. Zomerse ease."},
+  {id:1115,cat:"bottoms",name:"Midi Slip Skirt",brand:"COS",color:"Champagne",price:69,seasons:["spring","summer"],hex:"#E8DFD0",note:"Satijnen slip rok. Moeiteloos elegant."},
+  {id:1116,cat:"bottoms",name:"Cotton Bermuda",brand:"Massimo Dutti",color:"Sand",price:59,seasons:["summer"],hex:"#C9B99A",note:"Tailored bermuda. Langer dan kort."},
+  {id:1117,cat:"accessories",name:"Leather Belt",brand:"COS",color:"Black",price:45,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Dunne leren riem. Minimaal hardware."},
+  {id:1118,cat:"accessories",name:"Cashmere Scarf",brand:"Uniqlo",color:"Beige",price:50,seasons:["autumn"],hex:"#D4C5A9",note:"Kasjmier sjaal voor de prijs van polyester."},
+  {id:1119,cat:"accessories",name:"Leather Tote",brand:"Arket",color:"Black",price:199,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Zachte leren draagtas. Werk en weekend."},
+  {id:1120,cat:"shoes",name:"Leather Mules",brand:"COS",color:"Black",price:135,seasons:["spring","summer"],hex:"#1A1A1A",note:"Vierkante neus mules. Architecturaal silhouet."},
+  {id:1121,cat:"shoes",name:"Loafers",brand:"Massimo Dutti",color:"Dark Brown",price:99,seasons:["spring","summer","autumn"],hex:"#3D2B1A",note:"Klassieke penny loafer. Betaalbaar maar stijlvol."},
+  {id:1122,cat:"shoes",name:"Leather Sneakers",brand:"COS",color:"White",price:99,seasons:["spring","summer"],hex:"#FFFFFF",note:"Minimalistische witte sneaker. Clean."},
+  {id:1123,cat:"shoes",name:"Suede Ankle Boots",brand:"Arket",color:"Taupe",price:179,seasons:["autumn"],hex:"#A09484",note:"Suède enkellaars. Herfst essential."},
+  {id:1124,cat:"accessories",name:"Gold Chain Necklace",brand:"Mejuri",color:"Gold",price:128,seasons:["spring","summer","autumn"],hex:"#C19A6B",note:"Fijne gouden ketting. Subtle luxe."},
+  {id:1125,cat:"accessories",name:"Sunglasses",brand:"COS",color:"Black",price:55,seasons:["spring","summer"],hex:"#1A1A1A",note:"Ovale zonnebril. Quiet luxury frames."},
+];
+const QL_OUTFITS=[
+  {name:"Quiet Power",season:"spring",desc:"Oversized blazer, plooibroek, mules. Boardroom energy.",items:[1101,1107,1112,1120,1117],shoes:1120},
+  {name:"Zomer Fluister",season:"summer",desc:"Zijde en linnen. Minimaal maar maximaal effect.",items:[1103,1106,1114,1122,1124],shoes:1122},
+  {name:"Herfst Stilte",season:"autumn",desc:"Wol en kasjmier. Cocoonen in luxe.",items:[1102,1105,1113,1123,1118],shoes:1123},
+  {name:"Weekend Ease",season:"spring",desc:"Relaxed maar nooit slordig.",items:[1104,1109,1112,1121,1119],shoes:1121},
+  {name:"Champagne Avond",season:"summer",desc:"Slip skirt en camisole. Effortless evening.",items:[1108,1115,1120,1124,1125],shoes:1120},
+  {name:"Sage & Sand",season:"spring",desc:"Zachte kleuren voor een zachte dag.",items:[1111,1114,1121,1119],shoes:1121},
+];
+const QL_COMBO=[
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+];
+const QL_META={
+  styleName:'Fluister Rijkdom',
+  heroTitle:"SAN'S<span>Garderobe</span>",
+  heroSub:"25 items · Quiet Luxury",
+  conceptTxt:'<strong>Fluisteren</strong> in plaats van schreeuwen. <strong>The Frankie Shop</strong> voor het silhouet, <strong>COS</strong> voor de basis, <strong>Arket</strong> voor het detail. Geen logo, geen statement — alleen <strong>perfecte pasvorm</strong> en stoffen die zichzelf bewijzen.',
+  conceptDesc:'Charcoal, champagne, sand en navy. Neutrale tinten die samensmelten tot een onopvallende luxe. De kracht zit in de afwezigheid.',
+  shoeTitle:'Vier schoenen.<br><em>Nul opvallendheid.</em>',
+  shoeDesc:'COS mules voor architecturaal drama, Massimo Dutti loafers voor dagelijks, witte sneakers voor het weekend.',
+  footerName:'San',
+  footerBrands:'The Frankie Shop × COS × Arket × Massimo Dutti × Uniqlo',
+  palGroups:[{label:"Donker",colors:["#1A1A1A","#3D3D3D","#4A4A4A","#1B2A4A","#3D2B1A"]},{label:"Zand",colors:["#C9B99A","#D4C5A9","#E8DFD0","#C19A6B","#A09484"]},{label:"Licht",colors:["#FFFFFF","#F0EDE6","#F5F0E8","#B5C4B1"]}]
+};
+
+/* ===== WARDROBES REGISTRY ===== */
+const WARDROBES={
+  'max-original':{person:'max',items:MAX_ITEMS,outfits:MAX_OUTFITS,combo:MAX_COMBO,sneakers:MAX_SNEAKERS,meta:MAX_META},
+  'max-ald':{person:'max',items:ALD_ITEMS,outfits:ALD_OUTFITS,combo:ALD_COMBO,sneakers:null,meta:ALD_META},
+  'max-jw':{person:'max',items:JW_ITEMS,outfits:JW_OUTFITS,combo:JW_COMBO,sneakers:null,meta:JW_META},
+  'max-ir':{person:'max',items:IR_ITEMS,outfits:IR_OUTFITS,combo:IR_COMBO,sneakers:null,meta:IR_META},
+  'max-gc':{person:'max',items:GC_ITEMS,outfits:GC_OUTFITS,combo:GC_COMBO,sneakers:null,meta:GC_META},
+  'max-om':{person:'max',items:OM_ITEMS,outfits:OM_OUTFITS,combo:OM_COMBO,sneakers:null,meta:OM_META},
+  'max-sw':{person:'max',items:SW_ITEMS,outfits:SW_OUTFITS,combo:SW_COMBO,sneakers:null,meta:SW_META},
+  'her-original':{person:'her',items:HER_ITEMS,outfits:HER_OUTFITS,combo:HER_COMBO,sneakers:null,meta:HER_META},
+  'her-sm':{person:'her',items:SM_ITEMS,outfits:SM_OUTFITS,combo:SM_COMBO,sneakers:null,meta:SM_META},
+  'her-fg':{person:'her',items:FG_ITEMS,outfits:FG_OUTFITS,combo:FG_COMBO,sneakers:null,meta:FG_META},
+  'her-nm':{person:'her',items:NM_ITEMS,outfits:NM_OUTFITS,combo:NM_COMBO,sneakers:null,meta:NM_META},
+  'her-cg':{person:'her',items:CG_ITEMS,outfits:CG_OUTFITS,combo:CG_COMBO,sneakers:null,meta:CG_META},
+  'her-ql':{person:'her',items:QL_ITEMS,outfits:QL_OUTFITS,combo:QL_COMBO,sneakers:null,meta:QL_META},
+};
+
 /* ===== ENGINE ===== */
 const SL={spring:"LEN",summer:"ZOM",autumn:"HER"};
 const SN={spring:"Lente",summer:"Zomer",autumn:"Herfst"};
+let currentWardrobe='max-original';
+let pickerPerson='max';
 let WHO='max';
 let ITEMS,OUTFITS,COMBO,SNEAKERS,META;
 
 function setData(){
-  if(WHO==='max'){ITEMS=MAX_ITEMS;OUTFITS=MAX_OUTFITS;COMBO=MAX_COMBO;SNEAKERS=MAX_SNEAKERS;META=MAX_META}
-  else{ITEMS=HER_ITEMS;OUTFITS=HER_OUTFITS;COMBO=HER_COMBO;SNEAKERS=null;META=HER_META}
+  const w=WARDROBES[currentWardrobe];
+  WHO=w.person;
+  ITEMS=w.items;
+  OUTFITS=w.outfits;
+  COMBO=w.combo;
+  SNEAKERS=w.sneakers||null;
+  META=w.meta;
 }
 
 const byId=id=>ITEMS.find(i=>i.id===id);
 const imgSrc=id=>{
-  if(id>=100) return `images/her-${String(id-100).padStart(2,'0')}.jpg`;
-  return `images/item-${String(id).padStart(2,'0')}.jpg`;
+  if(id>=100&&id<200) return `images/her-${String(id-100).padStart(2,'0')}.jpg`;
+  if(id<100) return `images/item-${String(id).padStart(2,'0')}.jpg`;
+  return `images/w-${id}.jpg`;
 };
-const isLight=h=>['#FFFFFF','#F5F0E8','#F0EDE6','#F0EDE5','#EDE8DD','#E8E2D6','#E8DFD0','#D9CEBC','#D2C6A5','#D4C8B0','#C8B99A','#C4B6A0','#D4C5A9'].includes(h);
+const isLight=h=>{const s=h.replace('#','');if(s.length!==6)return false;const r=parseInt(s.substr(0,2),16),g=parseInt(s.substr(2,2),16),b=parseInt(s.substr(4,2),16);return(r*299+g*587+b*114)/1000>180;};
 
 function mkImg(item,cls){
   const img=document.createElement('img');img.src=imgSrc(item.id);img.alt=item.name;img.loading='lazy';if(cls)img.className=cls;
@@ -467,10 +1295,64 @@ function mkFlat(item,label){
   d.appendChild(img);const l=document.createElement('div');l.className='ofl-l';l.textContent=label;d.appendChild(l);return d;
 }
 
+/* === WARDROBE SWITCH ANIMATION === */
+function playTransition(accentColor){
+  const flash=document.getElementById('wtFlash');
+  const grad=document.getElementById('wtGrad');
+
+  // Color burst
+  flash.style.background=`radial-gradient(circle at 50% 30%, ${accentColor}88, ${accentColor}22 40%, transparent 70%)`;
+  flash.classList.remove('go');void flash.offsetWidth;flash.classList.add('go');
+
+  // Rotating gradient
+  grad.style.background=`conic-gradient(from 0deg, ${accentColor}33, transparent 30%, ${accentColor}22 60%, transparent)`;
+  grad.classList.remove('go');void grad.offsetWidth;grad.classList.add('go');
+
+  // Ripples from center
+  for(let i=0;i<3;i++){
+    const r=document.createElement('div');r.className='wt-ripple';
+    const size=Math.max(window.innerWidth,window.innerHeight);
+    r.style.cssText=`width:${size}px;height:${size}px;top:50%;left:50%;margin-top:-${size/2}px;margin-left:-${size/2}px;background:${accentColor}15;border:2px solid ${accentColor}30`;
+    document.body.appendChild(r);
+    setTimeout(()=>{r.classList.add('go')},i*150);
+    setTimeout(()=>r.remove(),1800);
+  }
+
+  // Particle burst
+  const colors=ITEMS.slice(0,8).map(i=>i.hex);
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');
+    const angle=Math.random()*Math.PI*2;
+    const dist=200+Math.random()*400;
+    const size=4+Math.random()*8;
+    p.style.cssText=`position:fixed;z-index:9999;pointer-events:none;width:${size}px;height:${size}px;border-radius:50%;background:${colors[i%colors.length]};top:50%;left:50%;opacity:.8;transition:all 1.2s cubic-bezier(.16,1,.3,1)`;
+    document.body.appendChild(p);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      p.style.transform=`translate(${Math.cos(angle)*dist}px,${Math.sin(angle)*dist}px) scale(0)`;
+      p.style.opacity='0';
+    }));
+    setTimeout(()=>p.remove(),1500);
+  }
+
+  // Content fade
+  setTimeout(()=>{
+    document.body.classList.add('switching');
+    const title=document.getElementById('heroTitle');
+    title.classList.add('hero-title-switch');
+    setTimeout(()=>{
+      document.body.classList.remove('switching');
+      title.classList.remove('hero-title-switch');
+    },900);
+  },100);
+
+  // Clean up animation classes
+  setTimeout(()=>{flash.classList.remove('go');grad.classList.remove('go')},2000);
+}
+
 function renderAll(){
   setData();
   document.body.setAttribute('data-who',WHO);
-  document.title=`Capsule Wardrobe — ${WHO==='max'?'Max':'San'}`;
+  document.title=`Capsule Wardrobe — ${META.styleName}`;
   document.getElementById('heroTitle').innerHTML=META.heroTitle;
   document.getElementById('heroSub').textContent=META.heroSub;
   document.getElementById('conceptTxt').innerHTML=META.conceptTxt;
@@ -478,6 +1360,7 @@ function renderAll(){
   document.getElementById('ftT').innerHTML=`Samengesteld voor ${META.footerName} · 2026`;
   document.getElementById('ftB').innerHTML=META.footerBrands;
   document.getElementById('outfitTitle').innerHTML=`${OUTFITS.length} outfits,<br><em>oneindig draagbaar</em>`;
+  document.getElementById('wpLabel').textContent=META.styleName;
 
   // Hero palette
   const hPal=document.getElementById('hPal');hPal.innerHTML='';
@@ -574,12 +1457,12 @@ function renderAll(){
 
   // Budget
   const buC=document.getElementById('buC');const total=ITEMS.reduce((s,i)=>s+i.price,0);const brands={};
-  ITEMS.forEach(i=>{const b=i.brand.includes('/')?i.brand.split('/')[0].trim():i.brand;brands[b]=(brands[b]||0)+i.price});
-  const mx=Math.max(...Object.values(brands));const cpo=Math.round(total/OUTFITS.length);
-  let bH='';Object.entries(brands).sort((a,b)=>b[1]-a[1]).forEach(([n,a])=>{bH+=`<div class="br-r"><span class="br-n">${n}</span><div class="br-bw"><div class="br-b" style="width:0%" data-target="${(a/mx*100).toFixed(0)}"></div></div><span class="br-a">€${a}</span></div>`});
+  ITEMS.forEach(i=>{const b=i.brand.includes('/')?i.brand.split('/')[0].trim():i.brand.includes('(')?i.brand.split('(')[0].trim():i.brand;brands[b]=(brands[b]||0)+i.price});
+  const mx2=Math.max(...Object.values(brands));const cpo=Math.round(total/OUTFITS.length);
+  let bH='';Object.entries(brands).sort((a,b)=>b[1]-a[1]).forEach(([n,a])=>{bH+=`<div class="br-r"><span class="br-n">${n}</span><div class="br-bw"><div class="br-b" style="width:0%" data-target="${(a/mx2*100).toFixed(0)}"></div></div><span class="br-a">€${a}</span></div>`});
   buC.innerHTML=`<div class="bu-tot">€${total}</div><div class="bu-tl">Totale investering · ${ITEMS.length} items</div><div class="bu-g"><div class="bu-c"><div class="bu-cv">€${cpo}</div><div class="bu-cl">Per outfit</div></div><div class="bu-c"><div class="bu-cv">${ITEMS.length}</div><div class="bu-cl">Items totaal</div></div><div class="bu-c"><div class="bu-cv">${OUTFITS.length}</div><div class="bu-cl">Combinaties</div></div><div class="bu-c"><div class="bu-cv">${Object.keys(brands).length}</div><div class="bu-cl">Merken</div></div></div><div class="bu-br">${bH}</div>`;
 
-  // Sneakers (Max only)
+  // Sneakers
   const snkSec=document.getElementById('snkSec');
   const snkG=document.getElementById('snkG');snkG.innerHTML='';
   if(SNEAKERS){
@@ -600,15 +1483,65 @@ function renderAll(){
   document.getElementById('oSec').style.display='none';
 }
 
-// WHO TOGGLE
-document.querySelector('.who-toggle').addEventListener('click',e=>{
-  const btn=e.target.closest('.who-btn');if(!btn)return;
-  const newWho=btn.dataset.who;if(newWho===WHO)return;
-  WHO=newWho;
-  document.querySelectorAll('.who-btn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');
-  window.scrollTo({top:0,behavior:'smooth'});
-  setTimeout(renderAll,300);
+/* === WARDROBE PICKER === */
+function openPicker(){
+  const ov=document.getElementById('wpOverlay');
+  ov.classList.add('open');
+  document.body.style.overflow='hidden';
+  pickerPerson=WARDROBES[currentWardrobe].person;
+  document.querySelectorAll('.wp-tab').forEach(t=>{t.classList.toggle('act',t.dataset.person===pickerPerson)});
+  renderPickerGrid();
+}
+
+function closePicker(){
+  document.getElementById('wpOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function renderPickerGrid(){
+  const grid=document.getElementById('wpGrid');grid.innerHTML='';
+  Object.entries(WARDROBES).forEach(([key,w])=>{
+    if(w.person!==(pickerPerson==='her'?'her':'max'))return;
+    const card=document.createElement('div');
+    card.className=`wp-card${key===currentWardrobe?' act':''}`;
+    const palColors=w.meta.palGroups.flatMap(g=>g.colors).slice(0,7);
+    const uniqueColors=[...new Set(palColors)].slice(0,6);
+    card.innerHTML=`
+      <div class="wp-card-pal">${uniqueColors.map(c=>`<div class="wp-card-dot" style="background:${c}${isLight(c)?';border-color:#bbb':''}"></div>`).join('')}</div>
+      <div class="wp-card-name">${w.meta.styleName}</div>
+      <div class="wp-card-sub">${w.items.length} items</div>
+      <div class="wp-card-brands">${w.meta.footerBrands}</div>
+    `;
+    card.addEventListener('click',()=>{
+      if(key===currentWardrobe){closePicker();return}
+      const prevAccent=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+      currentWardrobe=key;
+      closePicker();
+      const newW=WARDROBES[key];
+      const accentColor=newW.meta.palGroups.flatMap(g=>g.colors).find(c=>!isLight(c)&&c!=='#1A1A1A'&&c!=='#0F0F0F')||newW.meta.palGroups[0].colors[0];
+      playTransition(accentColor);
+      window.scrollTo({top:0,behavior:'smooth'});
+      setTimeout(renderAll,250);
+    });
+    grid.appendChild(card);
+  });
+}
+
+// Picker trigger
+document.getElementById('wpTrigger').addEventListener('click',openPicker);
+document.getElementById('wpClose').addEventListener('click',closePicker);
+document.getElementById('wpOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closePicker()});
+
+// Picker tabs
+document.getElementById('wpTabs').addEventListener('click',e=>{
+  const tab=e.target.closest('.wp-tab');if(!tab)return;
+  pickerPerson=tab.dataset.person;
+  document.querySelectorAll('.wp-tab').forEach(t=>t.classList.toggle('act',t.dataset.person===pickerPerson));
+  renderPickerGrid();
 });
+
+// Keyboard
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePicker()});
 
 // STICKY NAV
 document.getElementById('sNav').addEventListener('click',e=>{const b=e.target.closest('.nb');if(!b)return;
