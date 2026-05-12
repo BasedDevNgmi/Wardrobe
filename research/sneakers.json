@@ -1,0 +1,92 @@
+[
+  {
+    "name": "GEL-Kayano 14",
+    "colorway": "Cream / Obsidian Grey",
+    "brand": "ASICS",
+    "price": "€145",
+    "category": "Retro Runner",
+    "why": "Dé 'it' sneaker van 2026. Y2K tech-runner met metallic design die perfect past bij wide-leg broeken.",
+    "url": "https://www.asics.com/us/en-us/gel-kayano-14/c/aa50320000/"
+  },
+  {
+    "name": "Zoom Vomero 5",
+    "colorway": "Vast Grey / Platinum Tint",
+    "brand": "Nike",
+    "price": "€160",
+    "category": "Retro Runner",
+    "why": "Beste overall sneaker van 2026 volgens meerdere publicaties. Tonaal, neutraal, past overal bij.",
+    "url": "https://www.nike.com/w/vomero-5-shoes-70s7fzy7ok"
+  },
+  {
+    "name": "990v6 Made in USA",
+    "colorway": "Grey",
+    "brand": "New Balance",
+    "price": "€200",
+    "category": "Heritage Runner",
+    "why": "De 'dad shoe turned grail'. Understated, duur ogend, waanzinnig comfortabel. Signaleert smaak.",
+    "url": "https://www.newbalance.com/pd/made-in-usa-990v6/M990V6-43094-PMG-NA.html"
+  },
+  {
+    "name": "Speedcat OG",
+    "colorway": "Black / White",
+    "brand": "Puma",
+    "price": "€110",
+    "category": "Low-Profile",
+    "why": "Breakout sneaker van 2026. Motorsport-icoon, opvolger van de Samba/550-trend. Razor-thin sole.",
+    "url": "https://us.puma.com/us/en/pd/speedcat-og-sneakers/398846"
+  },
+  {
+    "name": "Original Achilles Low",
+    "colorway": "White",
+    "brand": "Common Projects",
+    "price": "€450",
+    "category": "Luxury Minimalist",
+    "why": "Nog steeds de gouden standaard voor minimalistische witte sneakers. Handgemaakt in Italië.",
+    "url": "https://www.mrporter.com/en-us/mens/product/common-projects/shoes/low-top-sneakers/original-achilles-leather-sneakers/3024088872901549"
+  },
+  {
+    "name": "XT-6",
+    "colorway": "Ghost Gray",
+    "brand": "Salomon",
+    "price": "€185",
+    "category": "Technical / Trail",
+    "why": "Gorpcore-flagship. Clean Ghost Gray werkt zowel outdoor als urban. Collabs met Margiela houden hype hoog.",
+    "url": "https://www.salomon.com/en-us/product/xt-6-lg4239"
+  },
+  {
+    "name": "1906R",
+    "colorway": "Metallic Alkaline",
+    "brand": "New Balance",
+    "price": "€140",
+    "category": "Retro Runner",
+    "why": "Sweet spot tussen chunky 2002R en slanke 990. Futuristisch zilver palette, punches above price.",
+    "url": "https://www.newbalance.com/pd/1906r/M1906RV1-47448-PMG-NA.html"
+  },
+  {
+    "name": "GEL-1130",
+    "colorway": "White / Pure Silver",
+    "brand": "ASICS",
+    "price": "€100",
+    "category": "Retro Runner",
+    "why": "Betaalbare broertje van de Kayano 14. Meest draagbare ASICS colorway ooit. Entry-level tech runner.",
+    "url": "https://www.asics.com/us/en-us/gel-1130/c/aa11059000/"
+  },
+  {
+    "name": "Handball Spezial",
+    "colorway": "Night Indigo",
+    "brand": "Adidas",
+    "price": "€110",
+    "category": "Heritage",
+    "why": "De verfijndere opvolger van de Samba. Rijke suède, slanke gum-zool, dressier dan de Samba.",
+    "url": "https://www.dickssportinggoods.com/f/adidas-spezial-shoes"
+  },
+  {
+    "name": "V2K Run",
+    "colorway": "White / Metallic Silver",
+    "brand": "Nike",
+    "price": "€120",
+    "category": "Retro Runner",
+    "why": "Budget-friendly Y2K tech-runner. Meest toegankelijke manier om de 2026 tech-runner look te krijgen.",
+    "url": "https://www.nike.com/w/nike-v2k-shoes-3picezy7ok"
+  }
+]

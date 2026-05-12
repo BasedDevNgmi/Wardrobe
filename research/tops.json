@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "cat": "tops",
+    "name": "Textured Knitted Polo Shirt",
+    "brand": "COS",
+    "color": "Dark Green",
+    "price": 69,
+    "seasons": ["spring", "summer"],
+    "hex": "#2D4A3E",
+    "note": "Racking-stitch textuur in organic cotton. Moeiteloos zomers.",
+    "url": "https://www.cos.com/en_eur/men/menswear/polo-shirts/product.textured-knitted-polo-shirt-green.1150843004.html"
+  },
+  {
+    "id": 2,
+    "cat": "tops",
+    "name": "Minimal Knitted Polo Shirt",
+    "brand": "COS",
+    "color": "Navy",
+    "price": 79,
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#1B2A4A",
+    "note": "Milano-knit textuur. Werkt onder een blazer of solo met donkere broek.",
+    "url": "https://www.cos.com/en_eur/men/menswear/knitwear/product.minimal-knitted-polo-shirt-blue.1190841002.html"
+  },
+  {
+    "id": 3,
+    "cat": "tops",
+    "name": "Textured Polo Shirt",
+    "brand": "Arket",
+    "color": "Dark Blue",
+    "price": 59,
+    "seasons": ["spring", "summer"],
+    "hex": "#1C2D4D",
+    "note": "Subtiel oppervlaktereliëf. Relaxed alternatief voor een overhemd.",
+    "url": "https://www.arket.com/en_eur/men/knitwear/polo/product.textured-polo-shirt-blue.1275498001.html"
+  },
+  {
+    "id": 4,
+    "cat": "tops",
+    "name": "Linen Resort Shirt",
+    "brand": "Arket",
+    "color": "Beige",
+    "price": 59,
+    "seasons": ["spring", "summer"],
+    "hex": "#C8B99A",
+    "note": "Resort-kraag, loose fit. Perfect vakantie-overhemd dat ook in de stad werkt.",
+    "url": "https://www.arket.com/en_eur/men/pyjamas/product.linen-resort-shirt-beige.1027688003.html"
+  },
+  {
+    "id": 5,
+    "cat": "tops",
+    "name": "Cotton Linen Open Collar Shirt",
+    "brand": "Uniqlo",
+    "color": "Olive",
+    "price": 35,
+    "seasons": ["spring", "summer"],
+    "hex": "#4A5A3C",
+    "note": "Open kraag, dicht of open draagbaar. Aardse editorial look.",
+    "url": "https://www.uniqlo.com/eu/en/product/cotton-linen-blend-short-sleeved-shirt-open-collar-464944.html"
+  },
+  {
+    "id": 6,
+    "cat": "tops",
+    "name": "Fine Knit Merino Jumper",
+    "brand": "Arket",
+    "color": "Dark Green",
+    "price": 59,
+    "seasons": ["autumn", "spring"],
+    "hex": "#2C4033",
+    "note": "Extra-fine RWS merino. Laagt perfect over wit T-shirt of onder overjas.",
+    "url": "https://www.arket.com/en_eur/men/knitwear/product.fine-knit-merino-jumper-green.0490418057.html"
+  },
+  {
+    "id": 7,
+    "cat": "tops",
+    "name": "Merino Wool Half-Zip Jumper",
+    "brand": "COS",
+    "color": "Navy",
+    "price": 125,
+    "seasons": ["autumn", "spring"],
+    "hex": "#1A2744",
+    "note": "Foldover half-zip kraag, architecturaal detail. Casual elegantie.",
+    "url": "https://www.cos.com/en-eu/men/menswear/knitwear/jumpers/wool/product/wool-and-cotton-blend-half-zip-jumper-navy-1188205002"
+  },
+  {
+    "id": 8,
+    "cat": "tops",
+    "name": "Extra Fine Merino Crew Neck",
+    "brand": "Uniqlo",
+    "color": "Dark Grey",
+    "price": 40,
+    "seasons": ["autumn", "spring"],
+    "hex": "#3D3D3D",
+    "note": "Onverslaanbare prijs-kwaliteit. 19.5 micron merino, anti-pill.",
+    "url": "https://www.uniqlo.com/nl/en/product/extra-fine-merino-crew-neck-jumper-460933.html"
+  }
+]

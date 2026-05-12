@@ -1,0 +1,74 @@
+[
+  {
+    "id": 9,
+    "cat": "bottoms",
+    "name": "Barrel-Leg Drawstring Trousers",
+    "brand": "COS",
+    "color": "Beige",
+    "price": 99,
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#D2C6A5",
+    "note": "Signature COS barrel-leg. Drawstring waist, casual maar clean. 3-seizoens broek.",
+    "url": "https://www.cos.com/en-eu/men/menswear/trousers/relaxed-fit/product/barrel-leg-drawstring-trousers-beige-1266352028"
+  },
+  {
+    "id": 10,
+    "cat": "bottoms",
+    "name": "Elasticated Linen Wide-Leg Trousers",
+    "brand": "COS",
+    "color": "Navy",
+    "price": 89,
+    "seasons": ["spring", "summer"],
+    "hex": "#1C2841",
+    "note": "Pure linnen wide-leg. Perfect bij een wit T-shirt en sneakers voor warme dagen.",
+    "url": "https://www.cos.com/en-eu/men/menswear/trousers/linen/product/elasticated-linen-wide-leg-trousers-navy-1263171001"
+  },
+  {
+    "id": 11,
+    "cat": "bottoms",
+    "name": "Relaxed Cotton Twill Trousers",
+    "brand": "Arket",
+    "color": "Dark Grey",
+    "price": 79,
+    "seasons": ["spring", "autumn"],
+    "hex": "#4A4A4A",
+    "note": "Veelzijdige relaxed fit — draag met trui of blazer voor smart-casual.",
+    "url": "https://www.arket.com/en-eu/product/relaxed-cotton-twill-trousers-dark-grey-1319461001/"
+  },
+  {
+    "id": 12,
+    "cat": "bottoms",
+    "name": "Linen Drawstring Trousers",
+    "brand": "Arket",
+    "color": "Beige",
+    "price": 69,
+    "seasons": ["spring", "summer"],
+    "hex": "#C8B99A",
+    "note": "Lichte linnen weave, pull-on drawstring. Ontspannen mediterrane stijl.",
+    "url": "https://www.arket.com/en-eu/product/linen-drawstring-trousers-beige-1027689004/"
+  },
+  {
+    "id": 13,
+    "cat": "bottoms",
+    "name": "U Wide-Fit Pleated Chino Pants",
+    "brand": "Uniqlo",
+    "color": "Olive",
+    "price": 50,
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#5C6B4E",
+    "note": "Lemaire-designed wide-fit met plooien. Elegant en betaalbaar kleuraccent.",
+    "url": "https://www.uniqlo.com/eu-nl/en/products/E457967-000/00"
+  },
+  {
+    "id": 14,
+    "cat": "bottoms",
+    "name": "Cotton-Linen Drawstring Shorts",
+    "brand": "Arket",
+    "color": "Dark Blue",
+    "price": 59,
+    "seasons": ["summer"],
+    "hex": "#2C3E5A",
+    "note": "Linnen blend met hidden drawstring. Ideaal voor zomerse weekenden.",
+    "url": "https://www.arket.com/en-nl/product/cotton-linen-drawstring-shorts-dark-blue-0986471006/"
+  }
+]

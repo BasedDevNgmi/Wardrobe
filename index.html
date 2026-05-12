@@ -8,1471 +8,460 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --bg-primary: #FAF7F2;
-  --bg-warm: #F5F0E8;
-  --bg-spring: #f0f5ed;
-  --bg-summer: #fdf8f0;
-  --bg-autumn: #f0ebe4;
-  --text-primary: #1a1612;
-  --text-secondary: #6b6054;
-  --text-muted: #a09484;
-  --text-light: #b5a898;
-  --border: #e8e2d6;
-  --accent-green: #2D5A3D;
-  --accent-navy: #1B2A4A;
-  --accent-olive: #5C6B4E;
-  --accent-stone: #C9B99A;
-  --accent-gold: #a08040;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'DM Sans', -apple-system, sans-serif;
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  font-family: var(--font-body);
-  font-weight: 300;
-  color: var(--text-primary);
-  background: var(--bg-primary);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-/* Noise overlay */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
-}
-
-/* Scroll reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
-
-/* =========== HERO =========== */
-.hero {
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
-  background: var(--bg-warm);
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(160deg, var(--bg-warm) 0%, var(--bg-primary) 50%, #ece5d8 100%);
-  z-index: 0;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-}
-
-.hero h1 {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(48px, 10vw, 140px);
-  line-height: 0.9;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-}
-
-.hero h1 span {
-  display: block;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent-green);
-}
-
-.hero-subtitle {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: clamp(14px, 2vw, 18px);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 3rem;
-}
-
-.hero-palette {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-}
-
-.hero-palette-dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.6);
-  transition: transform 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-.hero-palette-dot:hover {
-  transform: scale(1.3);
-}
-
-.hero-scroll {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-body);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-light);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.hero-scroll-line {
-  width: 1px;
-  height: 40px;
-  background: var(--text-light);
-  animation: scrollPulse 2s ease-in-out infinite;
-}
-
-@keyframes scrollPulse {
-  0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
-  50% { opacity: 1; transform: scaleY(1); }
-}
-
-/* =========== SECTION COMMON =========== */
-.section {
-  padding: clamp(60px, 10vw, 140px) clamp(20px, 5vw, 80px);
-}
-
-.section-label {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 1.5rem;
-}
-
-.section-title {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(36px, 6vw, 90px);
-  line-height: 1.0;
-  letter-spacing: -0.02em;
-  margin-bottom: 2rem;
-}
-
-.section-title em {
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent-green);
-}
-
-/* =========== CONCEPT =========== */
-.concept {
-  background: var(--bg-primary);
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.concept-text {
-  font-family: var(--font-display);
-  font-size: clamp(20px, 3vw, 32px);
-  font-weight: 300;
-  line-height: 1.5;
-  color: var(--text-secondary);
-}
-
-.concept-text strong {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.concept-detail {
-  margin-top: 3rem;
-  font-family: var(--font-body);
-  font-size: 15px;
-  line-height: 1.8;
-  color: var(--text-muted);
-  max-width: 600px;
-}
-
-/* =========== COLOR PALETTE =========== */
-.palette-section {
-  background: var(--bg-warm);
-}
-
-.palette-section .inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.palette-groups {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  margin-top: 3rem;
-}
-
-.palette-group-label {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 1rem;
-}
-
-.palette-row {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.palette-circle {
-  position: relative;
-  cursor: pointer;
-}
-
-.palette-circle .swatch {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.7);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.palette-circle:hover .swatch {
-  transform: scale(1.15);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-}
-
-.palette-circle .tooltip {
-  position: absolute;
-  bottom: calc(100% + 12px);
-  left: 50%;
-  transform: translateX(-50%) translateY(8px);
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  font-family: var(--font-body);
-  font-size: 12px;
-  padding: 8px 14px;
-  border-radius: 6px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s, transform 0.2s;
-  z-index: 10;
-}
-
-.palette-circle:hover .tooltip {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-@media (max-width: 600px) {
-  .palette-circle .swatch {
-    width: 52px;
-    height: 52px;
-  }
-}
-
-/* =========== WARDROBE =========== */
-.wardrobe-section {
-  background: var(--bg-primary);
-}
-
-.wardrobe-section .inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.filter-bar {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
-}
-
-.filter-btn {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 10px 22px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-secondary);
-  border-radius: 100px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.filter-btn:hover {
-  border-color: var(--text-secondary);
-}
-
-.filter-btn.active {
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  border-color: var(--text-primary);
-}
-
-.category-block {
-  margin-bottom: 4rem;
-}
-
-.category-label {
-  font-family: var(--font-display);
-  font-size: clamp(28px, 4vw, 48px);
-  font-weight: 300;
-  font-style: italic;
-  color: var(--text-primary);
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-}
-
-.item-card {
-  background: var(--bg-warm);
-  border-radius: 12px;
-  padding: 28px;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-  cursor: default;
-  position: relative;
-  overflow: hidden;
-}
-
-.item-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: var(--item-color, var(--border));
-  border-radius: 12px 12px 0 0;
-}
-
-.item-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 48px rgba(26, 22, 18, 0.08);
-}
-
-.item-card.hidden {
-  display: none;
-}
-
-.item-card.fading-out {
-  opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.item-swatch {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.7);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  margin-bottom: 1.2rem;
-}
-
-.item-name {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  line-height: 1.2;
-}
-
-.item-brand {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-
-.item-color-label {
-  font-family: var(--font-body);
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 12px;
-}
-
-.item-price {
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 12px;
-}
-
-.item-price .price-note {
-  font-size: 13px;
-  font-family: var(--font-body);
-  font-weight: 300;
-  color: var(--text-muted);
-  margin-left: 4px;
-}
-
-.item-seasons {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.season-badge {
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 100px;
-  background: var(--bg-primary);
-  color: var(--text-muted);
-}
-
-.season-badge.spring { background: #e8f0e4; color: #3a6b3a; }
-.season-badge.summer { background: #fdf3e0; color: #8a6b2e; }
-.season-badge.autumn { background: #f0e8dd; color: #6b5040; }
-
-.item-note {
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 1.5;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-top: 8px;
-}
-
-/* =========== SHOES =========== */
-.shoes-section {
-  background: var(--accent-navy);
-  color: var(--bg-primary);
-}
-
-.shoes-section .inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.shoes-section .section-label { color: rgba(255,255,255,0.4); }
-.shoes-section .section-title { color: var(--bg-primary); }
-.shoes-section .section-title em { color: var(--accent-stone); }
-
-.shoes-intro {
-  font-family: var(--font-display);
-  font-size: clamp(18px, 2.5vw, 26px);
-  font-weight: 300;
-  line-height: 1.6;
-  color: rgba(255,255,255,0.7);
-  max-width: 700px;
-  margin-bottom: 4rem;
-}
-
-.shoes-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-}
-
-@media (max-width: 700px) {
-  .shoes-grid { grid-template-columns: 1fr; }
-}
-
-.shoe-card {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 40px;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
-}
-
-.shoe-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255,255,255,0.1);
-}
-
-.shoe-swatch {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.2);
-  margin-bottom: 1.5rem;
-}
-
-.shoe-name {
-  font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.shoe-brand {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 12px;
-}
-
-.shoe-price {
-  font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--accent-stone);
-  margin-bottom: 16px;
-}
-
-.shoe-note {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 300;
-  line-height: 1.6;
-  color: rgba(255,255,255,0.6);
-}
-
-/* =========== OUTFITS =========== */
-.outfits-section {
-  background: var(--bg-warm);
-}
-
-.outfits-section .inner {
-  max-width: 100%;
-}
-
-.outfit-slider-wrapper {
-  position: relative;
-  margin-top: 2rem;
-}
-
-.outfit-slider {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: 1rem clamp(20px, 5vw, 80px) 2rem;
-  scrollbar-width: none;
-}
-
-.outfit-slider::-webkit-scrollbar { display: none; }
-
-.outfit-card {
-  flex: 0 0 clamp(300px, 40vw, 420px);
-  scroll-snap-align: start;
-  border-radius: 16px;
-  padding: 36px;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.outfit-card:hover {
-  transform: translateY(-4px) scale(1.01);
-}
-
-.outfit-card.spring { background: var(--bg-spring); }
-.outfit-card.summer { background: var(--bg-summer); }
-.outfit-card.autumn { background: var(--bg-autumn); }
-
-.outfit-season-tag {
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-}
-
-.outfit-name {
-  font-family: var(--font-display);
-  font-size: clamp(28px, 3vw, 38px);
-  font-weight: 400;
-  font-style: italic;
-  margin-bottom: 24px;
-  line-height: 1.1;
-}
-
-.outfit-swatches {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  align-items: center;
-}
-
-.outfit-swatch {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.7);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  position: relative;
-}
-
-.outfit-swatch .swatch-label {
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-body);
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.outfit-swatch:hover .swatch-label { opacity: 1; }
-
-.outfit-swatch-divider {
-  width: 16px;
-  height: 1px;
-  background: var(--border);
-}
-
-.outfit-items {
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--text-secondary);
-  line-height: 1.8;
-}
-
-.outfit-items span {
-  display: block;
-}
-
-.slider-nav {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 2rem;
-}
-
-.slider-nav button {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  background: var(--bg-primary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
-  font-size: 18px;
-  color: var(--text-secondary);
-}
-
-.slider-nav button:hover {
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  border-color: var(--text-primary);
-}
-
-/* =========== MATRIX =========== */
-.matrix-section {
-  background: var(--bg-primary);
-}
-
-.matrix-section .inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.matrix-desc {
-  font-family: var(--font-body);
-  font-size: 15px;
-  color: var(--text-muted);
-  margin-bottom: 3rem;
-  max-width: 500px;
-}
-
-.matrix-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.matrix-table {
-  border-collapse: collapse;
-  width: 100%;
-  min-width: 700px;
-}
-
-.matrix-table th {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  padding: 12px 16px;
-  text-align: center;
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  background: var(--bg-primary);
-}
-
-.matrix-table th:first-child {
-  text-align: left;
-  min-width: 180px;
-}
-
-.matrix-table td {
-  padding: 14px 16px;
-  text-align: center;
-  border-bottom: 1px solid rgba(232, 226, 214, 0.5);
-  transition: background 0.2s;
-}
-
-.matrix-table td:first-child {
-  text-align: left;
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--text-secondary);
-}
-
-.matrix-table tr:hover td {
-  background: rgba(232, 226, 214, 0.3);
-}
-
-.matrix-dot {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: inline-block;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.matrix-dot:hover {
-  transform: scale(1.4);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-}
-
-.matrix-dot.match {
-  background: var(--accent-green);
-}
-
-.matrix-dot.no-match {
-  background: transparent;
-  border: 1px dashed var(--border);
-}
-
-.matrix-table .highlight td {
-  background: rgba(45, 90, 61, 0.06);
-}
-
-.matrix-table .highlight td:first-child {
-  font-weight: 600;
-  color: var(--accent-green);
-}
-
-.matrix-col-highlight {
-  background: rgba(45, 90, 61, 0.06) !important;
-}
-
-.matrix-legend {
-  display: flex;
-  gap: 24px;
-  margin-top: 1.5rem;
-  font-family: var(--font-body);
-  font-size: 12px;
-  color: var(--text-muted);
-  align-items: center;
-}
-
-.matrix-legend-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 6px;
-  vertical-align: middle;
-}
-
-/* =========== BUDGET =========== */
-.budget-section {
-  background: var(--bg-warm);
-}
-
-.budget-section .inner {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.budget-total {
-  font-family: var(--font-display);
-  font-size: clamp(48px, 8vw, 100px);
-  font-weight: 300;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
-}
-
-.budget-total-label {
-  font-family: var(--font-body);
-  font-size: 13px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 4rem;
-}
-
-.budget-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 24px;
-  margin-bottom: 4rem;
-}
-
-.budget-card {
-  background: var(--bg-primary);
-  border-radius: 12px;
-  padding: 28px;
-  text-align: center;
-}
-
-.budget-card-value {
-  font-family: var(--font-display);
-  font-size: 36px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.budget-card-label {
-  font-family: var(--font-body);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.budget-brands {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.brand-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.brand-name {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 500;
-  width: 80px;
-  flex-shrink: 0;
-  color: var(--text-secondary);
-}
-
-.brand-bar-wrap {
-  flex: 1;
-  height: 8px;
-  background: rgba(0,0,0,0.04);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.brand-bar {
-  height: 100%;
-  border-radius: 4px;
-  background: var(--accent-green);
-  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.brand-amount {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-  width: 60px;
-  text-align: right;
-  flex-shrink: 0;
-}
-
-/* =========== FOOTER =========== */
-.site-footer {
-  padding: 60px clamp(20px, 5vw, 80px);
-  text-align: center;
-  border-top: 1px solid var(--border);
-}
-
-.footer-text {
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--text-light);
-  letter-spacing: 0.05em;
-}
-
-.footer-brands {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--text-muted);
-  margin-top: 8px;
-}
-
-/* =========== RESPONSIVE =========== */
-@media (max-width: 768px) {
-  .items-grid {
-    grid-template-columns: 1fr;
-  }
-  .shoes-grid {
-    grid-template-columns: 1fr;
-  }
-  .outfit-card {
-    flex: 0 0 85vw;
-  }
-  .budget-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAF7F2;--bg-warm:#F5F0E8;--bg-spring:#f0f5ed;--bg-summer:#fdf8f0;--bg-autumn:#f0ebe4;
+  --txt:#1a1612;--txt2:#6b6054;--txt3:#a09484;--txt4:#b5a898;--border:#e8e2d6;
+  --green:#2D5A3D;--navy:#1B2A4A;--olive:#5C6B4E;--stone:#C9B99A;--gold:#a08040;
+  --ff-d:'Cormorant Garamond',Georgia,serif;--ff-b:'DM Sans',-apple-system,sans-serif;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--ff-b);font-weight:300;color:var(--txt);background:var(--bg);line-height:1.6;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px}
+.rv{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.v{opacity:1;transform:translateY(0)}.rv-1{transition-delay:.1s}.rv-2{transition-delay:.2s}.rv-3{transition-delay:.3s}
+
+/* HERO */
+.hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--bg-warm),var(--bg) 50%,#ece5d8)}
+.hero-bg{position:absolute;inset:0;z-index:0;will-change:transform}
+.hero-c{position:relative;z-index:1}
+.hero h1{font-family:var(--ff-d);font-weight:300;font-size:clamp(52px,11vw,150px);line-height:.88;letter-spacing:-.03em;margin-bottom:1.5rem}
+.hero h1 span{display:block;font-style:italic;font-weight:400;color:var(--green)}
+.hero-sub{font-weight:300;font-size:clamp(13px,1.8vw,17px);letter-spacing:.18em;text-transform:uppercase;color:var(--txt3);margin-bottom:2.5rem}
+.hero-pal{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
+.hero-dot{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.6);transition:transform .3s;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.hero-dot:hover{transform:scale(1.35)}
+.hero-scr{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt4);display:flex;flex-direction:column;align-items:center;gap:8px}
+.hero-scr-l{width:1px;height:36px;background:var(--txt4);animation:pls 2s ease-in-out infinite}
+@keyframes pls{0%,100%{opacity:.3;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
+
+/* SECTIONS */
+.sec{padding:clamp(60px,10vw,140px) clamp(20px,5vw,80px)}
+.sec-l{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--txt3);margin-bottom:1.5rem}
+.sec-t{font-family:var(--ff-d);font-weight:300;font-size:clamp(36px,6vw,90px);line-height:1;letter-spacing:-.02em;margin-bottom:2rem}
+.sec-t em{font-style:italic;font-weight:400;color:var(--green)}
+
+/* CONCEPT */
+.concept{max-width:900px;margin:0 auto}
+.concept-txt{font-family:var(--ff-d);font-size:clamp(20px,3vw,32px);font-weight:300;line-height:1.5;color:var(--txt2)}
+.concept-txt strong{font-weight:600;color:var(--txt)}
+.concept-d{margin-top:3rem;font-size:15px;line-height:1.8;color:var(--txt3);max-width:600px}
+
+/* PALETTE */
+.pal-sec{background:var(--bg-warm)}
+.pal-sec .inner{max-width:1200px;margin:0 auto}
+.pal-groups{display:flex;flex-direction:column;gap:3rem;margin-top:3rem}
+.pal-gl{font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--txt3);margin-bottom:1rem}
+.pal-row{display:flex;gap:14px;flex-wrap:wrap}
+.pal-c{position:relative;cursor:pointer}
+.pal-c .sw{width:68px;height:68px;border-radius:50%;border:3px solid rgba(255,255,255,.7);box-shadow:0 4px 16px rgba(0,0,0,.07);transition:transform .3s,box-shadow .3s}
+.pal-c:hover .sw{transform:scale(1.18);box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.pal-c .tp{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(6px);background:var(--txt);color:var(--bg);font-size:12px;padding:7px 12px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:10}
+.pal-c:hover .tp{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:600px){.pal-c .sw{width:48px;height:48px}}
+
+/* STICKY NAV */
+.snav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 clamp(20px,5vw,80px);display:flex;align-items:center;gap:10px;height:56px;overflow-x:auto;scrollbar-width:none}
+.snav::-webkit-scrollbar{display:none}
+.nb{font-family:var(--ff-b);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--border);background:transparent;color:var(--txt2);border-radius:100px;cursor:pointer;transition:all .3s;white-space:nowrap;flex-shrink:0}
+.nb:hover{border-color:var(--txt2)}.nb.act{background:var(--txt);color:var(--bg);border-color:var(--txt)}
+.ndiv{width:1px;height:24px;background:var(--border);flex-shrink:0}
+
+/* ITEM CARDS */
+.wv{max-width:1200px;margin:0 auto}
+.cb{margin-bottom:4rem}
+.cl{font-family:var(--ff-d);font-size:clamp(28px,4vw,48px);font-weight:300;font-style:italic;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.ic{background:var(--bg-warm);border-radius:12px;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+.ic:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(26,22,18,.08)}
+.ic.hid{display:none}
+.iw{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--bg-warm)}
+.ii{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.ic:hover .ii{transform:scale(1.04)}
+.io{position:absolute;inset:0;background:rgba(245,240,232,.08);mix-blend-mode:multiply;pointer-events:none}
+.ifb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;font-family:var(--ff-d);font-size:18px;color:rgba(255,255,255,.85);text-shadow:0 1px 4px rgba(0,0,0,.15);text-align:center;padding:16px}
+.ifb-b{font-family:var(--ff-b);font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.inf{padding:20px 22px 24px}
+.ibr{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--txt3);border:1px solid var(--border);padding:3px 8px;border-radius:4px;margin-bottom:8px}
+.inm{font-family:var(--ff-d);font-size:20px;font-weight:600;line-height:1.2;margin-bottom:4px}
+.icl{font-size:13px;color:var(--txt2);margin-bottom:10px}
+.imt{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ipr{font-family:var(--ff-d);font-size:22px;font-weight:600}
+.ipn{font-size:11px;font-weight:300;color:var(--txt3)}
+.iss{display:flex;gap:5px}
+.sb{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:100px}
+.sb.spring{background:#e8f0e4;color:#3a6b3a}.sb.summer{background:#fdf3e0;color:#8a6b2e}.sb.autumn{background:#f0e8dd;color:#6b5040}
+.ino{font-size:13px;font-weight:300;line-height:1.5;color:var(--txt3);font-style:italic}
+
+/* SHOES CALLOUT */
+.shc{background:var(--navy);color:var(--bg);border-radius:16px;padding:clamp(32px,5vw,60px);margin-top:2rem}
+.shc .sec-l{color:rgba(255,255,255,.35)}.shc .sec-t{color:var(--bg);font-size:clamp(28px,4vw,56px)}.shc .sec-t em{color:var(--stone)}
+.shi{font-family:var(--ff-d);font-size:clamp(17px,2.2vw,24px);font-weight:300;line-height:1.6;color:rgba(255,255,255,.65);max-width:600px;margin-bottom:3rem}
+.shg{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.shg{grid-template-columns:1fr}}
+.shk{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),background .3s;text-decoration:none;color:inherit;display:block}
+.shk:hover{transform:translateY(-4px);background:rgba(255,255,255,.1)}
+.shkw{aspect-ratio:4/5;overflow:hidden;position:relative}
+.shki{width:100%;height:100%;object-fit:cover}
+.shkf{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;font-family:var(--ff-d);font-size:18px;color:rgba(255,255,255,.7)}
+.shkf span{font-family:var(--ff-b);font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.5}
+.shki-inf{padding:24px}
+.shkn{font-family:var(--ff-d);font-size:24px;font-weight:600;margin-bottom:4px}
+.shkb{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px}
+.shkp{font-family:var(--ff-d);font-size:26px;font-weight:600;color:var(--stone);margin-bottom:14px}
+.shkno{font-size:13px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.55)}
+
+/* OUTFITS */
+.ov{display:none}.ov.act{display:block}
+.os-w{position:relative;margin-top:2rem}
+.os{display:flex;gap:28px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:1rem clamp(20px,5vw,80px) 2rem;scrollbar-width:none}
+.os::-webkit-scrollbar{display:none}
+.oc{flex:0 0 clamp(340px,48vw,520px);scroll-snap-align:start;border-radius:18px;padding:32px;position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.oc:hover{transform:translateY(-3px) scale(1.005)}
+.oc.spring{background:var(--bg-spring)}.oc.summer{background:var(--bg-summer)}.oc.autumn{background:var(--bg-autumn)}
+.ost{font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--txt3);margin-bottom:8px}
+.onm{font-family:var(--ff-d);font-size:clamp(26px,3vw,36px);font-weight:400;font-style:italic;margin-bottom:12px;line-height:1.1}
+.ods{font-size:13px;font-weight:300;color:var(--txt2);line-height:1.5;margin-bottom:16px;font-style:italic}
+.ofl{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px;border-radius:10px;overflow:hidden}
+.ofi{aspect-ratio:1;overflow:hidden;position:relative;background:var(--bg-warm)}
+.ofi img{width:100%;height:100%;object-fit:cover}
+.ofif{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;font-family:var(--ff-d);font-size:12px;color:rgba(255,255,255,.8);text-shadow:0 1px 3px rgba(0,0,0,.1);text-align:center;padding:8px}
+.ofif span{font-family:var(--ff-b);font-size:8px;letter-spacing:.1em;text-transform:uppercase;opacity:.6}
+.ofl-l{position:absolute;bottom:5px;left:6px;font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.85);background:rgba(0,0,0,.35);padding:2px 6px;border-radius:3px;backdrop-filter:blur(4px)}
+.osw{display:flex;gap:6px;margin-bottom:14px;align-items:center}
+.oswd{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.6);box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.osw-d{width:12px;height:1px;background:var(--border)}
+.oil{font-size:12px;font-weight:300;color:var(--txt2);line-height:1.8}
+.oil a{color:var(--txt2);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+.oil a:hover{border-color:var(--txt2)}
+.otp{margin-top:12px;font-family:var(--ff-d);font-size:20px;font-weight:600}
+.slnav{display:flex;justify-content:center;gap:12px;margin-top:2rem}
+.slnav button{width:46px;height:46px;border-radius:50%;border:1px solid var(--border);background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;font-size:18px;color:var(--txt2)}
+.slnav button:hover{background:var(--txt);color:var(--bg);border-color:var(--txt)}
+
+/* MATRIX */
+.mx-sec{background:var(--bg)}.mx-sec .inner{max-width:1200px;margin:0 auto}
+.mx-d{font-size:15px;color:var(--txt3);margin-bottom:3rem;max-width:500px}
+.mx-w{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.mx{border-collapse:collapse;width:100%;min-width:750px}
+.mx th{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);padding:10px 8px;text-align:center;border-bottom:1px solid var(--border);position:sticky;top:56px;background:var(--bg);z-index:5}
+.mx th:first-child{text-align:left;min-width:160px}
+.mx td{padding:10px 8px;text-align:center;border-bottom:1px solid rgba(232,226,214,.5);transition:background .2s}
+.mx td:first-child{text-align:left;font-size:12px;font-weight:400;color:var(--txt2)}
+.mx tr:hover td{background:rgba(232,226,214,.3)}
+.md{width:20px;height:20px;border-radius:50%;display:inline-block;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.md:hover{transform:scale(1.4);box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.md.y{background:var(--green)}.md.n{background:transparent;border:1px dashed var(--border)}
+.mx .hl td{background:rgba(45,90,61,.06)}.mx .hl td:first-child{font-weight:600;color:var(--green)}
+.mchl{background:rgba(45,90,61,.06)!important}
+.mx-lg{display:flex;gap:20px;margin-top:1.5rem;font-size:12px;color:var(--txt3);align-items:center}
+.mld{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+
+/* BUDGET */
+.bu-sec{background:var(--bg-warm)}.bu-sec .inner{max-width:1000px;margin:0 auto}
+.bu-tot{font-family:var(--ff-d);font-size:clamp(48px,8vw,100px);font-weight:300;margin-bottom:.5rem}
+.bu-tl{font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--txt3);margin-bottom:4rem}
+.bu-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-bottom:4rem}
+.bu-c{background:var(--bg);border-radius:12px;padding:24px;text-align:center}
+.bu-cv{font-family:var(--ff-d);font-size:32px;font-weight:600;margin-bottom:4px}
+.bu-cl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt3)}
+.bu-br{display:flex;flex-direction:column;gap:14px}
+.br-r{display:flex;align-items:center;gap:14px}
+.br-n{font-size:14px;font-weight:500;width:70px;flex-shrink:0;color:var(--txt2)}
+.br-bw{flex:1;height:8px;background:rgba(0,0,0,.04);border-radius:4px;overflow:hidden}
+.br-b{height:100%;border-radius:4px;background:var(--green);transition:width 1s cubic-bezier(.16,1,.3,1)}
+.br-a{font-family:var(--ff-d);font-size:18px;font-weight:600;width:60px;text-align:right;flex-shrink:0}
+
+/* SNEAKERS */
+.snk-sec{background:var(--txt);color:var(--bg)}
+.snk-sec .inner{max-width:1200px;margin:0 auto}
+.snk-sec .sec-l{color:rgba(255,255,255,.3)}
+.snk-sec .sec-t{color:var(--bg)}.snk-sec .sec-t em{color:var(--stone)}
+.snk-intro{font-family:var(--ff-d);font-size:clamp(17px,2.2vw,24px);font-weight:300;line-height:1.6;color:rgba(255,255,255,.55);max-width:700px;margin-bottom:3rem}
+.snk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.snk-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:28px;transition:transform .4s cubic-bezier(.16,1,.3,1),background .3s;text-decoration:none;color:inherit;display:block}
+.snk-card:hover{transform:translateY(-4px);background:rgba(255,255,255,.09)}
+.snk-brand{font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px}
+.snk-name{font-family:var(--ff-d);font-size:22px;font-weight:600;margin-bottom:4px;color:var(--bg)}
+.snk-cw{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:12px}
+.snk-cat{display:inline-block;font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);margin-bottom:12px}
+.snk-why{font-size:13px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.5);margin-bottom:14px}
+.snk-price{font-family:var(--ff-d);font-size:20px;font-weight:600;color:var(--stone)}
+
+/* FOOTER */
+.ft{padding:60px clamp(20px,5vw,80px);text-align:center;border-top:1px solid var(--border)}
+.ft-t{font-size:13px;font-weight:300;color:var(--txt4);letter-spacing:.05em}
+.ft-b{font-family:var(--ff-d);font-size:18px;font-weight:400;font-style:italic;color:var(--txt3);margin-top:6px}
+
+@media(max-width:768px){.ig{grid-template-columns:1fr}.shg{grid-template-columns:1fr}.oc{flex:0 0 88vw}.bu-g{grid-template-columns:1fr 1fr}.snk-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- ========== HERO ========== -->
 <section class="hero">
-  <div class="hero-bg" id="heroBg"></div>
-  <div class="hero-content">
-    <h1 class="reveal">JOUW<span>Garderobe</span></h1>
-    <p class="hero-subtitle reveal reveal-delay-1">18 items · 3 seizoenen · eindeloos combineren</p>
-    <div class="hero-palette reveal reveal-delay-2" id="heroPalette"></div>
+  <div class="hero-bg" id="hBg"></div>
+  <div class="hero-c">
+    <h1 class="rv">JOUW<span>Garderobe</span></h1>
+    <p class="hero-sub rv rv-1">18 items · 3 seizoenen · eindeloos combineren</p>
+    <div class="hero-pal rv rv-2" id="hPal"></div>
   </div>
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="hero-scroll-line"></div>
-  </div>
+  <div class="hero-scr"><span>Scroll</span><div class="hero-scr-l"></div></div>
 </section>
 
-<!-- ========== CONCEPT ========== -->
-<section class="section concept">
-  <p class="section-label reveal">Het idee</p>
-  <h2 class="section-title reveal reveal-delay-1">Minder items,<br><em>meer stijl</em></h2>
-  <p class="concept-text reveal reveal-delay-2">
-    Een capsule wardrobe draait om <strong>intentie</strong>. Achttien zorgvuldig gekozen stukken — elk bewust geselecteerd op kleur, textuur en veelzijdigheid. Geen overvolle kast, geen keuzestress. Alleen stukken die <strong>samenwerken</strong>.
-  </p>
-  <p class="concept-detail reveal reveal-delay-3">
-    Dit palet is samengesteld voor lichte huid met donkerbruin haar. Warme neutralen als basis, aardtinten voor diepte, donkergroen en navy als accent. Elke kleur versterkt de andere — en versterkt jou.
-  </p>
+<section class="sec concept">
+  <p class="sec-l rv">Het idee</p>
+  <h2 class="sec-t rv rv-1">Minder items,<br><em>meer stijl</em></h2>
+  <p class="concept-txt rv rv-2">Een capsule wardrobe draait om <strong>intentie</strong>. Achttien zorgvuldig gekozen stukken van <strong>Arket</strong>, <strong>COS</strong> en <strong>Uniqlo</strong> — elk bewust geselecteerd op kleur, textuur en veelzijdigheid. Geen overvolle kast, geen keuzestress. Alleen stukken die <strong>samenwerken</strong>.</p>
+  <p class="concept-d rv rv-3">Dit palet is samengesteld voor lichte huid met donkerbruin haar. Warme neutralen als basis, aardtinten voor diepte, donkergroen en navy als accent. Wide-leg en barrel-leg silhouetten als signature. Elke kleur versterkt de andere — en versterkt jou.</p>
 </section>
 
-<!-- ========== COLOR PALETTE ========== -->
-<section class="section palette-section">
+<section class="sec pal-sec">
   <div class="inner">
-    <p class="section-label reveal">Kleurenpalet</p>
-    <h2 class="section-title reveal reveal-delay-1">De kleuren die<br><em>voor jou werken</em></h2>
-    <div class="palette-groups reveal reveal-delay-2" id="paletteGroups"></div>
+    <p class="sec-l rv">Kleurenpalet</p>
+    <h2 class="sec-t rv rv-1">De kleuren die<br><em>voor jou werken</em></h2>
+    <div class="pal-groups rv rv-2" id="palG"></div>
   </div>
 </section>
 
-<!-- ========== WARDROBE ========== -->
-<section class="section wardrobe-section">
-  <div class="inner">
-    <p class="section-label reveal">De garderobe</p>
-    <h2 class="section-title reveal reveal-delay-1">18 <em>essentials</em></h2>
-    <div class="filter-bar reveal reveal-delay-2" id="filterBar"></div>
-    <div id="wardrobeContent"></div>
-  </div>
-</section>
+<nav class="snav" id="sNav">
+  <button class="nb act" data-view="kast">De Kast</button>
+  <button class="nb" data-view="outfits">De Outfits</button>
+  <div class="ndiv"></div>
+  <button class="nb act" data-season="all">Alles</button>
+  <button class="nb" data-season="spring">Lente</button>
+  <button class="nb" data-season="summer">Zomer</button>
+  <button class="nb" data-season="autumn">Herfst</button>
+</nav>
 
-<!-- ========== SHOES ========== -->
-<section class="section shoes-section">
-  <div class="inner">
-    <p class="section-label reveal">Schoenen</p>
-    <h2 class="section-title reveal reveal-delay-1">Twee paar.<br><em>Meer heb je niet nodig.</em></h2>
-    <p class="shoes-intro reveal reveal-delay-2">
-      Loafers voor alles van shorts tot pantalon — dé schoen van 2026. Minimalistische suède sneakers voor het weekend. Samen dekken ze elk moment.
-    </p>
-    <div class="shoes-grid reveal reveal-delay-3" id="shoesGrid"></div>
-  </div>
-</section>
+<section class="sec" id="kSec"><div class="wv" id="kV"></div></section>
 
-<!-- ========== OUTFITS ========== -->
-<section class="section outfits-section">
-  <div class="inner">
-    <p class="section-label reveal">Combinaties</p>
-    <h2 class="section-title reveal reveal-delay-1" style="padding-left: clamp(20px,5vw,80px);">8 outfits,<br><em>oneindig draagbaar</em></h2>
-    <div class="outfit-slider-wrapper">
-      <div class="outfit-slider" id="outfitSlider"></div>
-      <div class="slider-nav">
-        <button id="sliderPrev" aria-label="Vorige">&#8592;</button>
-        <button id="sliderNext" aria-label="Volgende">&#8594;</button>
-      </div>
+<section class="sec" id="oSec" style="display:none">
+  <div class="ov act">
+    <p class="sec-l rv">Combinaties</p>
+    <h2 class="sec-t rv rv-1">8 outfits,<br><em>oneindig draagbaar</em></h2>
+    <div class="os-w">
+      <div class="os" id="oSl"></div>
+      <div class="slnav"><button id="slP" aria-label="Vorige">&#8592;</button><button id="slN" aria-label="Volgende">&#8594;</button></div>
     </div>
   </div>
 </section>
 
-<!-- ========== MATRIX ========== -->
-<section class="section matrix-section">
+<section class="sec mx-sec">
   <div class="inner">
-    <p class="section-label reveal">Combinatie-matrix</p>
-    <h2 class="section-title reveal reveal-delay-1">Wat past<br><em>waarbij</em></h2>
-    <p class="matrix-desc reveal reveal-delay-2">Klik op een item om alle combinaties te zien.</p>
-    <div class="matrix-wrapper reveal reveal-delay-3" id="matrixWrapper"></div>
-    <div class="matrix-legend reveal reveal-delay-3">
-      <span><span class="matrix-legend-dot" style="background:var(--accent-green)"></span> Past samen</span>
-      <span><span class="matrix-legend-dot" style="border:1px dashed var(--border)"></span> Geen combinatie</span>
-    </div>
+    <p class="sec-l rv">Combinatie-matrix</p>
+    <h2 class="sec-t rv rv-1">Wat past<br><em>waarbij</em></h2>
+    <p class="mx-d rv rv-2">Klik op een rij om alle combinaties te zien.</p>
+    <div class="mx-w rv rv-3" id="mxW"></div>
+    <div class="mx-lg rv rv-3"><span><span class="mld" style="background:var(--green)"></span> Past samen</span><span><span class="mld" style="border:1px dashed var(--border)"></span> Geen combinatie</span></div>
   </div>
 </section>
 
-<!-- ========== BUDGET ========== -->
-<section class="section budget-section">
+<section class="sec bu-sec">
   <div class="inner">
-    <p class="section-label reveal">Investering</p>
-    <h2 class="section-title reveal reveal-delay-1">Budget<br><em>breakdown</em></h2>
-    <div id="budgetContent" class="reveal reveal-delay-2"></div>
+    <p class="sec-l rv">Investering</p>
+    <h2 class="sec-t rv rv-1">Budget<br><em>breakdown</em></h2>
+    <div id="buC" class="rv rv-2"></div>
   </div>
 </section>
 
-<!-- ========== FOOTER ========== -->
-<footer class="site-footer">
-  <p class="footer-text">Samengesteld voor Max · 2026</p>
-  <p class="footer-brands">Arket × COS × Uniqlo</p>
+<section class="sec snk-sec">
+  <div class="inner">
+    <p class="sec-l rv">Trending</p>
+    <h2 class="sec-t rv rv-1">De sneakers<br><em>van 2026</em></h2>
+    <p class="snk-intro rv rv-2">Van Y2K tech-runners tot luxury minimalism — de schoenen die fashion-forward mannen nu dragen. Perfect te combineren met wide-leg broeken.</p>
+    <div class="snk-grid rv rv-3" id="snkG"></div>
+  </div>
+</section>
+
+<footer class="ft">
+  <p class="ft-t">Samengesteld voor Max · 2026</p>
+  <p class="ft-b">Arket × COS × Uniqlo</p>
 </footer>
 
 <script>
-// ===== DATA =====
-const TOPS = [
-  { name: "Knitted Silk Polo", brand: "COS", color: "Dark Green", price: 47, priceNote: "€47–79", seasons: ["spring","summer"], hex: "#2D5A3D", note: "Zijdeglans, luxe uitstraling. Dé polo upgrade." },
-  { name: "Cotton Linen Polo", brand: "Arket", color: "Off White", price: 59, seasons: ["spring","summer"], hex: "#F5F0E8", note: "Basis-polo in linnen blend. Casual maar clean." },
-  { name: "Bouclé Polo Shirt", brand: "Arket", color: "Black", price: 69, seasons: ["spring","autumn"], hex: "#1A1A1A", note: "Textuurrijk, verhoogt elke outfit. Solo of onder jas." },
-  { name: "Premium Linen Shirt", brand: "Uniqlo", color: "White", price: 30, seasons: ["spring","summer"], hex: "#FFFFFF", note: "Beste prijs-kwaliteit linnen shirt. Basis." },
-  { name: "Camp-Collar Shirt", brand: "COS", color: "Stone / Beige", price: 89, seasons: ["spring","summer"], hex: "#C9B99A", note: "Relaxte kraag, diner-ready. Zeer on-trend." },
-  { name: "Knitted Linen Polo", brand: "COS", color: "Stone", price: 89, seasons: ["spring","summer"], hex: "#B8A88A", note: "Luxer dan een gewone polo. Weekend essential." },
-  { name: "Merino Crew Neck", brand: "Arket", color: "Navy", price: 69, seasons: ["autumn"], hex: "#1B2A4A", note: "Perfecte herfst-basis. Layer onder overshirt." },
-  { name: "Quarter-Zip Knit", brand: "COS", color: "Dark Grey Mélange", price: 89, seasons: ["autumn"], hex: "#4A4A4A", note: "Dé trend van 2026. Smart-casual powerpiece." }
+const ITEMS=[
+  {id:1,cat:"tops",name:"Textured Knitted Polo",brand:"COS",color:"Dark Green",price:69,seasons:["spring","summer"],hex:"#2D4A3E",note:"Racking-stitch textuur in organic cotton. Moeiteloos zomers.",url:"https://www.cos.com/en_eur/men/menswear/polo-shirts/product.textured-knitted-polo-shirt-green.1150843004.html"},
+  {id:2,cat:"tops",name:"Minimal Knitted Polo",brand:"COS",color:"Navy",price:79,seasons:["spring","summer","autumn"],hex:"#1B2A4A",note:"Milano-knit textuur. Werkt onder blazer of solo met donkere broek.",url:"https://www.cos.com/en_eur/men/menswear/knitwear/product.minimal-knitted-polo-shirt-blue.1190841002.html"},
+  {id:3,cat:"tops",name:"Textured Polo Shirt",brand:"Arket",color:"Dark Blue",price:59,seasons:["spring","summer"],hex:"#1C2D4D",note:"Subtiel oppervlaktereliëf. Relaxed alternatief voor een overhemd.",url:"https://www.arket.com/en_eur/men/knitwear/polo/product.textured-polo-shirt-blue.1275498001.html"},
+  {id:4,cat:"tops",name:"Linen Resort Shirt",brand:"Arket",color:"Beige",price:59,seasons:["spring","summer"],hex:"#C8B99A",note:"Resort-kraag, loose fit. Vakantie-overhemd dat ook in de stad werkt.",url:"https://www.arket.com/en_eur/men/pyjamas/product.linen-resort-shirt-beige.1027688003.html"},
+  {id:5,cat:"tops",name:"Cotton Linen Open Collar Shirt",brand:"Uniqlo",color:"Olive",price:35,seasons:["spring","summer"],hex:"#4A5A3C",note:"Open kraag, dicht of open draagbaar. Aardse editorial look.",url:"https://www.uniqlo.com/eu/en/product/cotton-linen-blend-short-sleeved-shirt-open-collar-464944.html"},
+  {id:6,cat:"tops",name:"Fine Knit Merino Jumper",brand:"Arket",color:"Dark Green",price:59,seasons:["autumn","spring"],hex:"#2C4033",note:"Extra-fine RWS merino. Laagt over wit T-shirt of onder overjas.",url:"https://www.arket.com/en_eur/men/knitwear/product.fine-knit-merino-jumper-green.0490418057.html"},
+  {id:7,cat:"tops",name:"Merino Half-Zip Jumper",brand:"COS",color:"Navy",price:125,seasons:["autumn","spring"],hex:"#1A2744",note:"Foldover half-zip kraag, architecturaal detail. Casual elegantie.",url:"https://www.cos.com/en-eu/men/menswear/knitwear/jumpers/wool/product/wool-and-cotton-blend-half-zip-jumper-navy-1188205002"},
+  {id:8,cat:"tops",name:"Extra Fine Merino Crew Neck",brand:"Uniqlo",color:"Dark Grey",price:40,seasons:["autumn","spring"],hex:"#3D3D3D",note:"Onverslaanbare prijs-kwaliteit. 19.5 micron merino, anti-pill.",url:"https://www.uniqlo.com/nl/en/product/extra-fine-merino-crew-neck-jumper-460933.html"},
+  {id:9,cat:"bottoms",name:"Barrel-Leg Drawstring Trousers",brand:"COS",color:"Beige",price:99,seasons:["spring","summer","autumn"],hex:"#D2C6A5",note:"Signature COS barrel-leg. Drawstring waist, casual maar clean.",url:"https://www.cos.com/en-eu/men/menswear/trousers/relaxed-fit/product/barrel-leg-drawstring-trousers-beige-1266352028"},
+  {id:10,cat:"bottoms",name:"Elasticated Linen Wide-Leg Trousers",brand:"COS",color:"Navy",price:89,seasons:["spring","summer"],hex:"#1C2841",note:"Pure linnen wide-leg. Perfect bij wit T-shirt en sneakers.",url:"https://www.cos.com/en-eu/men/menswear/trousers/linen/product/elasticated-linen-wide-leg-trousers-navy-1263171001"},
+  {id:11,cat:"bottoms",name:"Relaxed Cotton Twill Trousers",brand:"Arket",color:"Dark Grey",price:79,seasons:["spring","autumn"],hex:"#4A4A4A",note:"Veelzijdige relaxed fit — draag met trui of blazer.",url:"https://www.arket.com/en-eu/product/relaxed-cotton-twill-trousers-dark-grey-1319461001/"},
+  {id:12,cat:"bottoms",name:"Linen Drawstring Trousers",brand:"Arket",color:"Beige",price:69,seasons:["spring","summer"],hex:"#C8B99A",note:"Lichte linnen weave, pull-on drawstring. Mediterrane stijl.",url:"https://www.arket.com/en-eu/product/linen-drawstring-trousers-beige-1027689004/"},
+  {id:13,cat:"bottoms",name:"U Wide-Fit Pleated Chinos",brand:"Uniqlo",color:"Olive",price:50,seasons:["spring","summer","autumn"],hex:"#5C6B4E",note:"Lemaire-designed wide-fit met plooien. Elegant en betaalbaar.",url:"https://www.uniqlo.com/eu-nl/en/products/E457967-000/00"},
+  {id:14,cat:"bottoms",name:"Cotton-Linen Drawstring Shorts",brand:"Arket",color:"Dark Blue",price:59,seasons:["summer"],hex:"#2C3E5A",note:"Linnen blend met hidden drawstring. Zomerse weekenden.",url:"https://www.arket.com/en-nl/product/cotton-linen-drawstring-shorts-dark-blue-0986471006/"},
+  {id:15,cat:"layers",name:"Wool-Flannel Overshirt",brand:"COS",color:"Navy",price:135,seasons:["autumn"],hex:"#1B2A4A",note:"Heavyweight flannel. Moeiteloos gelaagd herfstlook.",url:"https://www.cos.com/en-nl/men/menswear/shirts/overshirts/product/wool-flannel-overshirt-navy-1256066002"},
+  {id:16,cat:"layers",name:"Water-Repellent Harrington Jacket",brand:"COS",color:"Beige",price:175,priceNote:"€175 (vaak in sale)",seasons:["spring","autumn"],hex:"#C8B99A",note:"De perfecte tussenseizoenjas. Water-repellent, klassiek.",url:"https://www.cos.com/en-nl/men/menswear/coatsjackets/jackets/product/water-repellent-harrington-jacket-beige-1265469002"},
+  {id:17,cat:"shoes",name:"Leather Penny Loafers",brand:"COS",color:"Black",price:150,seasons:["spring","summer","autumn"],hex:"#1A1A1A",note:"Meest veelzijdige schoen. Draag bij alles van shorts tot barrel-legs. DÉ schoen van 2026.",url:"https://www.cos.com/en-nl/men/accessories/shoes/formal/product/leather-penny-loafers-black-1218892001"},
+  {id:18,cat:"shoes",name:"Minimal Leather Trainers",brand:"COS",color:"Chalk (Off-White)",price:99,priceNote:"€99 (nu €69 in sale)",seasons:["spring","summer","autumn"],hex:"#F0EDE6",note:"Clean witte leren sneaker. Elk weekend-outfit naar hoger niveau.",url:"https://www.cos.com/en-eu/men/accessories/shoes/sneakers/product/minimal-leather-trainers-chalk-1288335001"}
 ];
 
-const BOTTOMS = [
-  { name: "Tapered Turn-Up Trousers", brand: "COS", color: "Beige", price: 99, seasons: ["spring","summer","autumn"], hex: "#D4C5A9", note: "3-seizoens broek. Turn-up detail = Italiaans." },
-  { name: "Smart Ankle Trousers", brand: "Uniqlo", color: "Dark Grey", price: 40, seasons: ["spring","summer","autumn"], hex: "#3D3D3D", note: "Budget king. Past bij alles. Koop er 2." },
-  { name: "Relaxed Linen Trousers", brand: "Arket", color: "Off White", price: 69, seasons: ["spring","summer"], hex: "#EDE8DD", note: "Warm-weer broek. Ton-sur-ton met witte tops." },
-  { name: "Wide Fit Chinos", brand: "Uniqlo", color: "Olive Green", price: 40, seasons: ["spring","autumn"], hex: "#5C6B4E", note: "Barrel-leg trend. Kleuraccent voor onderin." },
-  { name: "Drawstring Shorts", brand: "Arket", color: "Light Beige", price: 59, seasons: ["summer"], hex: "#D9CEBC", note: "Linnen blend. Vakantie & weekend." },
-  { name: "Relaxed Jeans", brand: "Arket", color: "Mid Blue Wash", price: 79, seasons: ["spring","autumn"], hex: "#6B88A8", note: "Een goede jeans is onmisbaar. Relaxed fit." }
+const OUTFITS=[
+  {name:"Lente Smart",season:"spring",items:{top:1,bottom:9,shoe:17},desc:"Donkergroene textured polo op beige barrel-legs met zwarte loafers. Scherp maar ontspannen."},
+  {name:"Rivièra Weekend",season:"summer",items:{top:4,bottom:14,shoe:17},desc:"Beige linen resort shirt met dark blue shorts en loafers. Mediterraans terras-proof."},
+  {name:"Zomer Casual",season:"summer",items:{top:5,bottom:12,shoe:18},desc:"Olive open-collar shirt, beige linnen broek, chalk trainers. Aardse zomerlook."},
+  {name:"Diner Ready",season:"spring",items:{top:2,bottom:9,shoe:17},desc:"Navy Milano-knit polo met beige barrel-legs en loafers. Diner zonder blazer."},
+  {name:"Herfst Layer",season:"autumn",items:{top:6,bottom:11,shoe:17,layer:15},desc:"Dark green merino onder navy overshirt, met dark grey twill. Tonal layering."},
+  {name:"Herfst Smart",season:"autumn",items:{top:7,bottom:9,shoe:18},desc:"Navy half-zip met beige barrel-legs en chalk trainers. Casual Friday."},
+  {name:"Weekend Easy",season:"spring",items:{top:3,bottom:13,shoe:18},desc:"Dark blue textured polo met olive wide-fit chinos en sneakers. Zaterdag in de stad."},
+  {name:"Textuur Night",season:"autumn",items:{top:8,bottom:11,shoe:17,layer:16},desc:"Dark grey merino crew, dark grey twill, beige harrington, zwarte loafers. Textuurcontrast."}
 ];
 
-const LAYERS = [
-  { name: "Wool Overshirt", brand: "Arket", color: "Navy", price: 99, seasons: ["autumn"], hex: "#1E2D4D", note: "Jas-shirt hybrid. Dé herfstlaag." },
-  { name: "Harrington Jacket", brand: "COS", color: "Beige", price: 175, seasons: ["spring","autumn"], hex: "#C4B6A0", note: "Water-repellent. Investering. Klassiek." }
+const COMBO=[
+  [1,1,1,1,1,1],[1,0,1,1,1,1],[1,0,1,1,1,0],
+  [0,1,1,0,1,1],[1,1,1,1,0,1],[1,1,1,1,1,0],
+  [1,0,1,1,1,0],[1,1,0,1,1,0]
 ];
 
-const SHOES = [
-  { name: "Leather Penny Loafers", brand: "COS", color: "Black", price: 135, seasons: ["spring","summer","autumn"], hex: "#111111", note: "Jouw #1 schoen. Draag bij alles van shorts tot pantalon. Loafers zijn DÉ schoen van 2026." },
-  { name: "Suède Sneakers", brand: "Arket / COS", color: "Off White / Cream", price: 99, seasons: ["spring","summer","autumn"], hex: "#E8E2D6", note: "Clean minimalist sneaker. Weekend & casual." }
+const SNEAKERS=[
+  {name:"GEL-Kayano 14",cw:"Cream / Obsidian Grey",brand:"ASICS",price:"€145",cat:"Retro Runner",why:"Dé 'it' sneaker van 2026. Y2K tech-runner die perfect past bij wide-leg broeken.",url:"https://www.asics.com/us/en-us/gel-kayano-14/c/aa50320000/"},
+  {name:"Zoom Vomero 5",cw:"Vast Grey / Platinum Tint",brand:"Nike",price:"€160",cat:"Retro Runner",why:"Beste overall sneaker van 2026. Tonaal, neutraal, past overal bij.",url:"https://www.nike.com/w/vomero-5-shoes-70s7fzy7ok"},
+  {name:"990v6 Made in USA",cw:"Grey",brand:"New Balance",price:"€200",cat:"Heritage Runner",why:"Dad shoe turned grail. Understated, duur ogend, waanzinnig comfortabel.",url:"https://www.newbalance.com/pd/made-in-usa-990v6/M990V6-43094-PMG-NA.html"},
+  {name:"Speedcat OG",cw:"Black / White",brand:"Puma",price:"€110",cat:"Low-Profile",why:"Breakout sneaker van 2026. Motorsport-icoon, opvolger van de Samba-trend.",url:"https://us.puma.com/us/en/pd/speedcat-og-sneakers/398846"},
+  {name:"Original Achilles Low",cw:"White",brand:"Common Projects",price:"€450",cat:"Luxury Minimalist",why:"Gouden standaard voor minimalistische witte sneakers. Handgemaakt in Italië.",url:"https://www.mrporter.com/en-us/mens/product/common-projects/shoes/low-top-sneakers/original-achilles-leather-sneakers/3024088872901549"},
+  {name:"XT-6",cw:"Ghost Gray",brand:"Salomon",price:"€185",cat:"Technical",why:"Gorpcore-flagship. Clean Ghost Gray werkt outdoor en urban. Margiela collabs.",url:"https://www.salomon.com/en-us/product/xt-6-lg4239"},
+  {name:"1906R",cw:"Metallic Alkaline",brand:"New Balance",price:"€140",cat:"Retro Runner",why:"Sweet spot tussen chunky 2002R en slanke 990. Futuristisch maar betaalbaar.",url:"https://www.newbalance.com/pd/1906r/M1906RV1-47448-PMG-NA.html"},
+  {name:"GEL-1130",cw:"White / Pure Silver",brand:"ASICS",price:"€100",cat:"Retro Runner",why:"Betaalbare broertje van de Kayano 14. Meest draagbare ASICS ooit.",url:"https://www.asics.com/us/en-us/gel-1130/c/aa11059000/"},
+  {name:"Handball Spezial",cw:"Night Indigo",brand:"Adidas",price:"€110",cat:"Heritage",why:"Verfijndere opvolger van de Samba. Rijke suède, slanke gum-zool.",url:"https://www.dickssportinggoods.com/f/adidas-spezial-shoes"},
+  {name:"V2K Run",cw:"White / Metallic Silver",brand:"Nike",price:"€120",cat:"Retro Runner",why:"Budget-friendly Y2K tech-runner. Meest toegankelijke 2026-look.",url:"https://www.nike.com/w/nike-v2k-shoes-3picezy7ok"}
 ];
 
-const OUTFITS = [
-  { name: "Lente Smart", season: "spring", top: "COS Silk Polo Dark Green", bottom: "COS Tapered Beige", shoe: "COS Loafers", layer: null, topHex: "#2D5A3D", bottomHex: "#D4C5A9", shoeHex: "#111111" },
-  { name: "Rivièra Weekend", season: "summer", top: "COS Linen Polo Stone", bottom: "Arket Shorts Beige", shoe: "COS Loafers", layer: null, topHex: "#B8A88A", bottomHex: "#D9CEBC", shoeHex: "#111111" },
-  { name: "Zomer Casual", season: "summer", top: "Uniqlo Linen Shirt", bottom: "Arket Linen Trousers", shoe: "Suède Sneakers", layer: null, topHex: "#FFFFFF", bottomHex: "#EDE8DD", shoeHex: "#E8E2D6" },
-  { name: "Diner Ready", season: "spring", top: "COS Camp-Collar Stone", bottom: "Uniqlo Smart Grey", shoe: "COS Loafers", layer: null, topHex: "#C9B99A", bottomHex: "#3D3D3D", shoeHex: "#111111" },
-  { name: "Herfst Layer", season: "autumn", top: "Arket Merino Navy", bottom: "Arket Jeans Blue", shoe: "COS Loafers", layer: "Arket Overshirt Navy", topHex: "#1B2A4A", bottomHex: "#6B88A8", shoeHex: "#111111", layerHex: "#1E2D4D" },
-  { name: "Herfst Smart", season: "autumn", top: "COS Quarter-Zip Grey", bottom: "COS Tapered Beige", shoe: "Suède Sneakers", layer: null, topHex: "#4A4A4A", bottomHex: "#D4C5A9", shoeHex: "#E8E2D6" },
-  { name: "Weekend Easy", season: "spring", top: "Arket Polo Off White", bottom: "Uniqlo Olive Chinos", shoe: "Suède Sneakers", layer: null, topHex: "#F5F0E8", bottomHex: "#5C6B4E", shoeHex: "#E8E2D6" },
-  { name: "Textuur Night", season: "autumn", top: "Arket Bouclé Black", bottom: "Uniqlo Smart Grey", shoe: "COS Loafers", layer: "COS Harrington Beige", topHex: "#1A1A1A", bottomHex: "#3D3D3D", shoeHex: "#111111", layerHex: "#C4B6A0" }
-];
+const SL={spring:"LEN",summer:"ZOM",autumn:"HER"};
+const SN={spring:"Lente",summer:"Zomer",autumn:"Herfst"};
+const byId=id=>ITEMS.find(i=>i.id===id);
+const imgSrc=id=>`images/item-${String(id).padStart(2,'0')}.jpg`;
+const isLight=h=>['#FFFFFF','#F5F0E8','#F0EDE6','#EDE8DD','#E8E2D6','#D9CEBC','#D2C6A5','#C8B99A','#C4B6A0','#D4C5A9'].includes(h);
 
-const ALL_ITEMS = [...TOPS, ...BOTTOMS, ...LAYERS, ...SHOES];
-const ALL_COLORS = [...new Map(ALL_ITEMS.map(i => [i.hex, { hex: i.hex, name: i.color, items: ALL_ITEMS.filter(x => x.hex === i.hex).map(x => x.name) }])).values()];
-
-const COMBO_MATRIX = [
-  // Each top row, columns = bottoms. 1 = match, 0 = no
-  [1,1,1,1,0,1], // Silk Polo
-  [1,1,1,1,1,1], // Cotton Linen Polo
-  [1,1,0,1,0,1], // Bouclé Polo
-  [1,1,1,1,1,1], // Linen Shirt
-  [1,1,1,0,0,1], // Camp-Collar
-  [1,1,1,1,1,0], // Knitted Linen Polo
-  [1,1,0,1,0,1], // Merino Crew
-  [1,1,0,1,0,1], // Quarter-Zip
-];
-
-const seasonLabel = { spring: "LEN", summer: "ZOM", autumn: "HER" };
-const seasonName = { spring: "Lente", summer: "Zomer", autumn: "Herfst" };
-
-// ===== HERO PALETTE =====
-(function() {
-  const palette = document.getElementById('heroPalette');
-  const uniqueColors = [...new Set(ALL_ITEMS.map(i => i.hex))];
-  uniqueColors.forEach(hex => {
-    const dot = document.createElement('div');
-    dot.className = 'hero-palette-dot';
-    dot.style.backgroundColor = hex;
-    if (hex === '#FFFFFF' || hex === '#F5F0E8' || hex === '#EDE8DD') {
-      dot.style.borderColor = '#ddd';
-    }
-    palette.appendChild(dot);
-  });
-})();
-
-// ===== COLOR PALETTE SECTION =====
-(function() {
-  const container = document.getElementById('paletteGroups');
-  const groups = [
-    { label: "Neutralen & Basis", colors: ["#FFFFFF","#F5F0E8","#EDE8DD","#D9CEBC","#D4C5A9","#C9B99A","#B8A88A","#C4B6A0","#E8E2D6"] },
-    { label: "Donkere Basis", colors: ["#111111","#1A1A1A","#3D3D3D","#4A4A4A"] },
-    { label: "Accenten", colors: ["#2D5A3D","#1B2A4A","#1E2D4D","#5C6B4E","#6B88A8"] }
-  ];
-  groups.forEach(g => {
-    const groupEl = document.createElement('div');
-    groupEl.innerHTML = `<p class="palette-group-label">${g.label}</p>`;
-    const row = document.createElement('div');
-    row.className = 'palette-row';
-    g.colors.forEach(hex => {
-      const items = ALL_ITEMS.filter(i => i.hex === hex);
-      if (!items.length) return;
-      const circle = document.createElement('div');
-      circle.className = 'palette-circle';
-      const swatch = document.createElement('div');
-      swatch.className = 'swatch';
-      swatch.style.backgroundColor = hex;
-      if (hex === '#FFFFFF' || hex === '#F5F0E8' || hex === '#EDE8DD') swatch.style.borderColor = '#ddd';
-      const tooltip = document.createElement('div');
-      tooltip.className = 'tooltip';
-      tooltip.textContent = items.map(i => i.name).join(', ');
-      circle.appendChild(swatch);
-      circle.appendChild(tooltip);
-      row.appendChild(circle);
-    });
-    groupEl.appendChild(row);
-    container.appendChild(groupEl);
-  });
-})();
-
-// ===== FILTER BAR =====
-(function() {
-  const bar = document.getElementById('filterBar');
-  const filters = [
-    { key: 'all', label: 'Alles' },
-    { key: 'spring', label: 'Lente' },
-    { key: 'summer', label: 'Zomer' },
-    { key: 'autumn', label: 'Herfst' }
-  ];
-  filters.forEach(f => {
-    const btn = document.createElement('button');
-    btn.className = 'filter-btn' + (f.key === 'all' ? ' active' : '');
-    btn.textContent = f.label;
-    btn.dataset.filter = f.key;
-    btn.addEventListener('click', () => {
-      bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      filterItems(f.key);
-    });
-    bar.appendChild(btn);
-  });
-})();
-
-let currentFilter = 'all';
-function filterItems(season) {
-  currentFilter = season;
-  const cards = document.querySelectorAll('.item-card');
-  cards.forEach(card => {
-    const seasons = JSON.parse(card.dataset.seasons);
-    const show = season === 'all' || seasons.includes(season);
-    if (!show) {
-      card.classList.add('hidden');
-    } else {
-      card.classList.remove('hidden');
-    }
-  });
+function mkImg(item,cls){
+  const img=document.createElement('img');img.src=imgSrc(item.id);img.alt=item.name;img.loading='lazy';if(cls)img.className=cls;
+  img.onerror=function(){
+    const fb=document.createElement('div');fb.className=cls?'ifb':'ifb';fb.style.background=item.hex;
+    if(isLight(item.hex)){fb.style.color='var(--txt)';fb.style.textShadow='none'}
+    fb.innerHTML=`${item.name}<span class="ifb-b">${item.brand}</span>`;this.parentNode.replaceChild(fb,this);
+  };return img;
+}
+function mkFlat(item,label){
+  const d=document.createElement('div');d.className='ofi';
+  const img=document.createElement('img');img.src=imgSrc(item.id);img.alt=item.name;img.loading='lazy';
+  img.onerror=function(){
+    const fb=document.createElement('div');fb.className='ofif';fb.style.background=item.hex;
+    if(isLight(item.hex)){fb.style.color='var(--txt)';fb.style.textShadow='none'}
+    fb.innerHTML=`${item.name}<span>${item.brand}</span>`;this.parentNode.replaceChild(fb,this);
+  };
+  d.appendChild(img);const l=document.createElement('div');l.className='ofl-l';l.textContent=label;d.appendChild(l);return d;
 }
 
-// ===== WARDROBE ITEMS =====
-(function() {
-  const container = document.getElementById('wardrobeContent');
-  const categories = [
-    { label: 'Tops', items: TOPS },
-    { label: 'Bottoms', items: BOTTOMS },
-    { label: 'Layers', items: LAYERS }
-  ];
-  categories.forEach(cat => {
-    const block = document.createElement('div');
-    block.className = 'category-block reveal';
-    block.innerHTML = `<h3 class="category-label">${cat.label}</h3>`;
-    const grid = document.createElement('div');
-    grid.className = 'items-grid';
-    cat.items.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'item-card';
-      card.dataset.seasons = JSON.stringify(item.seasons);
-      card.style.setProperty('--item-color', item.hex);
-      const borderFix = (item.hex === '#FFFFFF' || item.hex === '#F5F0E8' || item.hex === '#EDE8DD') ? 'border-color:#ddd;' : '';
-      card.innerHTML = `
-        <div class="item-swatch" style="background:${item.hex};${borderFix}"></div>
-        <div class="item-name">${item.name}</div>
-        <div class="item-brand">${item.brand}</div>
-        <div class="item-color-label">${item.color}</div>
-        <div class="item-price">€${item.price}${item.priceNote ? `<span class="price-note">${item.priceNote}</span>` : ''}</div>
-        <div class="item-seasons">${item.seasons.map(s => `<span class="season-badge ${s}">${seasonLabel[s]}</span>`).join('')}</div>
-        <div class="item-note">${item.note}</div>
-      `;
-      grid.appendChild(card);
-    });
-    block.appendChild(grid);
-    container.appendChild(block);
+// HERO PALETTE
+(()=>{const p=document.getElementById('hPal');const s=new Set();ITEMS.forEach(i=>{if(s.has(i.hex))return;s.add(i.hex);const d=document.createElement('div');d.className='hero-dot';d.style.background=i.hex;if(isLight(i.hex))d.style.borderColor='#ccc';p.appendChild(d)})})();
+
+// COLOR PALETTE
+(()=>{const c=document.getElementById('palG');
+  [{label:"Neutralen & Basis",colors:["#F0EDE6","#D2C6A5","#C8B99A","#C8B99A"]},{label:"Donkere Basis",colors:["#1A1A1A","#3D3D3D","#4A4A4A","#1C2841","#2C3E5A"]},{label:"Accenten",colors:["#2D4A3E","#2C4033","#1B2A4A","#1A2744","#1C2D4D","#5C6B4E","#4A5A3C"]}].forEach(g=>{
+    const el=document.createElement('div');el.innerHTML=`<p class="pal-gl">${g.label}</p>`;const row=document.createElement('div');row.className='pal-row';
+    const seen=new Set();g.colors.forEach(hex=>{if(seen.has(hex))return;seen.add(hex);const items=ITEMS.filter(i=>i.hex===hex);if(!items.length)return;
+      const ci=document.createElement('div');ci.className='pal-c';const sw=document.createElement('div');sw.className='sw';sw.style.background=hex;if(isLight(hex))sw.style.borderColor='#ccc';
+      const tp=document.createElement('div');tp.className='tp';tp.textContent=items.map(i=>i.name).join(', ');ci.appendChild(sw);ci.appendChild(tp);row.appendChild(ci);
+    });el.appendChild(row);c.appendChild(el);
   });
 })();
 
-// ===== SHOES =====
-(function() {
-  const grid = document.getElementById('shoesGrid');
-  SHOES.forEach(shoe => {
-    const card = document.createElement('div');
-    card.className = 'shoe-card';
-    card.innerHTML = `
-      <div class="shoe-swatch" style="background:${shoe.hex};${shoe.hex === '#E8E2D6' ? 'border-color:rgba(255,255,255,0.3);' : ''}"></div>
-      <div class="shoe-name">${shoe.name}</div>
-      <div class="shoe-brand">${shoe.brand}</div>
-      <div class="shoe-price">€${shoe.price}</div>
-      <div class="shoe-note">${shoe.note}</div>
-    `;
-    grid.appendChild(card);
+// DE KAST
+(()=>{const v=document.getElementById('kV');
+  [{label:'Tops',key:'tops'},{label:'Bottoms',key:'bottoms'},{label:'Layers',key:'layers'}].forEach(cat=>{
+    const block=document.createElement('div');block.className='cb rv';block.innerHTML=`<h3 class="cl">${cat.label}</h3>`;
+    const grid=document.createElement('div');grid.className='ig';
+    ITEMS.filter(i=>i.cat===cat.key).forEach(item=>{
+      const card=document.createElement('a');card.className='ic';card.href=item.url;card.target='_blank';card.rel='noopener';card.dataset.seasons=JSON.stringify(item.seasons);
+      const iw=document.createElement('div');iw.className='iw';iw.appendChild(mkImg(item,'ii'));
+      const ov=document.createElement('div');ov.className='io';iw.appendChild(ov);
+      const inf=document.createElement('div');inf.className='inf';
+      inf.innerHTML=`<span class="ibr">${item.brand}</span><div class="inm">${item.name}</div><div class="icl">${item.color}</div><div class="imt"><div class="ipr">€${item.price}${item.priceNote?` <span class="ipn">${item.priceNote}</span>`:''}</div><div class="iss">${item.seasons.map(s=>`<span class="sb ${s}">${SL[s]}</span>`).join('')}</div></div><div class="ino">${item.note}</div>`;
+      card.appendChild(iw);card.appendChild(inf);grid.appendChild(card);
+    });block.appendChild(grid);v.appendChild(block);
   });
+  // Shoes callout
+  const shoes=ITEMS.filter(i=>i.cat==='shoes');const sc=document.createElement('div');sc.className='shc rv';
+  sc.innerHTML=`<p class="sec-l">Schoenen</p><h2 class="sec-t">Twee paar.<br><em>Meer heb je niet nodig.</em></h2><p class="shi">Loafers voor alles van shorts tot barrel-legs — dé schoen van 2026. Minimalistische leather trainers voor het weekend. Samen dekken ze elk moment.</p>`;
+  const sg=document.createElement('div');sg.className='shg';
+  shoes.forEach(shoe=>{
+    const card=document.createElement('a');card.className='shk';card.href=shoe.url;card.target='_blank';card.rel='noopener';
+    const iw=document.createElement('div');iw.className='shkw';
+    const img=document.createElement('img');img.src=imgSrc(shoe.id);img.alt=shoe.name;img.className='shki';img.loading='lazy';
+    img.onerror=function(){const fb=document.createElement('div');fb.className='shkf';fb.style.background=shoe.hex;fb.innerHTML=`${shoe.name}<span>${shoe.brand}</span>`;this.parentNode.replaceChild(fb,this)};
+    iw.appendChild(img);const inf=document.createElement('div');inf.className='shki-inf';
+    inf.innerHTML=`<div class="shkn">${shoe.name}</div><div class="shkb">${shoe.brand}</div><div class="shkp">€${shoe.price}${shoe.priceNote?` <span style="font-size:13px;font-family:var(--ff-b);font-weight:300;color:rgba(255,255,255,.4)">${shoe.priceNote}</span>`:''}</div><div class="shkno">${shoe.note}</div>`;
+    card.appendChild(iw);card.appendChild(inf);sg.appendChild(card);
+  });sc.appendChild(sg);v.appendChild(sc);
 })();
 
-// ===== OUTFITS SLIDER =====
-(function() {
-  const slider = document.getElementById('outfitSlider');
-  OUTFITS.forEach(o => {
-    const card = document.createElement('div');
-    card.className = `outfit-card ${o.season}`;
-    let swatches = `
-      <div class="outfit-swatch" style="background:${o.topHex}"><span class="swatch-label">Top</span></div>
-      <div class="outfit-swatch-divider"></div>
-      <div class="outfit-swatch" style="background:${o.bottomHex}"><span class="swatch-label">Bottom</span></div>
-      <div class="outfit-swatch-divider"></div>
-      <div class="outfit-swatch" style="background:${o.shoeHex}"><span class="swatch-label">Schoen</span></div>
-    `;
-    if (o.layerHex) {
-      swatches += `<div class="outfit-swatch-divider"></div><div class="outfit-swatch" style="background:${o.layerHex}"><span class="swatch-label">Layer</span></div>`;
-    }
-    let items = `<span>${o.top}</span><span>${o.bottom}</span><span>${o.shoe}</span>`;
-    if (o.layer) items += `<span>${o.layer}</span>`;
-
-    card.innerHTML = `
-      <div class="outfit-season-tag">${seasonName[o.season]}</div>
-      <div class="outfit-name">${o.name}</div>
-      <div class="outfit-swatches">${swatches}</div>
-      <div class="outfit-items">${items}</div>
-    `;
+// OUTFITS
+(()=>{const slider=document.getElementById('oSl');
+  OUTFITS.forEach(o=>{
+    const card=document.createElement('div');card.className=`oc ${o.season}`;card.dataset.season=o.season;
+    const top=byId(o.items.top),bot=byId(o.items.bottom),shoe=byId(o.items.shoe),layer=o.items.layer?byId(o.items.layer):null;
+    const all=[top,bot,shoe];if(layer)all.push(layer);const total=all.reduce((s,i)=>s+i.price,0);
+    const flat=document.createElement('div');flat.className='ofl';
+    flat.appendChild(mkFlat(top,'Top'));
+    if(layer)flat.appendChild(mkFlat(layer,'Layer'));else{const e=document.createElement('div');e.className='ofi';e.style.background='transparent';flat.appendChild(e)}
+    flat.appendChild(mkFlat(bot,'Bottom'));flat.appendChild(mkFlat(shoe,'Schoenen'));
+    let sw=`<div class="oswd" style="background:${top.hex}"></div><div class="osw-d"></div><div class="oswd" style="background:${bot.hex}"></div><div class="osw-d"></div><div class="oswd" style="background:${shoe.hex}"></div>`;
+    if(layer)sw+=`<div class="osw-d"></div><div class="oswd" style="background:${layer.hex}"></div>`;
+    const links=all.map(i=>`<a href="${i.url}" target="_blank" rel="noopener">${i.brand} ${i.name}</a>`).join('<br>');
+    card.innerHTML=`<div class="ost">${SN[o.season]}</div><div class="onm">${o.name}</div><div class="ods">${o.desc}</div>`;
+    card.appendChild(flat);card.innerHTML+=`<div class="osw">${sw}</div><div class="oil">${links}</div><div class="otp">€${total}</div>`;
     slider.appendChild(card);
   });
-
-  const prevBtn = document.getElementById('sliderPrev');
-  const nextBtn = document.getElementById('sliderNext');
-  const scrollAmount = 350;
-  prevBtn.addEventListener('click', () => slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
-  nextBtn.addEventListener('click', () => slider.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+  document.getElementById('slP').onclick=()=>slider.scrollBy({left:-380,behavior:'smooth'});
+  document.getElementById('slN').onclick=()=>slider.scrollBy({left:380,behavior:'smooth'});
 })();
 
-// ===== COMBINATION MATRIX =====
-(function() {
-  const wrapper = document.getElementById('matrixWrapper');
-  const table = document.createElement('table');
-  table.className = 'matrix-table';
-
-  let headerHTML = '<thead><tr><th></th>';
-  BOTTOMS.forEach(b => {
-    headerHTML += `<th>${b.name.split(' ').slice(0,2).join(' ')}<br><span style="font-weight:300;color:var(--text-light)">${b.color}</span></th>`;
-  });
-  headerHTML += '</tr></thead>';
-
-  let bodyHTML = '<tbody>';
-  TOPS.forEach((top, ti) => {
-    bodyHTML += `<tr data-top="${ti}">`;
-    bodyHTML += `<td>${top.name}<br><span style="font-size:11px;color:var(--text-light)">${top.color}</span></td>`;
-    BOTTOMS.forEach((bot, bi) => {
-      const match = COMBO_MATRIX[ti][bi];
-      bodyHTML += `<td data-col="${bi}"><span class="matrix-dot ${match ? 'match' : 'no-match'}"></span></td>`;
-    });
-    bodyHTML += '</tr>';
-  });
-  bodyHTML += '</tbody>';
-
-  table.innerHTML = headerHTML + bodyHTML;
-  wrapper.appendChild(table);
-
-  // Click to highlight
-  table.querySelectorAll('tbody tr').forEach(row => {
-    row.addEventListener('click', () => {
-      const wasHighlighted = row.classList.contains('highlight');
-      table.querySelectorAll('tbody tr').forEach(r => r.classList.remove('highlight'));
-      table.querySelectorAll('td').forEach(td => td.classList.remove('matrix-col-highlight'));
-      if (!wasHighlighted) {
-        row.classList.add('highlight');
-      }
-    });
-  });
-  table.querySelectorAll('thead th').forEach((th, i) => {
-    if (i === 0) return;
-    th.style.cursor = 'pointer';
-    th.addEventListener('click', () => {
-      const colIdx = i - 1;
-      const wasHighlighted = th.classList.contains('matrix-col-highlight');
-      table.querySelectorAll('td, th').forEach(el => el.classList.remove('matrix-col-highlight'));
-      table.querySelectorAll('tbody tr').forEach(r => r.classList.remove('highlight'));
-      if (!wasHighlighted) {
-        th.classList.add('matrix-col-highlight');
-        table.querySelectorAll(`td[data-col="${colIdx}"]`).forEach(td => td.classList.add('matrix-col-highlight'));
-      }
-    });
+// STICKY NAV
+(()=>{const nav=document.getElementById('sNav'),kS=document.getElementById('kSec'),oS=document.getElementById('oSec');
+  nav.addEventListener('click',e=>{const b=e.target.closest('.nb');if(!b)return;
+    if(b.dataset.view){nav.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('act'));b.classList.add('act');
+      if(b.dataset.view==='kast'){kS.style.display='';oS.style.display='none'}else{kS.style.display='none';oS.style.display='';initRv()}}
+    if(b.dataset.season){nav.querySelectorAll('[data-season]').forEach(x=>x.classList.remove('act'));b.classList.add('act');const s=b.dataset.season;
+      document.querySelectorAll('.ic').forEach(c=>{const ss=JSON.parse(c.dataset.seasons||'[]');c.classList.toggle('hid',s!=='all'&&!ss.includes(s))});
+      document.querySelectorAll('.oc').forEach(c=>{c.style.display=(s==='all'||c.dataset.season===s)?'':'none'})}
   });
 })();
 
-// ===== BUDGET =====
-(function() {
-  const container = document.getElementById('budgetContent');
-  const total = ALL_ITEMS.reduce((s, i) => s + i.price, 0);
-  const brands = {};
-  ALL_ITEMS.forEach(i => {
-    const b = i.brand.includes('/') ? i.brand.split('/')[0].trim() : i.brand;
-    brands[b] = (brands[b] || 0) + i.price;
-  });
-  const maxBrand = Math.max(...Object.values(brands));
-  const costPerOutfit = Math.round(total / OUTFITS.length);
-
-  let brandsHTML = '';
-  Object.entries(brands).sort((a, b) => b[1] - a[1]).forEach(([name, amount]) => {
-    const pct = (amount / maxBrand * 100).toFixed(0);
-    brandsHTML += `
-      <div class="brand-row">
-        <span class="brand-name">${name}</span>
-        <div class="brand-bar-wrap"><div class="brand-bar" style="width:0%" data-target="${pct}"></div></div>
-        <span class="brand-amount">€${amount}</span>
-      </div>
-    `;
-  });
-
-  container.innerHTML = `
-    <div class="budget-total">€${total}</div>
-    <div class="budget-total-label">Totale investering · ${ALL_ITEMS.length} items</div>
-    <div class="budget-grid">
-      <div class="budget-card">
-        <div class="budget-card-value">€${costPerOutfit}</div>
-        <div class="budget-card-label">Per outfit</div>
-      </div>
-      <div class="budget-card">
-        <div class="budget-card-value">${ALL_ITEMS.length}</div>
-        <div class="budget-card-label">Items totaal</div>
-      </div>
-      <div class="budget-card">
-        <div class="budget-card-value">${OUTFITS.length}</div>
-        <div class="budget-card-label">Outfit combinaties</div>
-      </div>
-      <div class="budget-card">
-        <div class="budget-card-value">3</div>
-        <div class="budget-card-label">Merken</div>
-      </div>
-    </div>
-    <div class="budget-brands">${brandsHTML}</div>
-  `;
+// MATRIX
+(()=>{const w=document.getElementById('mxW');const tops=ITEMS.filter(i=>i.cat==='tops'),bots=ITEMS.filter(i=>i.cat==='bottoms');
+  const t=document.createElement('table');t.className='mx';
+  let h='<thead><tr><th></th>';bots.forEach(b=>{h+=`<th>${b.name.split(' ').slice(0,2).join(' ')}<br><span style="font-weight:300;color:var(--txt4)">${b.color}</span></th>`});h+='</tr></thead>';
+  let bd='<tbody>';tops.forEach((top,ti)=>{bd+=`<tr data-top="${ti}"><td>${top.name}<br><span style="font-size:11px;color:var(--txt4)">${top.color}</span></td>`;
+    bots.forEach((bot,bi)=>{bd+=`<td data-col="${bi}"><span class="md ${COMBO[ti][bi]?'y':'n'}"></span></td>`});bd+='</tr>'});bd+='</tbody>';
+  t.innerHTML=h+bd;w.appendChild(t);
+  t.querySelectorAll('tbody tr').forEach(row=>{row.addEventListener('click',()=>{const was=row.classList.contains('hl');t.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('hl'));t.querySelectorAll('td,th').forEach(td=>td.classList.remove('mchl'));if(!was)row.classList.add('hl')})});
+  t.querySelectorAll('thead th').forEach((th,i)=>{if(!i)return;th.style.cursor='pointer';th.addEventListener('click',()=>{const ci=i-1,was=th.classList.contains('mchl');t.querySelectorAll('td,th').forEach(el=>el.classList.remove('mchl'));t.querySelectorAll('tbody tr').forEach(r=>r.classList.remove('hl'));if(!was){th.classList.add('mchl');t.querySelectorAll(`td[data-col="${ci}"]`).forEach(td=>td.classList.add('mchl'))}})});
 })();
 
-// ===== SCROLL REVEAL =====
-(function() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-
-        // Animate brand bars
-        entry.target.querySelectorAll('.brand-bar').forEach(bar => {
-          setTimeout(() => {
-            bar.style.width = bar.dataset.target + '%';
-          }, 300);
-        });
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// BUDGET
+(()=>{const c=document.getElementById('buC');const total=ITEMS.reduce((s,i)=>s+i.price,0);const brands={};
+  ITEMS.forEach(i=>{const b=i.brand.includes('/')?i.brand.split('/')[0].trim():i.brand;brands[b]=(brands[b]||0)+i.price});
+  const mx=Math.max(...Object.values(brands));const cpo=Math.round(total/OUTFITS.length);
+  let bH='';Object.entries(brands).sort((a,b)=>b[1]-a[1]).forEach(([n,a])=>{bH+=`<div class="br-r"><span class="br-n">${n}</span><div class="br-bw"><div class="br-b" style="width:0%" data-target="${(a/mx*100).toFixed(0)}"></div></div><span class="br-a">€${a}</span></div>`});
+  c.innerHTML=`<div class="bu-tot">€${total}</div><div class="bu-tl">Totale investering · ${ITEMS.length} items</div><div class="bu-g"><div class="bu-c"><div class="bu-cv">€${cpo}</div><div class="bu-cl">Per outfit</div></div><div class="bu-c"><div class="bu-cv">${ITEMS.length}</div><div class="bu-cl">Items totaal</div></div><div class="bu-c"><div class="bu-cv">${OUTFITS.length}</div><div class="bu-cl">Combinaties</div></div><div class="bu-c"><div class="bu-cv">3</div><div class="bu-cl">Merken</div></div></div><div class="bu-br">${bH}</div>`;
 })();
 
-// ===== PARALLAX HERO =====
-(function() {
-  const bg = document.getElementById('heroBg');
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        const scrolled = window.scrollY;
-        if (scrolled < window.innerHeight) {
-          bg.style.transform = `translateY(${scrolled * 0.3}px)`;
-        }
-        ticking = false;
-      });
-      ticking = true;
-    }
+// SNEAKERS
+(()=>{const g=document.getElementById('snkG');
+  SNEAKERS.forEach(s=>{const card=document.createElement('a');card.className='snk-card';card.href=s.url;card.target='_blank';card.rel='noopener';
+    card.innerHTML=`<div class="snk-brand">${s.brand}</div><div class="snk-name">${s.name}</div><div class="snk-cw">${s.cw}</div><span class="snk-cat">${s.cat}</span><div class="snk-why">${s.why}</div><div class="snk-price">${s.price}</div>`;
+    g.appendChild(card);
   });
 })();
+
+// SCROLL REVEAL
+function initRv(){const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('v');en.target.querySelectorAll('.br-b').forEach(b=>{setTimeout(()=>{b.style.width=b.dataset.target+'%'},300)})}})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.rv:not(.v)').forEach(el=>obs.observe(el))}initRv();
+
+// PARALLAX
+(()=>{const bg=document.getElementById('hBg');let tick=false;window.addEventListener('scroll',()=>{if(!tick){requestAnimationFrame(()=>{if(window.scrollY<window.innerHeight)bg.style.transform=`translateY(${window.scrollY*.3}px)`;tick=false});tick=true}})})();
 </script>
 </body>
 </html>

@@ -1,0 +1,52 @@
+[
+  {
+    "id": 15,
+    "cat": "layers",
+    "name": "Wool-Flannel Overshirt",
+    "brand": "COS",
+    "color": "Navy",
+    "price": 135,
+    "seasons": ["autumn"],
+    "hex": "#1B2A4A",
+    "note": "Draag open over een wit T-shirt met donkere jeans voor een moeiteloos gelaagd herfstlook.",
+    "url": "https://www.cos.com/en-nl/men/menswear/shirts/overshirts/product/wool-flannel-overshirt-navy-1256066002"
+  },
+  {
+    "id": 16,
+    "cat": "layers",
+    "name": "Water-Repellent Harrington Jacket",
+    "brand": "COS",
+    "color": "Beige",
+    "price": 175,
+    "priceNote": "€175 (nu €70 in sale)",
+    "seasons": ["spring", "autumn"],
+    "hex": "#C8B99A",
+    "note": "De perfecte tussenseizoenjas — combineer met een navy overshirt of trui en chinos.",
+    "url": "https://www.cos.com/en-nl/men/menswear/coatsjackets/jackets/product/water-repellent-harrington-jacket-beige-1265469002"
+  },
+  {
+    "id": 17,
+    "cat": "shoes",
+    "name": "Leather Penny Loafers",
+    "brand": "COS",
+    "color": "Black",
+    "price": 150,
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#1A1A1A",
+    "note": "De meest veelzijdige schoen in je kast — draag ze sockless bij shorts of met wollen sokken bij een pantalon.",
+    "url": "https://www.cos.com/en-nl/men/accessories/shoes/formal/product/leather-penny-loafers-black-1218892001"
+  },
+  {
+    "id": 18,
+    "cat": "shoes",
+    "name": "Minimal Leather Trainers",
+    "brand": "COS",
+    "color": "Chalk (Off-White)",
+    "price": 99,
+    "priceNote": "€99 (nu €69 in sale)",
+    "seasons": ["spring", "summer", "autumn"],
+    "hex": "#F0EDE6",
+    "note": "Clean witte leren sneaker die elk casual weekend-outfit naar een hoger niveau tilt.",
+    "url": "https://www.cos.com/en-eu/men/accessories/shoes/sneakers/product/minimal-leather-trainers-chalk-1288335001"
+  }
+]
