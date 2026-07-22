@@ -1,0 +1,17 @@
+[Unit]
+Description=MX Trade Copier - Futures Trade Copier
+After=network.target
+
+[Service]
+Type=simple
+User=mx-copier
+WorkingDirectory=/opt/mx-trade-copier
+EnvironmentFile=/opt/mx-trade-copier/.env
+ExecStart=/opt/mx-trade-copier/venv/bin/python -m uvicorn main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
