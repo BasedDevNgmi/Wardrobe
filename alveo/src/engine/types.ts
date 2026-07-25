@@ -148,12 +148,31 @@ export type StepKind =
   | 'preshape' | 'bench' | 'shape' | 'proof' | 'cold-proof'
   | 'score' | 'bake' | 'cool' | 'soaker' | 'rest' | 'lamination';
 
+export type LocalisedProse = { nl: string; en: string };
+
+/**
+ * Step prose, optionally varying by mixing method.
+ *
+ * A stand mixer is not the same recipe performed by a machine: "slap and fold
+ * for three minutes" becomes "speed 2 for six minutes, then check the
+ * windowpane". Only the mixing and folding steps need overrides; bulk, shaping
+ * and baking read the same whatever mixed them, so they stay a bare
+ * `LocalisedProse` and the resolver falls through to it.
+ */
+export type StepBody =
+  | LocalisedProse
+  | ({ default: LocalisedProse } & Partial<Record<MixMethod, LocalisedProse>>);
+
 export interface RecipeStep {
   id: string;
   kind: StepKind;
-  title: { nl: string; en: string };
+  title: LocalisedProse;
   /** Original, human-written method prose. Never sourced from a book. See LEGAL.md. */
-  body: { nl: string; en: string };
+  body: StepBody;
+  /** Steps that only exist for certain methods — a machine has no bench work. */
+  onlyForMethods?: MixMethod[];
+  /** Steps a given method makes redundant. */
+  skipForMethods?: MixMethod[];
   /** Nominal duration in minutes at the reference temperature (24 °C). */
   baseMinutes?: number;
   /** If set, the engine scales this step by fermentSpeed and temperature. */
@@ -244,7 +263,24 @@ export interface Recipe {
 
 export type SafetyTier = 'super-safe' | 'safe' | 'standard' | 'as-intended';
 
-export type MixMethod = 'hand' | 'spiral' | 'stand-mixer' | 'no-knead';
+export type MixMethod =
+  | 'hand'
+  | 'stand-mixer'
+  | 'spiral'
+  | 'food-processor'
+  | 'bread-machine'
+  | 'no-knead';
+
+export type OvenType =
+  | 'dutch-oven'
+  | 'stone-steam'
+  | 'tray'
+  | 'combi-steam'
+  | 'deck'
+  | 'fan'
+  | 'gas';
+
+export type ProofVessel = 'banneton' | 'bowl-cloth' | 'proofer' | 'fridge' | 'couche' | 'tin';
 
 export interface EngineOptions {
   tier: SafetyTier;
@@ -257,6 +293,16 @@ export interface EngineOptions {
   mixMethod: MixMethod;
   /** Metres above sea level; adjusts proof time and bake. */
   altitude?: number;
+  ovenType?: OvenType;
+  proofVessel?: ProofVessel;
+  /**
+   * Actual fridge temperature in °C. Domestic fridges run 2–8 °C, and across a
+   * 14-hour retard that spread is a larger effect than most of the flour
+   * properties this engine models. Default 5.
+   */
+  fridgeTemp?: number;
+  /** Capacity of the reader's mixer bowl, litres. Caps the batch size. */
+  mixerBowlLitres?: number;
 }
 
 export interface WaterSplit {
@@ -302,7 +348,9 @@ export interface Warning {
   fix?: { nl: string; en: string };
 }
 
-export interface TimedStep extends RecipeStep {
+export interface TimedStep extends Omit<RecipeStep, 'body'> {
+  /** Prose already resolved for the chosen mixing method. */
+  body: LocalisedProse;
   /** Resolved duration in minutes after ferment/temp/tier scaling. */
   minutes: number;
   /** Cumulative minutes from t=0 (levain build start). */
@@ -366,6 +414,13 @@ export interface BakeResult {
   };
 
   bake: Recipe['bake'];
+  /** Everything that changes because of the reader's equipment. */
+  equipment: {
+    mix: import('./equipment').MachineMixPlan;
+    oven: import('./equipment').OvenAdvice;
+    fridge: import('./equipment').FridgeAdvice;
+    capacity?: import('./equipment').CapacityCheck;
+  };
   steps: TimedStep[];
   warnings: Warning[];
   explanation: GapExplanation;

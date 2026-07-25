@@ -13,9 +13,21 @@
  */
 
 import { computeBlend } from './blend';
+import {
+  checkBowlCapacity,
+  fridgeAdvice,
+  machineMixPlan,
+  ovenAdvice,
+  resolveStepBody,
+  stepAppliesTo,
+  type CapacityCheck,
+  type FridgeAdvice,
+  type MachineMixPlan,
+  type OvenAdvice,
+} from './equipment';
 import { HYDRATION_MAX, HYDRATION_MIN, TIERS } from './constants';
 import { explainGap } from './explain';
-import { buildFormula } from './formula';
+import { buildFormula, doughWeightPerFlourGram } from './formula';
 import {
   bakeTemp,
   benchMinutes,
@@ -34,6 +46,7 @@ import type {
   Flour,
   FlourRole,
   Ingredient,
+  MixMethod,
   Recipe,
   TimedStep,
 } from './types';
@@ -133,11 +146,35 @@ export function bake(input: BakeInput): BakeResult {
   };
 
   const bulk = bulkMinutes(scheduleInput);
-  const cold = coldProofHours(scheduleInput);
+  const fridge = fridgeAdvice(options.fridgeTemp ?? 5);
+  const cold = round(coldProofHours(scheduleInput) * fridge.multiplier, 1);
   const bench = benchMinutes(blend);
   const levain = levainHours(recipe, blend, recipe.levain.temp);
-  const folds = foldPlan(scheduleInput, bulk);
+  const mixPlan = machineMixPlan(options.mixMethod, blend, hydration);
+  let folds = foldPlan(scheduleInput, bulk);
+  // A dough taken to full development on a hook needs one or two folds, not
+  // four. -1 means "leave the hand schedule alone".
+  if (mixPlan.foldsAfter >= 0 && mixPlan.foldsAfter < folds.count) {
+    const count = mixPlan.foldsAfter;
+    folds = {
+      ...folds,
+      count,
+      atMinutes: folds.atMinutes.slice(0, count),
+      note: mixPlan.note,
+    };
+  }
   const shaping = shapingAdvice(blend, recipe, options.tier);
+
+  const oven = ovenAdvice(options.ovenType ?? 'dutch-oven', recipe.bake.temp, recipe.bake.lidMin);
+
+  const capacity = options.mixerBowlLitres
+    ? checkBowlCapacity(
+        options.mixerBowlLitres,
+        formula.totalDoughWeight,
+        hydration,
+        doughWeightPerFlourGram(recipe, hydration),
+      )
+    : undefined;
 
   const steps = resolveSteps({
     recipe,
@@ -150,6 +187,8 @@ export function bake(input: BakeInput): BakeResult {
     fermentSpeed: blend.fermentSpeed,
     tierBulk: TIERS[options.tier].bulkMultiplier,
     extraLid: TIERS[options.tier].extraLidMinutes,
+    mixMethod: options.mixMethod,
+    machineMinutes: mixPlan.minutes,
   });
 
   const warnings = collectWarnings({
@@ -162,6 +201,9 @@ export function bake(input: BakeInput): BakeResult {
   });
 
   const explanation = explainGap(authorBlend, blend, TIERS[options.tier].hydrationDelta);
+
+  if (capacity?.warning) warnings.unshift(capacity.warning);
+  if (mixPlan.warning) warnings.unshift(mixPlan.warning);
 
   return {
     recipe,
@@ -181,9 +223,10 @@ export function bake(input: BakeInput): BakeResult {
     shaping,
     bake: {
       ...recipe.bake,
-      temp: bakeTemp(recipe, options.altitude ?? 0),
-      lidMin: recipe.bake.lidMin + TIERS[options.tier].extraLidMinutes,
+      temp: bakeTemp({ ...recipe, bake: { ...recipe.bake, temp: oven.temp } }, options.altitude ?? 0),
+      lidMin: oven.lidMinutes + TIERS[options.tier].extraLidMinutes,
     },
+    equipment: { mix: mixPlan, oven, fridge, capacity },
     steps,
     warnings,
     explanation,
@@ -204,6 +247,8 @@ interface StepResolveInput {
   fermentSpeed: number;
   tierBulk: number;
   extraLid: number;
+  mixMethod: MixMethod;
+  machineMinutes: number;
 }
 
 /**
@@ -216,7 +261,9 @@ export function resolveSteps(input: StepResolveInput): TimedStep[] {
   const byKey = new Map(input.ingredients.map((i) => [i.key, i]));
   let offset = 0;
 
-  return recipe.steps.map((step) => {
+  return recipe.steps
+    .filter((step) => stepAppliesTo(step, input.mixMethod))
+    .map((step) => {
     let minutes = step.baseMinutes ?? 0;
 
     switch (step.kind) {
@@ -239,6 +286,10 @@ export function resolveSteps(input: StepResolveInput): TimedStep[] {
       case 'bake':
         minutes = (step.baseMinutes ?? recipe.bake.lidMin + recipe.bake.openMin) + input.extraLid;
         break;
+      case 'mix':
+        // Machine mixing takes real time that hand mixing spends on folds.
+        minutes = input.machineMinutes > 0 ? Math.ceil(input.machineMinutes) + 3 : (step.baseMinutes ?? 10);
+        break;
       default:
         if (step.fermentScaled) {
           minutes = round(
@@ -253,6 +304,7 @@ export function resolveSteps(input: StepResolveInput): TimedStep[] {
 
     const timed: TimedStep = {
       ...step,
+      body: resolveStepBody(step.body, input.mixMethod),
       minutes,
       offsetMinutes: round(offset, 0),
       ingredients: (step.reveals ?? [])

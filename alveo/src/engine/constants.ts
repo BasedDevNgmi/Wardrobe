@@ -7,7 +7,9 @@
  * arrive from the calibration protocol (see `calibration.ts`).
  */
 
-import type { Additive, Hardness, Mill, Species, SafetyTier, MixMethod, RecipeFormat } from './types';
+import type {
+  Additive, Hardness, Mill, Species, SafetyTier, MixMethod, RecipeFormat, OvenType,
+} from './types';
 
 /* ------------------------------------------------------------------ */
 /* Absorption model                                                    */
@@ -236,6 +238,8 @@ export const FRICTION_FACTOR: Record<MixMethod, number> = {
   'no-knead': 0,
   'stand-mixer': 5,
   spiral: 7.5,
+  'food-processor': 9,
+  'bread-machine': 4,
 };
 
 export const FRICTION_RANGE: Record<MixMethod, [number, number]> = {
@@ -243,6 +247,8 @@ export const FRICTION_RANGE: Record<MixMethod, [number, number]> = {
   'no-knead': [0, 1],
   'stand-mixer': [4, 6],
   spiral: [6, 9],
+  'food-processor': [7, 12],
+  'bread-machine': [3, 6],
 };
 
 /* ------------------------------------------------------------------ */
@@ -379,3 +385,47 @@ export const K_SALT_SLOWDOWN = 0.08;
 export const K_ALTITUDE_PROOF = 0.00006;
 /** Bake temperature rises slightly to set the crust before it over-expands. */
 export const K_ALTITUDE_BAKE_TEMP = 0.0055;
+
+
+/* ------------------------------------------------------------------ */
+/* Equipment                                                           */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Usable dough capacity per litre of mixer bowl. A bowl can only be run about
+ * a third full of dough before the hook stops folding it and starts pushing it
+ * around the rim — and a slack dough climbs the hook long before a stiff one.
+ */
+export const DOUGH_GRAMS_PER_BOWL_LITRE = 330;
+
+/** Machine mixing below this blend strength does more harm than good. */
+export const MACHINE_MIX_MIN_STRENGTH = 30;
+
+/**
+ * Baseline machine mixing time in minutes at medium speed, for a strong white
+ * dough. Scaled down as strength falls: fragile gluten goes from developed to
+ * destroyed in about ninety seconds on a hook.
+ */
+export const MACHINE_MIX_BASE_MINUTES: Partial<Record<MixMethod, number>> = {
+  'stand-mixer': 8,
+  spiral: 6,
+  'food-processor': 1.5,
+  'bread-machine': 12,
+};
+
+/**
+ * Oven temperature correction, °C. A fan oven moves far more hot air across
+ * the crust than its dial implies, so the crust sets before the crumb does.
+ */
+export const OVEN_TEMP_DELTA: Record<OvenType, number> = {
+  'dutch-oven': 0,
+  'stone-steam': 0,
+  tray: 10,
+  'combi-steam': -10,
+  deck: 0,
+  fan: -18,
+  gas: 5,
+};
+
+/** Reference fridge temperature the recipes are written against, °C. */
+export const REFERENCE_FRIDGE_TEMP = 5;

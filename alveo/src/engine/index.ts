@@ -17,6 +17,7 @@ export * from './formula';
 export * from './warnings';
 export * from './explain';
 export * from './bake';
+export * from './equipment';
 export * from './stages';
 export * from './solve';
 export * from './compare';
