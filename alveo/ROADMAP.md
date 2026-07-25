@@ -102,6 +102,100 @@ it, and use the Q10 curve that already exists.
 
 ---
 
+## 2A. The calculator
+
+**Status: stage ledger and multi-directional solver built and tested. UI next.**
+
+The bar: at no point in a bake do you tip the whole ingredient list into one
+bowl, so an ingredient list is the wrong output. The calculator's job is to
+answer *what goes in right now, and what is the dough in front of me.*
+
+### 2A.1 Stage ledger — built (`src/engine/stages.ts`)
+
+Every gram is assigned to a stage — soaker, levain build, autolyse, mix,
+bassinage, inclusions — and the ledger carries a running state of the main
+dough through all of them: flour so far, water so far, total weight, and the
+hydration of what is *actually in the bowl at that moment*.
+
+That running hydration is the number nobody else shows, and it explains more
+than the headline figure does. A loaf that finishes at 82% sits near 65% during
+the autolyse, because the levain water and the bassinage are both still
+outstanding. Autolyse behaviour depends on that number, not on the one printed
+at the top of the recipe. Same for "why does this feel nothing like the video".
+
+The ledger reconciles against the formula total, and the test suite fails the
+build if the stages ever sum to something other than the recipe.
+
+### 2A.2 Autolyse decided from the flour — built
+
+Not a fixed hour. Three forces the engine already holds numbers for:
+
+- **bran hydrates slowly**, so wholegrain gains most from a long rest;
+- **protease degrades gluten during the rest**, and enzyme-heavy flour (rye,
+  malted, low falling number) has plenty — a long autolyse there costs you the
+  structure it was meant to build;
+- **ancient-grain gluten is fragile and protease-sensitive both** — short, or
+  not at all.
+
+Output is a mode (`autolyse` / `fermentolyse` / `none`), a duration with a
+range rather than a false-precision single number, and the reason in prose.
+
+Two calibration bugs this surfaced, both fixed and both regression-tested:
+
+- The strength model was returning ~38 for a flour that should read 75, because
+  species was modelled as a ceiling only. Spelt carries *more* protein than T65
+  and less than half its dough strength, so species has to be a quality
+  multiplier. Every fold-type and shaping threshold keys off strength, so all
+  of them were mis-firing.
+- `enzymeLoad` already counts bran, so the autolyse model penalised wholemeal
+  twice for the same property and recommended a *shorter* rest for wholegrain
+  than for white — backwards. Now subtracts the bran share to isolate genuine
+  excess enzyme activity.
+
+### 2A.3 Solving in any direction — built (`src/engine/solve.ts`)
+
+Most calculators only go flour → everything. Real kitchens do not. All of these
+now resolve to a batch size:
+
+| You know | Example |
+|---|---|
+| total flour | the ordinary case |
+| dough weight | "I want 1.8 kg of dough" |
+| yield | "two loaves of 900 g" |
+| starter on hand | "I have 143 g of discard and I am not throwing it out" |
+| limiting flour | "I have 380 g of the good stuff left, and it is 30% of the blend" |
+| banneton or tin | "my basket is 24 cm" |
+
+The starter case has two distinct meanings and the engine distinguishes them:
+*scale the recipe to my starter* (batch moves, ratios hold) versus *use all of
+it* (batch holds, inoculation moves — and bulk shortens accordingly, which is
+computed rather than left as a surprise).
+
+`maxBatchFromShelf()` returns which bag runs out first, so the UI can name the
+constraint instead of just refusing.
+
+### 2A.4 Still to build
+
+- **Live "what is in the bowl"** in kitchen mode — one stage at a time, huge
+  type, running totals, wet hands.
+- **Rounding that does not break the sum.** Built as `roundPreservingTotal()`:
+  naive per-item rounding is how a list of ingredients adds to 1799 g under a
+  heading that says 1800 g. Needs wiring through the display layer.
+- **Salt timing** — at mix versus delayed (double hydration), with the
+  fermentation consequence shown rather than asserted.
+- **Two-stage levain builds**, for acidity control. Feeds the sourness dial.
+- **Per-stage water temperature.** The DDT calculator exists but is a separate
+  tool; the autolyse holds most of the water, so its temperature is the one
+  that sets the dough temperature.
+- **Baker's % versus true % toggle**, for people who think in total formula.
+- **Pin and compare.** Save a version, change one variable, see both. This is
+  how the calculator teaches rather than just answers.
+- **Every number traceable.** Tap any figure to see what produced it. The
+  engine's breakdowns are already exact and already sum — the UI just has to
+  expose them.
+
+---
+
 ## 3. The six that matter most after equipment
 
 Ranked by (defensibility × how badly it is served elsewhere).

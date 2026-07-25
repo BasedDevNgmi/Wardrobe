@@ -122,10 +122,31 @@ export const STRENGTH_REFERENCE = 60;
 /* ------------------------------------------------------------------ */
 
 /**
- * Strength is a 0–100 dough-carrying capacity, anchored at: spelt white ~25,
- * French T65 ~60, US bread flour ~75, bread flour + vital gluten ~100.
- * Driven by protein quality (species), protein quantity, and bran damage.
+ * Strength is a 0–100 dough-carrying capacity, anchored at:
+ *   French T65 (9.9% protein as sold) ~60
+ *   US bread flour (12.7%)            ~75
+ *   white spelt (12.5%)               ~26
+ *   bread flour + vital gluten        ~100
+ *
+ * The spelt anchor is why species cannot be modelled as a ceiling alone.
+ * Spelt has *more* protein than T65 and *less* than half its dough strength,
+ * because the gluten is more soluble and the network it forms is weaker per
+ * gram. So species enters as a quality multiplier on the whole protein-derived
+ * figure, with the ceiling kept only as a hard cap.
  */
+export const STRENGTH_SPECIES_QUALITY: Record<Species, number> = {
+  wheat: 1.0,
+  durum: 0.75,
+  spelt: 0.35,
+  khorasan: 0.35,
+  emmer: 0.28,
+  einkorn: 0.25,
+  rye: 0.12,
+  barley: 0.08,
+  oat: 0.05,
+  buckwheat: 0.03,
+};
+
 export const STRENGTH_SPECIES_CEILING: Record<Species, number> = {
   wheat: 100,
   durum: 78,
@@ -139,9 +160,12 @@ export const STRENGTH_SPECIES_CEILING: Record<Species, number> = {
   buckwheat: 3,
 };
 
-/** Points of strength per point of protein above the 10% reference. */
-export const K_STRENGTH_PROTEIN = 6.2;
-export const STRENGTH_BASE = 22;
+/**
+ * Points of strength per point of protein above the 10% reference, fitted
+ * through the T65 and US-bread-flour anchors above.
+ */
+export const K_STRENGTH_PROTEIN = 5.36;
+export const STRENGTH_BASE = 64;
 
 /** Bran shreds gluten strands. Points lost per percentage point of bran. */
 export const K_STRENGTH_BRAN = 1.1;

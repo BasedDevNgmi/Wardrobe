@@ -19,6 +19,47 @@ export function safeDiv(a: number, b: number, fallback = 0): number {
   return a / b;
 }
 
+/**
+ * Round a set of values for display without breaking the sum.
+ *
+ * Naive per-value rounding is how a calculator ends up printing an ingredient
+ * list that adds to 1799 g under a heading that says 1800 g. Largest-remainder
+ * apportionment fixes it: floor everything, then hand the leftover units to the
+ * values that lost the most in the rounding.
+ */
+export function roundPreservingTotal(values: number[], digits = 0): number[] {
+  const f = 10 ** digits;
+  if (values.length === 0) return [];
+
+  const scaled = values.map((v) => (Number.isFinite(v) ? v * f : 0));
+  const target = Math.round(sum(scaled));
+  const floored = scaled.map((v) => Math.floor(v));
+  let deficit = target - sum(floored);
+
+  const order = scaled
+    .map((v, i) => ({ i, remainder: v - Math.floor(v) }))
+    .sort((a, b) => b.remainder - a.remainder);
+
+  const out = [...floored];
+  // `deficit` can be negative when the inputs carry floating-point noise.
+  let cursor = 0;
+  while (deficit > 0 && order.length > 0) {
+    const idx = order[cursor % order.length]!.i;
+    out[idx] = (out[idx] as number) + 1;
+    deficit -= 1;
+    cursor += 1;
+  }
+  cursor = 0;
+  while (deficit < 0 && order.length > 0) {
+    const idx = order[order.length - 1 - (cursor % order.length)]!.i;
+    out[idx] = (out[idx] as number) - 1;
+    deficit += 1;
+    cursor += 1;
+  }
+
+  return out.map((v) => v / f);
+}
+
 /** Format minutes as a human duration: 95 -> "1 u 35 m" / "1 h 35 m". */
 export function formatDuration(minutes: number, locale: 'nl' | 'en' = 'nl'): string {
   const m = Math.max(0, Math.round(minutes));

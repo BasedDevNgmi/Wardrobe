@@ -21,6 +21,7 @@ import {
   STRENGTH_ADDITIVE_BONUS,
   STRENGTH_BASE,
   STRENGTH_SPECIES_CEILING,
+  STRENGTH_SPECIES_QUALITY,
   W_TO_STRENGTH_ANCHOR,
   W_TO_STRENGTH_SLOPE,
   W_TRUST,
@@ -54,6 +55,10 @@ export function computeStrength(
   for (const a of flour.additives) {
     s += STRENGTH_ADDITIVE_BONUS[a] ?? 0;
   }
+
+  // Species is a quality multiplier, not merely a cap: spelt carries more
+  // protein than T65 and less than half the dough strength.
+  s *= STRENGTH_SPECIES_QUALITY[flour.species];
 
   const ceiling = STRENGTH_SPECIES_CEILING[flour.species];
   s = clamp(s, 0, ceiling);
