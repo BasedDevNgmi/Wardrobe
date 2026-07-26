@@ -416,3 +416,37 @@ describe('flour data', () => {
     }
   });
 });
+
+/* ------------------------------------------------------------------ */
+/* Engine version pinning                                             */
+/* ------------------------------------------------------------------ */
+
+import { ENGINE_VERSION } from '@/engine/version';
+
+describe('engine version', () => {
+  /**
+   * These anchors are the model's identity. If a coefficient change moves them,
+   * this test fails until ENGINE_VERSION is bumped and the anchors updated in
+   * the same commit — so the version can never silently drift from the model
+   * that persisted a bake log.
+   */
+  const ANCHORS: Record<string, [number, number, number]> = {
+    // slug: [absorption, strength, fermentSpeed]
+    'fr-t65': [63.4, 62.6, 1.069],
+    'us-bread-flour': [71.0, 76, 1.107],
+    'de-roggenvollkorn': [72.6, 5.2, 2.028],
+  };
+
+  it(`holds its anchors at v${ENGINE_VERSION}`, () => {
+    for (const [slug, [abs, str, fs]] of Object.entries(ANCHORS)) {
+      const f = requireFlour(slug);
+      expect(f.absorption, `${slug} absorption — bump ENGINE_VERSION if intended`).toBeCloseTo(abs, 0);
+      expect(f.strength, `${slug} strength — bump ENGINE_VERSION if intended`).toBeCloseTo(str, 0);
+      expect(f.fermentSpeed, `${slug} fermentSpeed — bump ENGINE_VERSION if intended`).toBeCloseTo(fs, 1);
+    }
+  });
+
+  it('is a valid semver', () => {
+    expect(ENGINE_VERSION).toMatch(/^\d+\.\d+\.\d+$/);
+  });
+});
