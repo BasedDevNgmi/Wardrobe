@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --paper: 237 239 234;
+    --raised: 247 248 245;
+    --sunk: 228 231 224;
+    --ink: 21 24 26;
+    --soft: 76 84 82;
+    --faint: 121 129 125;
+    --rule: 211 215 206;
+    --rule-strong: 182 188 178;
+    --accent: 29 92 102;
+    --accent-soft: 220 233 232;
+    --ok: 46 107 79;
+    --warn: 154 90 20;
+    --danger: 155 45 40;
+
+    --font-display: "Iowan Old Style", Charter, "Palatino Linotype", Palatino, Georgia, serif;
+    --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: 17 20 19;
+      --raised: 25 29 28;
+      --sunk: 12 15 14;
+      --ink: 231 234 229;
+      --soft: 158 166 162;
+      --faint: 109 117 112;
+      --rule: 40 46 44;
+      --rule-strong: 58 66 63;
+      --accent: 116 195 205;
+      --accent-soft: 21 48 47;
+      --ok: 108 191 147;
+      --warn: 216 161 92;
+      --danger: 224 122 116;
+    }
+  }
+
+  :root[data-theme='dark'] {
+    --paper: 17 20 19;
+    --raised: 25 29 28;
+    --sunk: 12 15 14;
+    --ink: 231 234 229;
+    --soft: 158 166 162;
+    --faint: 109 117 112;
+    --rule: 40 46 44;
+    --rule-strong: 58 66 63;
+    --accent: 116 195 205;
+    --accent-soft: 21 48 47;
+    --ok: 108 191 147;
+    --warn: 216 161 92;
+    --danger: 224 122 116;
+  }
+
+  :root[data-theme='light'] {
+    --paper: 237 239 234;
+    --raised: 247 248 245;
+    --sunk: 228 231 224;
+    --ink: 21 24 26;
+    --soft: 76 84 82;
+    --faint: 121 129 125;
+    --rule: 211 215 206;
+    --rule-strong: 182 188 178;
+    --accent: 29 92 102;
+    --accent-soft: 220 233 232;
+    --ok: 46 107 79;
+    --warn: 154 90 20;
+    --danger: 155 45 40;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  body {
+    @apply bg-paper text-ink font-body antialiased;
+    font-size: 16.5px;
+    line-height: 1.62;
+  }
+
+  h1, h2, h3 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-accent rounded-sm;
+  }
+
+  /* Digits that line up in columns must line up. */
+  .tnum { font-variant-numeric: tabular-nums; }
+}
+
+@layer components {
+  .label {
+    @apply font-mono text-[0.66rem] uppercase tracking-[0.08em] text-faint;
+  }
+
+  .chip {
+    @apply inline-block font-mono text-[0.63rem] uppercase tracking-[0.07em]
+           px-[0.5em] py-[0.16em] border border-current leading-[1.35] whitespace-nowrap;
+  }
+
+  .rule-top { @apply border-t border-rule; }
+
+  .card {
+    @apply bg-raised border border-rule;
+  }
+
+  .prose-measure {
+    @apply max-w-measure;
+  }
+
+  .prose-measure p { @apply mb-4; }
+  .prose-measure p:last-child { @apply mb-0; }
+
+  .datatable { @apply w-full text-sm border-collapse; }
+  .datatable th {
+    @apply text-left font-mono text-[0.65rem] uppercase tracking-[0.08em]
+           text-faint font-medium border-b border-ruleStrong py-2 pr-3 align-bottom;
+  }
+  .datatable td {
+    @apply text-left border-b border-rule py-2 pr-3 align-top;
+  }
+  .datatable tr:last-child td { @apply border-b-0; }
+}
+
+@media print {
+  /* The print stylesheet drops the controls and keeps the numbers. */
+  .no-print { display: none !important; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+  .card { border-color: #999; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

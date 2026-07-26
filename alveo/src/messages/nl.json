@@ -1,0 +1,55 @@
+{
+  "brand": {
+    "name": "Alveo",
+    "tagline": "Elk desemrecept van het internet, omgerekend naar het meel in jouw kast."
+  },
+  "nav": {
+    "recipes": "Recepten",
+    "flours": "Meelsoorten",
+    "substitute": "Vervangen",
+    "convert": "Omrekenen",
+    "problems": "Problemen",
+    "technique": "Techniek",
+    "tools": "Gereedschap",
+    "calibration": "Kalibratie"
+  },
+  "common": {
+    "hydration": "Hydratatie",
+    "strength": "Sterkte",
+    "absorption": "Wateropname",
+    "fermentSpeed": "Fermentatiesnelheid",
+    "tolerance": "Tolerantie",
+    "confidence": "Betrouwbaarheid",
+    "estimated": "geschat",
+    "specSheet": "specificatieblad",
+    "measured": "gemeten",
+    "grams": "g",
+    "minutes": "min",
+    "hours": "uur",
+    "difficulty": "Moeilijkheid",
+    "readMore": "Lees verder",
+    "backTo": "Terug naar"
+  },
+  "calculator": {
+    "title": "Rekenmachine",
+    "yourFlour": "Jouw meel",
+    "totalFlour": "Totaal bloem",
+    "doughTemp": "Deegtemperatuur",
+    "tier": "Veiligheidsmarge",
+    "mixMethod": "Hoe meng je?",
+    "oven": "Oven",
+    "fridge": "Koelkast",
+    "bookVsYours": "Boek versus jouw meel",
+    "perKilo": "per kilo bloem",
+    "whereFromGap": "Waar komt het verschil vandaan?",
+    "stages": "Wat gaat er wanneer in de kom?",
+    "inTheBowl": "In de kom",
+    "runningHydration": "Hydratatie op dit moment"
+  },
+  "tiers": {
+    "super-safe": "Extra veilig",
+    "safe": "Veilig",
+    "standard": "Standaard",
+    "as-intended": "Zoals bedoeld"
+  }
+}

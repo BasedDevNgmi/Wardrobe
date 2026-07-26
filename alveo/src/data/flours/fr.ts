@@ -208,7 +208,7 @@ export const FR_FLOURS: FlourDecl[] = [
     availableIn: ['FR', 'BE'],
   }),
   decl({
-    slug: 'fr-blé-dur-semoule',
+    slug: 'fr-ble-dur-semoule',
     name: 'Semoule de blé dur fine',
     country: 'FR', system: 'french-T', designation: 'semoule fine',
     protein: 13.0, proteinBasis: 'dry', ash: 0.9,

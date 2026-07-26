@@ -1,0 +1,55 @@
+{
+  "brand": {
+    "name": "Alveo",
+    "tagline": "Every sourdough recipe on the internet, recalculated for the flour in your cupboard."
+  },
+  "nav": {
+    "recipes": "Recipes",
+    "flours": "Flours",
+    "substitute": "Substitute",
+    "convert": "Convert",
+    "problems": "Problems",
+    "technique": "Technique",
+    "tools": "Tools",
+    "calibration": "Calibration"
+  },
+  "common": {
+    "hydration": "Hydration",
+    "strength": "Strength",
+    "absorption": "Absorption",
+    "fermentSpeed": "Fermentation speed",
+    "tolerance": "Tolerance",
+    "confidence": "Confidence",
+    "estimated": "estimated",
+    "specSheet": "spec sheet",
+    "measured": "measured",
+    "grams": "g",
+    "minutes": "min",
+    "hours": "hours",
+    "difficulty": "Difficulty",
+    "readMore": "Read on",
+    "backTo": "Back to"
+  },
+  "calculator": {
+    "title": "Calculator",
+    "yourFlour": "Your flour",
+    "totalFlour": "Total flour",
+    "doughTemp": "Dough temperature",
+    "tier": "Safety margin",
+    "mixMethod": "How are you mixing?",
+    "oven": "Oven",
+    "fridge": "Fridge",
+    "bookVsYours": "The book versus your flour",
+    "perKilo": "per kilo of flour",
+    "whereFromGap": "Where does the difference come from?",
+    "stages": "What goes in, and when?",
+    "inTheBowl": "In the bowl",
+    "runningHydration": "Hydration right now"
+  },
+  "tiers": {
+    "super-safe": "Super safe",
+    "safe": "Safe",
+    "standard": "Standard",
+    "as-intended": "As intended"
+  }
+}

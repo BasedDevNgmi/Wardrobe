@@ -160,7 +160,7 @@ export const US_FLOURS: FlourDecl[] = [
     slug: 'us-spelt',
     name: 'Spelt Flour (whole)',
     country: 'US', system: 'us-type', designation: 'Spelt',
-    protein: 14.0, ash: 1.7,
+    protein: 13.8, ash: 1.65,
     species: 'spelt', wholegrain: 1, mill: 'stone', hardness: 'soft',
     availableIn: ['US', 'CA'],
   }),

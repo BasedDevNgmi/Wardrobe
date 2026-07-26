@@ -16,6 +16,8 @@ import { IT_FLOURS } from './it';
 import { US_FLOURS } from './us';
 import { NL_FLOURS, BE_FLOURS, UK_FLOURS } from './nl-be-uk';
 import { DK_FLOURS, SE_FLOURS, PL_FLOURS, ES_FLOURS, AU_FLOURS } from './nordic-pl-es-au';
+import { FLOUR_NOTES } from './notes';
+import { CORE_NOTES } from './notes-core';
 
 const DECLARATIONS = [
   ...FR_FLOURS,
@@ -32,7 +34,9 @@ const DECLARATIONS = [
   ...AU_FLOURS,
 ];
 
-export const FLOURS: Flour[] = DECLARATIONS.map((d) => deriveFlour(d));
+export const FLOURS: Flour[] = DECLARATIONS.map((d) =>
+  deriveFlour({ ...d, notes: CORE_NOTES[d.slug] ?? FLOUR_NOTES[d.slug] ?? d.notes }),
+);
 
 const BY_SLUG = new Map(FLOURS.map((f) => [f.slug, f]));
 
