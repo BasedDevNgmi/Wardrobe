@@ -28,6 +28,7 @@ export const pathnames = {
   tools: '/gereedschap',
   calibration: '/kalibratie',
   rescue: '/reddingsboei',
+  designer: '/zelf',
 } as const;
 
 export type PathKey = keyof typeof pathnames;

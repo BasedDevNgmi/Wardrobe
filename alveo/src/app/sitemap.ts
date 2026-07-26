@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/gereedschap', priority: 0.7, freq: 'monthly' },
     { path: '/kalibratie', priority: 0.8, freq: 'monthly' },
     { path: '/reddingsboei', priority: 0.7, freq: 'monthly' },
+    { path: '/zelf', priority: 0.9, freq: 'monthly' },
     ...RECIPES.map((r) => ({ path: `/recepten/${r.slug}`, priority: 0.9, freq: 'monthly' as const })),
     ...FLOURS.map((f) => ({ path: `/meel/${f.slug}`, priority: 0.7, freq: 'monthly' as const })),
     ...PROBLEMS.map((p) => ({ path: `/problemen/${p.slug}`, priority: 0.6, freq: 'monthly' as const })),

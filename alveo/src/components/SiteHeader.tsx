@@ -3,6 +3,7 @@ import { path, type Locale } from '@/i18n/routing';
 
 const NAV: { key: Parameters<typeof path>[0]; nl: string; en: string }[] = [
   { key: 'recipes', nl: 'Recepten', en: 'Recipes' },
+  { key: 'designer', nl: 'Zelf ontwerpen', en: 'Design your own' },
   { key: 'flours', nl: 'Meelsoorten', en: 'Flours' },
   { key: 'substitute', nl: 'Vervangen', en: 'Substitute' },
   { key: 'convert', nl: 'Omrekenen', en: 'Convert' },

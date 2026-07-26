@@ -56,11 +56,30 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </Callout>
       </section>
 
+      {/* DIY designer */}
+      <section className="mt-10">
+        <div className="border border-accent bg-accentSoft p-5 flex flex-wrap items-center justify-between gap-4">
+          <div className="max-w-measure">
+            <h2 className="font-display text-xl font-semibold">
+              {nl ? 'Geen recept nodig — geef je meel, krijg een recept' : 'No recipe needed — give your flour, get a recipe'}
+            </h2>
+            <p className="mt-1 text-sm text-soft">
+              {nl
+                ? 'Voer in wat je in huis hebt, uit de database of je eigen zak, en de motor ontwerpt van de grond af een compleet recept dat erbij past.'
+                : 'Enter what you have, from the database or your own bag, and the engine designs a complete recipe from scratch to fit it.'}
+            </p>
+          </div>
+          <Link href={path('designer', locale)} className="shrink-0 bg-accent text-paper px-4 py-2.5 font-medium hover:opacity-90">
+            {nl ? 'Ontwerp je eigen recept' : 'Design your own recipe'}
+          </Link>
+        </div>
+      </section>
+
       {/* recipes */}
       <section className="mt-12">
         <SectionHead
           eyebrow={nl ? 'Recepten' : 'Recipes'}
-          title={nl ? 'Tien broden, elk in jouw meel' : 'Ten breads, each in your flour'}
+          title={nl ? 'Vijftien broden, elk in jouw meel' : 'Fifteen breads, each in your flour'}
         />
         <ul className="grid gap-px bg-rule border border-rule sm:grid-cols-2 lg:grid-cols-3">
           {RECIPES.map((r) => (
