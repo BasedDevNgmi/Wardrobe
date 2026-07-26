@@ -7,6 +7,7 @@ import {
 } from './hearth';
 import { focaccia, pizza, rugbrod, sandwichTin } from './pan';
 import { bagels, pretzels, brioche, englishMuffins, porridgeMultigrain } from './alternates';
+import { beginnersLoaf, highExtractionCountry, mixedGrainMiche } from './traditions';
 
 export const RECIPES: Recipe[] = [
   everydayCountry,
@@ -24,6 +25,9 @@ export const RECIPES: Recipe[] = [
   brioche,
   englishMuffins,
   porridgeMultigrain,
+  beginnersLoaf,
+  highExtractionCountry,
+  mixedGrainMiche,
 ];
 
 const BY_SLUG = new Map(RECIPES.map((r) => [r.slug, r]));
@@ -75,4 +79,5 @@ export const FORMAT_LABELS: Record<Recipe['format'], { nl: string; en: string }>
 
 export { everydayCountry, wholegrainCountry, highHydrationWhite, painDeCampagne,
   ciabatta, baguettes, focaccia, pizza, sandwichTin, rugbrod,
-  bagels, pretzels, brioche, englishMuffins, porridgeMultigrain };
+  bagels, pretzels, brioche, englishMuffins, porridgeMultigrain,
+  beginnersLoaf, highExtractionCountry, mixedGrainMiche };
