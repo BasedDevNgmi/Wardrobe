@@ -32,6 +32,8 @@ import type { Locale } from '@/i18n/routing';
 import { ConfidenceBadge, Scroller, Stat, WarningList } from './ui';
 import { KitchenMode } from './KitchenMode';
 import { Planner } from './Planner';
+import { SournessDial } from './SournessDial';
+import { FermentationModes } from './FermentationModes';
 
 const TIER_ORDER: SafetyTier[] = ['super-safe', 'safe', 'standard', 'as-intended'];
 
@@ -618,6 +620,34 @@ export function Calculator({ recipe, authorFlours, flours, locale }: CalculatorP
             </li>
           ))}
         </ol>
+      </section>
+
+      {/* ---- sourness dial --------------------------------------------- */}
+      <section className="no-print">
+        <h3 className="label mb-2">{nl ? 'Stel de zuurgraad af' : 'Tune the sourness'}</h3>
+        <p className="mb-3 text-sm text-soft prose-measure">
+          {nl
+            ? 'De op één na meest gestelde vraag in desem, en online vol met broodjeaapverhalen. Elke knop hieronder is een veld dat de motor al kent — kies een doel en zie welke aanpassingen je erheen brengen, en welke kánt van zuur je krijgt.'
+            : 'The second-most-asked question in sourdough, and full of folklore online. Every lever below is a field the engine already holds — pick a target and see which adjustments get you there, and which side of sour you land on.'}
+        </p>
+        <SournessDial
+          recipe={recipe}
+          blend={result.blend}
+          coldProofHours={result.coldProofHours}
+          doughTemp={doughTemp}
+          locale={locale}
+        />
+      </section>
+
+      {/* ---- fermentation modes ---------------------------------------- */}
+      <section className="no-print">
+        <h3 className="label mb-2">{nl ? 'Desem, hybride of zelfde dag' : 'Levain, hybrid or same-day'}</h3>
+        <p className="mb-3 text-sm text-soft prose-measure">
+          {nl
+            ? 'Desemsmaak op een doordeweekse avond, of geen rijpe desem in huis? Elk recept kan ook als hybride (desem plus een beetje gist) of als zelfde-dag-brood — eerlijk over wat je inlevert.'
+            : 'Sourdough flavour on a weeknight, or no ripe levain to hand? Every recipe also runs as a hybrid (levain plus a little yeast) or a same-day bake — honest about what you give up.'}
+        </p>
+        <FermentationModes recipe={recipe} totalFlour={totalFlour} doughTemp={doughTemp} locale={locale} />
       </section>
 
       {/* ---- planner --------------------------------------------------- */}

@@ -9,6 +9,7 @@ const NAV: { key: Parameters<typeof path>[0]; nl: string; en: string }[] = [
   { key: 'problems', nl: 'Problemen', en: 'Problems' },
   { key: 'technique', nl: 'Techniek', en: 'Technique' },
   { key: 'tools', nl: 'Gereedschap', en: 'Tools' },
+  { key: 'rescue', nl: 'Reddingsboei', en: 'Rescue' },
 ];
 
 export function SiteHeader({ locale }: { locale: Locale }) {
