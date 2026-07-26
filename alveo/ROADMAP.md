@@ -8,8 +8,9 @@ Status legend: **built** (passing tests) · **active** (partially built or a
 decision pending) · **queued** (not started) · **parked** (deliberately not
 doing).
 
-Current state, verified by CI: 3,114 static pages, 82 tests, 131 flour records
-across 13 countries, ~5k lines of pure engine, engine v1.0.0.
+Current state, verified by CI: 3,140 static pages, 117 tests, 15 recipes,
+131 flour records across 13 countries, ~6k lines of pure engine, engine
+v1.0.0. **All six Horizon 2 differentiators are now built and tested** (§3).
 
 ---
 
@@ -96,21 +97,25 @@ reviewer; (4) no copyrighted recipe prose, ever (LEGAL.md).
 | 9 | Photography incl. the three-flours side-by-side shots | human work |
 | 10 | Recalibrate coefficients against ≥10 real bakes | open question |
 
-## §3 Horizon 2 — The six differentiators
+## §3 Horizon 2 — The six differentiators — ALL BUILT
 
-1. **Starter state as an engine input** — largest unmodelled variable;
-   ripeness/hydration/temperature → fermentSpeed + acidity.
-2. **Sourness as a dial** — every lever already a field; slider reconfigures
-   the recipe; lactic/acetic split explained. Nobody has built this.
-3. **Rescue mode** — mid-bake triage in kitchen mode; next best action and
-   what it costs.
-4. **Yeast-hybrid and same-day variants** — generated from existing
-   parameters; honest about the trade.
-5. **Freshly milled flour** — add days-since-milling and sifting; the
-   damaged-starch side already modelled.
-6. **Engine versioning** — partially shipped (`ENGINE_VERSION`, stamped in
-   schema); still: version-pinned goldens, user-visible change notes,
-   consensus recompute story.
+1. **Starter state** (`starter.ts`) — ripeness/hydration/age/temp/grain →
+   fermentSpeed multiplier + acidity profile. **built**
+2. **Sourness dial** (`sourness.ts`, `SournessDial`) — predicts then
+   reconfigures toward a target with ranked adjustments and the lactic/acetic
+   split. **built**
+3. **Rescue mode** (`rescue.ts`, `/reddingsboei`) — (situation × stage) →
+   ranked options with what each costs. **built**
+4. **Yeast-hybrid and same-day** (`fermentation-mode.ts`) — three modes per
+   recipe with temperature-adjusted yeast dosing and the honest trade. **built**
+5. **Freshly milled flour** (`milling.ts`) — days-since-milling fade curve +
+   sifting. **built**
+6. **Engine versioning** — `ENGINE_VERSION` stamped in schema *and* golden
+   tests pinned to three model anchors, so a coefficient change fails CI until
+   the version is bumped. **built**
+
+Remaining under this horizon: user-visible "the numbers moved" change notes and
+the consensus-recompute migration story — both need the live database (§2).
 
 ## §4 Horizon 3 — Content engine
 
@@ -139,9 +144,9 @@ screen-reader pass on the calculator; LCP < 1.8 s / CLS < 0.05.
 ## §6 Growth
 
 Families live vs ceiling: /meel 131→500+, /vervangen 2,712→17k on demand,
-/problemen 6→60, /techniek 6→25 (video-led), /recepten 10→40 (alternates:
-porridge multigrain, brioche, bagels, pretzels, English muffins, cinnamon
-buns, discard crackers, panettone). Next locales: de, fr — their flour data
+/problemen 6→60, /techniek 8→25 (video-led), /recepten 15→40 (shipped: bagels, pretzels,
+brioche, English muffins, porridge multigrain; still queued: cinnamon buns,
+discard crackers, panettone), /problemen 11→60. Next locales: de, fr — their flour data
 is already the deepest. Video embedded, never hosted. The three-flours photo
 is worth more than any backlink campaign.
 
