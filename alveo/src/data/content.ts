@@ -551,6 +551,151 @@ export const PROBLEMS: Problem[] = [
     },
     related: ['plat-brood'],
   },
+  {
+    slug: 'te-zuur',
+    title: { nl: 'Mijn brood is te zuur', en: 'My bread is too sour' },
+    symptom: {
+      nl: 'Een scherpe, bijna azijnachtige smaak die de rest van het brood overheerst.',
+      en: 'A sharp, almost vinegary taste that overwhelms the rest of the loaf.',
+    },
+    causes: [
+      {
+        likelihood: 'most-common',
+        cause: { nl: 'Te lange koude rijs. De bacteriën werken door in de koelkast en bouwen zuur op terwijl de gist stilligt.', en: 'Too long a cold proof. The bacteria keep working in the fridge, building acid while the yeast sits still.' },
+        fix: { nl: 'Kort de koelkastrijs in naar 8–12 uur, of bak op dezelfde dag zonder retard.', en: 'Shorten the fridge proof to 8–12 hours, or bake same-day with no retard.' },
+      },
+      {
+        likelihood: 'common',
+        cause: { nl: 'Een stijve of oude desem, of een desem die ver over de piek is gebruikt.', en: 'A stiff or old levain, or one used well past its peak.' },
+        fix: { nl: 'Gebruik een desem op 100% hydratatie, strak op de piek. Nat en jong stuurt richting het zachtere melkzuur.', en: 'Use a 100%-hydration levain right at peak. Wet and young steers towards the softer lactic acid.' },
+      },
+      {
+        likelihood: 'common',
+        cause: { nl: 'Te veel desem. Een hoge inoculatie geeft veel zuur bij de start.', en: 'Too much levain. A high inoculation gives a lot of acid at the outset.' },
+        fix: { nl: 'Verlaag de voorgefermenteerde bloem met een derde en verleng de bulk.', en: 'Cut the prefermented flour by a third and lengthen the bulk.' },
+      },
+      {
+        likelihood: 'occasional',
+        cause: { nl: 'Een koude, trage fermentatie in een koele keuken. Koud bevoordeelt de azijnzuurbacteriën boven de gist, wat de scherpe kant van zuur oplevert.', en: 'A cold, slow ferment in a cool kitchen. Cold favours the acetic bacteria over the yeast, which gives the sharp side of sour.' },
+        fix: { nl: 'Laat de bulk warmer verlopen, rond 25 °C, zodat de gist het wint van de azijnzuurbacteriën.', en: 'Run the bulk warmer, around 25 °C, so the yeast wins out over the acetic bacteria.' },
+      },
+    ],
+    primaryFix: { nl: 'Kort de koude rijs in en bak warmer. Gebruik de zuurgraad-schuif op elk recept om precies te zien welke knop welk effect heeft, en welke kant van zuur je krijgt.', en: 'Shorten the cold proof and bake warmer. Use the sourness dial on any recipe to see exactly which lever does what, and which side of sour you get.' },
+    related: ['gommige-kruim'],
+  },
+  {
+    slug: 'te-flauw',
+    title: { nl: 'Mijn brood smaakt flauw', en: 'My bread tastes bland' },
+    symptom: {
+      nl: 'Het brood is goed gerezen en luchtig, maar mist smaak — het smaakt naar niet veel.',
+      en: 'The loaf has risen well and is airy, but lacks flavour — it tastes of not much.',
+    },
+    causes: [
+      {
+        likelihood: 'most-common',
+        cause: { nl: 'Te snel gefermenteerd. Warm en snel geeft lift maar weinig tijd voor smaakontwikkeling.', en: 'Fermented too fast. Warm and quick gives lift but little time for flavour to develop.' },
+        fix: { nl: 'Voeg een koude rijs van een nacht toe. De trage fermentatie is waar bijna alle smaak vandaan komt.', en: 'Add an overnight cold proof. The slow fermentation is where nearly all the flavour comes from.' },
+      },
+      {
+        likelihood: 'common',
+        cause: { nl: 'Alleen witte bloem. Zonder zemelen mist het brood de aardse diepte die volkoren en rogge geven.', en: 'White flour only. Without bran the loaf misses the earthy depth wholegrain and rye bring.' },
+        fix: { nl: 'Vervang 10–20% door volkoren of een snufje rogge. Dat verandert de smaak volledig.', en: 'Swap 10–20% for wholemeal or a touch of rye. It changes the flavour completely.' },
+      },
+      {
+        likelihood: 'occasional',
+        cause: { nl: 'Te weinig zout. Zout maakt geen smaak maar tilt alle andere smaken op.', en: 'Too little salt. Salt makes no flavour but lifts all the others.' },
+        fix: { nl: 'Ga naar 2,0–2,2% zout op het bloemgewicht en proef het verschil.', en: 'Go to 2.0–2.2% salt on the flour weight and taste the difference.' },
+      },
+      {
+        likelihood: 'occasional',
+        cause: { nl: 'Te bleek gebakken. De korst is waar de meeste smaak zit; een lichtgebakken brood laat die smaak op tafel liggen.', en: 'Baked too pale. The crust is where most of the flavour lives; a lightly baked loaf leaves that flavour on the table.' },
+        fix: { nl: 'Bak donkerder dan je durft — de laatste tien minuten karamelliseren de korst en maken het verschil.', en: 'Bake it darker than you dare — the last ten minutes caramelise the crust and make the difference.' },
+      },
+    ],
+    primaryFix: { nl: 'Geef het een koude rijs van een nacht en bak de korst donkerder. Tijd en kleur zijn samen de goedkoopste smaakmakers die er zijn.', en: 'Give it an overnight cold proof and bake the crust darker. Time and colour together are the cheapest flavourings there are.' },
+    related: ['te-zuur'],
+  },
+  {
+    slug: 'grote-gaten',
+    title: { nl: 'Eén groot gat onder de korst', en: 'One big hole under the crust' },
+    symptom: {
+      nl: 'De kruim is redelijk gelijkmatig, maar net onder de bovenkorst zit een grote holte — een tunnel.',
+      en: 'The crumb is reasonably even, but just under the top crust sits a large cavity — a tunnel.',
+    },
+    causes: [
+      {
+        likelihood: 'most-common',
+        cause: { nl: 'Te los gevormd. Er zat lucht tussen het vel en de kern die tijdens het bakken uitzette.', en: 'Shaped too loosely. Air was trapped between the skin and the core and expanded during baking.' },
+        fix: { nl: 'Vorm strakker en ontgas het deeg lichtjes voor het vormen, zodat er geen grote bel achterblijft.', en: 'Shape tighter and degas the dough lightly before shaping, so no large bubble is left behind.' },
+      },
+      {
+        likelihood: 'common',
+        cause: { nl: 'Ondergerezen het brood ingegaan. De laatste gasproductie kwam pas in de oven op gang en verzamelde zich onder de zettende korst.', en: 'Went in under-proofed. The last of the gas production only got going in the oven and gathered under the setting crust.' },
+        fix: { nl: 'Laat iets langer narijzen tot de vingertest langzaam half terugveert.', en: 'Proof a little longer, until the poke test comes back slowly and halfway.' },
+      },
+      {
+        likelihood: 'occasional',
+        cause: { nl: 'Te ondiep ingesneden. De snede stuurt waar het gas ontsnapt; een ondiepe snede laat het zich onder de korst ophopen.', en: 'Scored too shallow. The cut directs where gas escapes; a shallow one lets it pool under the crust.' },
+        fix: { nl: 'Snijd een halve centimeter diep in één zekere beweging.', en: 'Cut half a centimetre deep in one confident movement.' },
+      },
+    ],
+    primaryFix: { nl: 'Vorm strakker en ontgas net iets meer. De tunnel zit bijna altijd in het vormen, niet in de fermentatie.', en: 'Shape tighter and degas a touch more. The tunnel is almost always in the shaping, not the fermentation.' },
+    related: ['plat-brood'],
+  },
+  {
+    slug: 'bleke-korst',
+    title: { nl: 'De korst blijft bleek', en: 'The crust stays pale' },
+    symptom: {
+      nl: 'Het brood is gaar maar de korst is licht en mat in plaats van diep goudbruin en glanzend.',
+      en: 'The loaf is cooked but the crust is light and matte rather than deep gold-brown and glossy.',
+    },
+    causes: [
+      {
+        likelihood: 'most-common',
+        cause: { nl: 'Te vroeg uit de oven. De kleur en het grootste deel van de smaak zitten in de laatste vijf tot tien minuten.', en: 'Out of the oven too early. The colour and most of the flavour are in the last five to ten minutes.' },
+        fix: { nl: 'Bak donkerder dan je durft. Een bleke korst is de meest voorkomende fout bij thuisbakkers.', en: 'Bake it darker than you dare. A pale crust is the commonest fault in home baking.' },
+      },
+      {
+        likelihood: 'common',
+        cause: { nl: 'Te lang met deksel of stoom. Vocht houdt de korst zacht en voorkomt kleuring.', en: 'Lidded or steamed too long. Moisture keeps the crust soft and prevents colouring.' },
+        fix: { nl: 'Haal het deksel er eerder af en maak de tweede helft van de bak droog en heet.', en: 'Take the lid off earlier and make the second half of the bake dry and hot.' },
+      },
+      {
+        likelihood: 'occasional',
+        cause: { nl: 'Overgerezen deeg. De gist heeft de suikers opgemaakt die anders zouden karamelliseren.', en: 'Over-proofed dough. The yeast has used up the sugars that would otherwise caramelise.' },
+        fix: { nl: 'Bak een uur eerder; dan is er nog restsuiker over voor de korstkleur.', en: 'Bake an hour earlier; there is then residual sugar left for crust colour.' },
+      },
+    ],
+    primaryFix: { nl: 'Bak langer en droger. Een fan-oven bakt bovendien heter dan de knop zegt — voer je oventype in bij het recept.', en: 'Bake longer and drier. A fan oven also bakes hotter than the dial says — set your oven type on the recipe.' },
+    related: ['geen-oven-spring'],
+  },
+  {
+    slug: 'plakt-aan-rijsmandje',
+    title: { nl: 'Het deeg plakt aan het rijsmandje', en: 'The dough sticks to the banneton' },
+    symptom: {
+      nl: 'Bij het kiepen blijft het deeg hangen, scheurt of vervormt, en de mooie ronde vorm is weg.',
+      en: 'When you tip it out the dough clings, tears or deforms, and the clean round shape is gone.',
+    },
+    causes: [
+      {
+        likelihood: 'most-common',
+        cause: { nl: 'Te weinig bloem in het mandje, of de verkeerde bloem. Rijstebloem plakt veel minder dan tarwebloem.', en: 'Too little flour in the basket, or the wrong flour. Rice flour sticks far less than wheat flour.' },
+        fix: { nl: 'Bebloem het mandje royaal met een mengsel van rijstebloem en tarwebloem, vooral in de naden.', en: 'Flour the basket generously with a mix of rice flour and wheat flour, especially into the seams.' },
+      },
+      {
+        likelihood: 'common',
+        cause: { nl: 'Een te nat deeg voor de bloemlaag die je gebruikt. Nat deeg trekt de bloem in zich op tijdens de rijs.', en: 'A dough too wet for the flour layer you used. Wet dough draws the flour into itself during the proof.' },
+        fix: { nl: 'Verlaag de hydratatie een paar punten, of bebloem zwaarder en gebruik een linnen doek in het mandje.', en: 'Lower the hydration a couple of points, or flour more heavily and line the basket with linen.' },
+      },
+      {
+        likelihood: 'occasional',
+        cause: { nl: 'Te lang gerezen. Overgerezen deeg wordt plakkerig en verliest de spanning die het van het mandje losmaakt.', en: 'Proofed too long. Over-proofed dough turns sticky and loses the tension that releases it from the basket.' },
+        fix: { nl: 'Bak eerder, en koel het gevormde brood goed door voordat je het kiept.', en: 'Bake earlier, and chill the shaped loaf thoroughly before tipping it out.' },
+      },
+    ],
+    primaryFix: { nl: 'Gebruik rijstebloem in het mandje en kiep het brood koud. Die twee lossen negen van de tien plakproblemen op.', en: 'Use rice flour in the basket and tip the loaf out cold. Those two fix nine sticking problems out of ten.' },
+    related: ['plakkerig-deeg'],
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -707,6 +852,51 @@ export const TECHNIQUES: Technique[] = [
     mistakes: [
       { nl: 'Weggooien omdat er hooch op staat. Dat is alcohol en betekent alleen: honger.', en: 'Throwing it out because there is hooch on top. That is alcohol and means only: hungry.' },
       { nl: 'Elke dag 1:1:1 voeren en je afvragen waarom de piek zo kort is.', en: 'Feeding 1:1:1 every day and wondering why the peak is so brief.' },
+    ],
+  },
+  {
+    slug: 'lamineren',
+    title: { nl: 'Lamineren', en: 'Lamination' },
+    summary: {
+      nl: 'Het deeg één keer volledig uitrekken tot een dun vel en weer opvouwen. Vervangt de eerste vouwsets en is de schoonste manier om toevoegingen gelijkmatig te verdelen.',
+      en: 'Stretching the dough out once into a thin sheet and folding it back up. Replaces the early fold sets and is the cleanest way to distribute inclusions evenly.',
+    },
+    steps: [
+      { nl: 'Maak het werkblad royaal nat — nat, niet bebloemd. Bloem laat het deeg glijden en verstoort de formule.', en: 'Wet the bench generously — wet, not floured. Flour lets the dough slide and disturbs the formula.' },
+      { nl: 'Kiep het deeg erop en trek het voorzichtig vanuit het midden naar de randen uit, tot je het werkblad er doorheen ziet schemeren.', en: 'Tip the dough out and gently draw it from the middle to the edges, until you can almost see the bench through it.' },
+      { nl: 'Verdeel eventuele toevoegingen gelijkmatig over het vel.', en: 'Spread any inclusions evenly across the sheet.' },
+      { nl: 'Vouw het als een brief op: onderste derde omhoog, bovenste derde omlaag, dan de zijkanten naar binnen en oprollen.', en: 'Fold it like a letter: bottom third up, top third down, then the sides in and roll it up.' },
+    ],
+    whenItApplies: {
+      nl: 'De motor stelt lamineren voor bij hoge hydratatie met sterke bloem, waar het één keer goed uitrekken meer structuur geeft dan drie voorzichtige vouwsets. Bij zwak of fragiel deeg juist niet: dan scheurt het vel en verlies je meer dan je opbouwt.',
+      en: 'The engine suggests lamination at high hydration with strong flour, where one good stretch builds more structure than three careful fold sets. Not for weak or fragile dough: the sheet tears and you lose more than you build.',
+    },
+    mistakes: [
+      { nl: 'Bloem op het werkblad gebruiken, waardoor het deeg glijdt en niet dun wordt.', en: 'Using flour on the bench, so the dough slides and will not thin out.' },
+      { nl: 'Te lang blijven trekken tot het vel scheurt — één keer goed is beter dan tien keer bijwerken.', en: 'Pulling too long until the sheet tears — once, properly, beats ten touch-ups.' },
+      { nl: 'Warm deeg lamineren: het plakt overal aan. Koel het eerst kort als het te slap is.', en: 'Laminating warm dough: it sticks to everything. Chill it briefly first if it is too slack.' },
+    ],
+  },
+  {
+    slug: 'stomen',
+    title: { nl: 'Stoom in de oven', en: 'Steam in the oven' },
+    summary: {
+      nl: 'De eerste tien minuten vocht in de oven houden de korst zacht zodat het brood maximaal kan uitzetten. Zonder stoom zet de korst te vroeg en blijft de snede dicht.',
+      en: 'Keeping moisture in the oven for the first ten minutes holds the crust soft so the loaf can expand fully. Without steam the crust sets too early and the score stays shut.',
+    },
+    steps: [
+      { nl: 'De betrouwbaarste manier thuis: bak in een voorverwarmde gietijzeren pan met deksel. Het brood maakt zijn eigen stoom en die kan nergens heen.', en: 'The most reliable way at home: bake in a preheated cast-iron pot with the lid on. The loaf makes its own steam and it has nowhere to go.' },
+      { nl: 'Op een steen of staalplaat: giet kokend water in een voorverwarmde bakplaat onderin de oven, direct nadat het brood erin gaat.', en: 'On a stone or steel: pour boiling water into a preheated tray at the bottom of the oven, right after the loaf goes in.' },
+      { nl: 'Houd de ovendeur de eerste tien minuten dicht — elke keer openen laat de stoom ontsnappen.', en: 'Keep the oven door shut for the first ten minutes — opening it each time lets the steam escape.' },
+      { nl: 'Haal daarna het deksel eraf of laat de stoom weg. Vanaf nu moet de oven juist droog worden om de korst te laten kleuren.', en: 'Then take the lid off or vent the steam. From now the oven needs to go dry so the crust can colour.' },
+    ],
+    whenItApplies: {
+      nl: 'Bij elk vrijstaand hearth-brood. Busbroden en verrijkte degen willen juist geen stoom — die willen een zachte korst, en stoom werkt dan tegen je. De motor kiest de gietijzeren pan als standaard omdat die thuis het betrouwbaarst is.',
+      en: 'On every free-standing hearth loaf. Tin loaves and enriched doughs do not want steam — they want a soft crust, and steam works against you there. The engine picks the Dutch oven by default because it is the most reliable at home.',
+    },
+    mistakes: [
+      { nl: 'De pan niet mee voorverwarmen. Een koude pan geeft geen stoomstoot en geen goede oven spring.', en: 'Not preheating the pot. A cold pot gives no steam burst and no oven spring.' },
+      { nl: 'De hele baktijd stomen. Na de eerste fase moet het droog, anders wordt de korst taai en bleek.', en: 'Steaming the whole bake. After the first phase it must go dry, or the crust turns leathery and pale.' },
     ],
   },
 ];
