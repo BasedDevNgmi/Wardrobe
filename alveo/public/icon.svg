@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#1D5C66"/>
+  <!-- an open crumb: alveoli -->
+  <g fill="none" stroke="#EDEFEA" stroke-width="2.4">
+    <circle cx="22" cy="24" r="7"/>
+    <circle cx="41" cy="19" r="4.5"/>
+    <circle cx="44" cy="38" r="8"/>
+    <circle cx="24" cy="44" r="5"/>
+    <circle cx="33" cy="31" r="2.6"/>
+  </g>
+</svg>

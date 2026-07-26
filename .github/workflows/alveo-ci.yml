@@ -1,0 +1,39 @@
+name: alveo-ci
+
+on:
+  push:
+    paths: ['alveo/**', '.github/workflows/alveo-ci.yml']
+  pull_request:
+    paths: ['alveo/**', '.github/workflows/alveo-ci.yml']
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: alveo
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: alveo/package-lock.json
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Engine and golden tests
+        run: npx vitest run
+
+      - name: Data validation — derived values cannot drift from the model
+        run: npx tsx scripts/validate-data.ts
+
+      - name: Thin-content guard — no page ships without unique computed data
+        run: npx tsx scripts/check-thin-content.ts
+
+      - name: Production build
+        run: npx next build

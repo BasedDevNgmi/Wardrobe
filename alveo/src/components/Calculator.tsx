@@ -30,6 +30,8 @@ import type {
 } from '@/engine/types';
 import type { Locale } from '@/i18n/routing';
 import { ConfidenceBadge, Scroller, Stat, WarningList } from './ui';
+import { KitchenMode } from './KitchenMode';
+import { Planner } from './Planner';
 
 const TIER_ORDER: SafetyTier[] = ['super-safe', 'safe', 'standard', 'as-intended'];
 
@@ -80,6 +82,7 @@ export function Calculator({ recipe, authorFlours, flours, locale }: CalculatorP
   const [bowlLitres, setBowlLitres] = useState<number | undefined>(undefined);
   const [totalFlour, setTotalFlour] = useState(1000);
   const [showOriginal, setShowOriginal] = useState(false);
+  const [kitchen, setKitchen] = useState(false);
 
   const activeRoleFlours = showOriginal ? authorFlours : roleFlours;
 
@@ -131,6 +134,10 @@ export function Calculator({ recipe, authorFlours, flours, locale }: CalculatorP
 
   return (
     <div className="grid gap-8">
+      {kitchen ? (
+        <KitchenMode result={result} locale={locale} onClose={() => setKitchen(false)} />
+      ) : null}
+
       {/* ---- readout ------------------------------------------------ */}
       <section aria-label={nl ? 'Uitkomst' : 'Result'}>
         <div className="grid gap-px bg-rule border border-rule sm:grid-cols-2 lg:grid-cols-4">
@@ -569,7 +576,16 @@ export function Calculator({ recipe, authorFlours, flours, locale }: CalculatorP
 
       {/* ---- schedule ------------------------------------------------- */}
       <section aria-label={nl ? 'Tijdlijn' : 'Schedule'}>
-        <h3 className="label mb-2">{nl ? 'Werkwijze' : 'Method'}</h3>
+        <div className="flex items-baseline justify-between gap-3 mb-2">
+          <h3 className="label">{nl ? 'Werkwijze' : 'Method'}</h3>
+          <button
+            type="button"
+            onClick={() => setKitchen(true)}
+            className="no-print border border-accent text-accent px-3 py-1.5 text-sm hover:bg-accentSoft"
+          >
+            {nl ? 'Keukenmodus — stap voor stap' : 'Kitchen mode — step by step'}
+          </button>
+        </div>
         <ol className="grid gap-3">
           {result.steps.map((step, i) => (
             <li key={step.id} className="grid sm:grid-cols-[7rem_1fr] gap-x-4 gap-y-1 rule-top pt-3">
@@ -602,6 +618,17 @@ export function Calculator({ recipe, authorFlours, flours, locale }: CalculatorP
             </li>
           ))}
         </ol>
+      </section>
+
+      {/* ---- planner --------------------------------------------------- */}
+      <section className="no-print">
+        <h3 className="label mb-2">{nl ? 'Plan de bak' : 'Plan the bake'}</h3>
+        <p className="mb-3 text-sm text-soft prose-measure">
+          {nl
+            ? 'Kies wanneer het brood uit de oven moet komen en krijg elke stap op de klok — inclusief een eerlijke waarschuwing als je desem om 02:40 gevoerd wil worden, met de aanpassing die dat naar een menselijk uur verschuift.'
+            : 'Pick when the bread should leave the oven and get every step on the clock — including an honest warning when your levain wants feeding at 02:40, with the adjustment that moves it to a humane hour.'}
+        </p>
+        <Planner result={result} locale={locale} />
       </section>
     </div>
   );
