@@ -39,9 +39,9 @@ export default async function ProblemsIndex({ params }: { params: Promise<{ loca
           : 'Every page ranks the causes by how often they actually are the cause, not by how interesting they are. For most problems the answer is at the top and you need not read further.'}
       </p>
 
-      <ul className="mt-8 grid gap-px bg-rule border border-rule sm:grid-cols-2">
+      <ul className="mt-8 grid border-t border-l border-rule sm:grid-cols-2">
         {PROBLEMS.map((p) => (
-          <li key={p.slug} className="bg-paper">
+          <li key={p.slug} className="border-b border-r border-rule bg-paper">
             <Link href={path('problems', locale, p.slug)} className="block h-full p-4 hover:bg-raised">
               <h2 className="font-display text-lg font-semibold leading-tight">{p.title[locale]}</h2>
               <p className="mt-1.5 text-sm text-soft">{p.symptom[locale]}</p>

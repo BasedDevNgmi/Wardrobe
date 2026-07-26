@@ -75,6 +75,26 @@ export default async function RecipePage({
         </dl>
       </header>
 
+      {recipe.image ? (
+        <figure className="mt-6">
+          {/* Plain <img>: these are static, already-sized assets under /public,
+              and the loader would buy nothing but a runtime dependency. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={recipe.image.src}
+            alt={recipe.image.alt[locale]}
+            width={recipe.image.width}
+            height={recipe.image.height}
+            className="w-full h-auto border border-rule bg-sunk"
+          />
+          {recipe.image.credit ? (
+            <figcaption className="mt-1.5 label">
+              {nl ? 'Foto' : 'Photo'}: {recipe.image.credit}
+            </figcaption>
+          ) : null}
+        </figure>
+      ) : null}
+
       <section className="mt-6 border border-rule bg-raised p-4">
         <h2 className="label mb-1.5">{nl ? 'Waar dit recept voor geschreven is' : 'What this recipe was written for'}</h2>
         <p className="text-sm prose-measure">{recipe.authorContext.note[locale]}</p>

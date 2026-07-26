@@ -44,6 +44,9 @@ export function recipeJsonLd(recipe: Recipe, locale: Locale) {
     })),
     nutrition: nutritionFor(recipe, formula.totalDoughWeight),
     author: { '@type': 'Organization', name: 'Alveo' },
+    // Only emitted when a real photograph exists. Claiming an image we do not
+    // have would be the kind of structured-data lie that gets a site demoted.
+    ...(recipe.image ? { image: [recipe.image.src] } : {}),
   };
 }
 

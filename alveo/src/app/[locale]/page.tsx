@@ -1,14 +1,36 @@
 import Link from 'next/link';
 import { setRequestLocale } from 'next-intl/server';
 import { FLOURS, requireFlour } from '@/data/flours';
-import { RECIPES } from '@/data/recipes';
+import { RECIPES, requireRecipe } from '@/data/recipes';
 import { compareFlours } from '@/engine/compare';
 import { locales, path, type Locale } from '@/i18n/routing';
-import { Callout, SectionHead } from '@/components/ui';
+import { SectionHead } from '@/components/ui';
+import { GapFigure } from '@/components/GapFigure';
+import { CardGrid } from '@/components/RecipeBrowser';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
+
+/**
+ * A dozen breads spanning all five families and the full difficulty range,
+ * chosen by hand. The home page's job is to show the shape of the collection,
+ * not to be the collection — that is what /recepten is for now.
+ */
+const FEATURED = [
+  'alledaags-landbrood',
+  'hoge-hydratatie-wit',
+  'desem-stokbrood',
+  'pain-de-campagne',
+  'desem-busbrood',
+  'roggevolkorenbrood',
+  'desem-brioche',
+  'desem-melkbrood',
+  'desem-pizza',
+  'desem-focaccia',
+  'desem-bagels',
+  'desem-pretzels',
+];
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;
@@ -17,9 +39,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const nl = locale === 'nl';
 
   // A live computation on the home page, not a claim: the gap between the
-  // reference American flour and the reference French one.
-  const gap = compareFlours(requireFlour('fr-t65'), requireFlour('us-bread-flour'));
+  // reference American flour and the reference French one, decomposed.
+  const t65 = requireFlour('fr-t65');
+  const us = requireFlour('us-bread-flour');
+  const gap = compareFlours(t65, us);
   const measured = FLOURS.filter((f) => f.confidence === 'measured').length;
+
+  const featured = FEATURED.map(requireRecipe);
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10">
@@ -31,32 +57,74 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </h1>
         <p className="mt-4 text-lg text-soft prose-measure">
           {nl
-            ? `Een Amerikaans recept op 85% hydratatie gaat uit van harde rode voorjaarstarwe, walsgemalen, met veel beschadigd zetmeel. Draai dat op Franse T65 of Duitse 550 en je krijgt soep. Alveo slaat elk recept op als formule en rekent hydratatie, timing, techniek en waarschuwingen om naar het meel dat jij in je kast hebt staan.`
-            : `An American recipe at 85% hydration assumes hard red spring wheat, roller-milled, with high damaged starch. Run it on French T65 or German 550 and you get soup. Alveo stores every recipe as a formula and recalculates hydration, timing, technique and warnings for the flour you actually own.`}
+            ? 'Een Amerikaans recept op 85% hydratatie gaat uit van harde rode voorjaarstarwe, walsgemalen, met veel beschadigd zetmeel. Draai dat op Franse T65 of Duitse 550 en je krijgt soep. Alveo slaat elk recept op als formule en rekent hydratatie, timing, techniek en waarschuwingen om naar het meel dat jij in je kast hebt staan.'
+            : 'An American recipe at 85% hydration assumes hard red spring wheat, roller-milled, with high damaged starch. Run it on French T65 or German 550 and you get soup. Alveo stores every recipe as a formula and recalculates hydration, timing, technique and warnings for the flour you actually own.'}
         </p>
       </section>
 
-      {/* live computed proof */}
-      <section className="mt-10">
-        <Callout label={nl ? 'Berekend, niet beweerd' : 'Computed, not claimed'}>
-          <p>
-            {nl
-              ? `Amerikaanse bread flour draagt ${Math.abs(gap.hydrationDelta)} punten meer water dan Franse T65 — ${Math.abs(gap.gramsPerKilo)} gram per kilo bloem. `
-              : `American bread flour carries ${Math.abs(gap.hydrationDelta)} points more water than French T65 — ${Math.abs(gap.gramsPerKilo)} grams per kilo of flour. `}
-            {gap.prose[locale]}
-          </p>
-          <p className="mt-2">
-            <Link
-              href={path('substitute', locale, 'fr-t65-vs-us-bread-flour')}
-              className="text-accent underline underline-offset-2"
-            >
-              {nl ? 'Bekijk de volledige opsplitsing' : 'See the full breakdown'}
-            </Link>
-          </p>
-        </Callout>
+      {/* ---- the proof, given the room it deserves ---- */}
+      <section className="mt-12 border border-rule bg-raised">
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+          <div className="p-5 sm:p-7 lg:border-r border-rule">
+            <div className="label text-accent">
+              {nl ? 'Berekend, niet beweerd' : 'Computed, not claimed'}
+            </div>
+
+            <p className="mt-3 font-display text-[2.6rem] sm:text-[3.2rem] leading-[0.95] tracking-tight tnum">
+              {gap.hydrationDelta > 0 ? '+' : ''}
+              {gap.hydrationDelta}
+              <span className="text-soft text-[1.4rem] sm:text-[1.7rem] font-normal">
+                {' '}
+                {nl ? 'punten' : 'points'}
+              </span>
+            </p>
+            <p className="mt-2 text-sm text-soft">
+              {nl
+                ? `Amerikaanse bread flour draagt ${Math.abs(gap.hydrationDelta)} hydratatiepunten meer water dan Franse T65 — ${Math.abs(gap.gramsPerKilo)} gram per kilo bloem. Datzelfde recept, twee landen, en het verschil tussen een strak brood en een plas op de plaat.`
+                : `American bread flour carries ${Math.abs(gap.hydrationDelta)} hydration points more water than French T65 — ${Math.abs(gap.gramsPerKilo)} grams per kilo of flour. The same recipe, two countries, and the difference between a tight loaf and a puddle on the tray.`}
+            </p>
+
+            <dl className="mt-5 grid grid-cols-2 gap-px bg-rule border border-rule">
+              <div className="bg-raised px-3 py-2">
+                <dt className="label">{nl ? 'Sterkteverschil' : 'Strength gap'}</dt>
+                <dd className="font-mono text-lg tnum text-ink">
+                  {gap.strengthDelta > 0 ? '+' : ''}
+                  {gap.strengthDelta}
+                </dd>
+              </div>
+              <div className="bg-raised px-3 py-2">
+                <dt className="label">{nl ? 'Bulkrijs' : 'Bulk time'}</dt>
+                <dd className="font-mono text-lg tnum text-ink">
+                  {gap.bulkTimeDelta > 0 ? '+' : ''}
+                  {gap.bulkTimeDelta}%
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div className="p-5 sm:p-7 border-t lg:border-t-0 border-rule">
+            <h2 className="label mb-3">
+              {nl ? 'Waar dat verschil vandaan komt' : 'Where that difference comes from'}
+            </h2>
+            <GapFigure explanation={gap.explanation} locale={locale} />
+            <p className="mt-4 text-[0.82rem] text-soft prose-measure">
+              {nl
+                ? 'In hydratatiepunten, opgeteld tot het totaal. Zemelen trekken hier de andere kant op: T65 heeft er meer van dan Amerikaanse bread flour, en die binden water.'
+                : 'In hydration points, summing to the total. Bran pulls the other way here: T65 has more of it than American bread flour, and bran binds water.'}
+            </p>
+            <p className="mt-3">
+              <Link
+                href={path('substitute', locale, 'fr-t65-vs-us-bread-flour')}
+                className="text-accent underline underline-offset-2 text-sm"
+              >
+                {nl ? 'Bekijk de volledige opsplitsing' : 'See the full breakdown'}
+              </Link>
+            </p>
+          </div>
+        </div>
       </section>
 
-      {/* DIY designer */}
+      {/* ---- DIY designer ---- */}
       <section className="mt-10">
         <div className="border border-accent bg-accentSoft p-5 flex flex-wrap items-center justify-between gap-4">
           <div className="max-w-measure">
@@ -75,21 +143,26 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
       </section>
 
-      {/* recipes */}
+      {/* ---- a sample of the recipes, not all of them ---- */}
       <section className="mt-12">
         <SectionHead
           eyebrow={nl ? 'Recepten' : 'Recipes'}
-          title={nl ? `${RECIPES.length} broden, elk in jouw meel` : `${RECIPES.length} breads, each in your flour`}
-        />
-        <ul className="grid gap-px bg-rule border border-rule sm:grid-cols-2 lg:grid-cols-3">
-          {RECIPES.map((r) => (
-            <li key={r.slug} className="bg-paper">
+          title={nl ? 'Twaalf om mee te beginnen' : 'Twelve to start with'}
+        >
+          {nl
+            ? `Een dwarsdoorsnede van de ${RECIPES.length}: vrijstaande ovenbroden, busbroden, verrijkte degen, platbrood en pizza, en wat er gekookt of op de plaat gaat.`
+            : `A cross-section of the ${RECIPES.length}: hearth loaves, tin loaves, enriched doughs, flatbread and pizza, and the things that get boiled or griddled.`}
+        </SectionHead>
+
+        <CardGrid>
+          {featured.map((r) => (
+            <li key={r.slug} className="border-b border-r border-rule bg-paper">
               <Link
                 href={path('recipes', locale, r.slug)}
-                className="block h-full p-4 hover:bg-raised"
+                className="group block h-full p-4 hover:bg-raised transition-colors duration-100"
               >
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="font-display text-lg font-semibold leading-tight">
+                  <h3 className="font-display text-lg font-semibold leading-tight group-hover:text-accent transition-colors duration-100">
                     {r.title[locale]}
                   </h3>
                   <span className="font-mono text-[0.68rem] text-faint tnum shrink-0">
@@ -104,11 +177,20 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               </Link>
             </li>
           ))}
-        </ul>
+        </CardGrid>
+
+        <p className="mt-5">
+          <Link
+            href={path('recipes', locale)}
+            className="inline-block border border-rule px-4 py-2.5 font-medium hover:border-accent hover:text-accent transition-colors duration-100"
+          >
+            {nl ? `Alle ${RECIPES.length} recepten, met filters →` : `All ${RECIPES.length} recipes, with filters →`}
+          </Link>
+        </p>
       </section>
 
-      {/* the honesty pitch */}
-      <section className="mt-12 grid gap-8 md:grid-cols-2">
+      {/* ---- the honesty pitch ---- */}
+      <section className="mt-14 grid gap-8 md:grid-cols-2">
         <div>
           <SectionHead
             eyebrow={nl ? 'De database' : 'The database'}

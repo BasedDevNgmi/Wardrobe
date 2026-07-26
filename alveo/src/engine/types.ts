@@ -255,6 +255,33 @@ export interface Recipe {
 
   attribution: { inspiredBy?: string; url?: string; author?: string };
   tags?: string[];
+
+  /**
+   * One honest photograph of the crumb, if we have one.
+   *
+   * The index pages stay deliberately text-only — a wall of styled food
+   * photography is what every other recipe site looks like, and it says
+   * nothing a reader can act on. On the recipe page itself the calculus is
+   * different: people judge bread by its crumb, and refusing to show it is
+   * dogma rather than design.
+   *
+   * The rule for anything that goes in here: a real bake of *this* formula,
+   * shot as it came out, crumb visible. Not a stock loaf, not a styled set,
+   * not a picture of a different bread that happens to look good. `alt` must
+   * describe the crumb (open, tight, even), because that is the information
+   * the picture is carrying; it is required, not optional.
+   */
+  image?: {
+    /** Path under /public, e.g. "/recipes/alledaags-landbrood.jpg". */
+    src: string;
+    /** Describes the crumb, not the mood. Required — this image is data. */
+    alt: { nl: string; en: string };
+    /** Intrinsic pixel dimensions, so the layout never jumps. */
+    width: number;
+    height: number;
+    /** Who baked and shot it. */
+    credit?: string;
+  };
 }
 
 /* ------------------------------------------------------------------ */

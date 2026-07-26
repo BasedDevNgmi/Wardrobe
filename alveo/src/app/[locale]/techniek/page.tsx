@@ -37,9 +37,9 @@ export default async function TechniqueIndex({ params }: { params: Promise<{ loc
           : 'No technique is universally right. So each page states the conditions under which the engine picks it for your flour — and when it advises against.'}
       </p>
 
-      <ul className="mt-8 grid gap-px bg-rule border border-rule sm:grid-cols-2">
+      <ul className="mt-8 grid border-t border-l border-rule sm:grid-cols-2">
         {TECHNIQUES.map((t) => (
-          <li key={t.slug} className="bg-paper">
+          <li key={t.slug} className="border-b border-r border-rule bg-paper">
             <Link href={path('technique', locale, t.slug)} className="block h-full p-4 hover:bg-raised">
               <h2 className="font-display text-lg font-semibold leading-tight">{t.title[locale]}</h2>
               <p className="mt-1.5 text-sm text-soft">{t.summary[locale]}</p>
