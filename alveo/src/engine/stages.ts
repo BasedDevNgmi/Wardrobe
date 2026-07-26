@@ -571,7 +571,11 @@ export function buildStageLedger(input: LedgerInput): StageLedger {
   }
 
   /* ---- 6. inclusions and late enrichment ---- */
-  const dryAddIns = (recipe.addIns ?? []).filter((a) => a.type === 'dry');
+  // A dry add-in that binds water (soaked fruit, say) is accounted for by the
+  // soaker path below; counting it here as well would double its weight.
+  const dryAddIns = (recipe.addIns ?? []).filter(
+    (a) => a.type === 'dry' && typeof a.absorbsWater !== 'number',
+  );
   const lateItems: StageAddition[] = [];
 
   for (const a of dryAddIns) {

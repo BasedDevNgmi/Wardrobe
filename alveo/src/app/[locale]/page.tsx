@@ -79,7 +79,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="mt-12">
         <SectionHead
           eyebrow={nl ? 'Recepten' : 'Recipes'}
-          title={nl ? 'Vijftien broden, elk in jouw meel' : 'Fifteen breads, each in your flour'}
+          title={nl ? `${RECIPES.length} broden, elk in jouw meel` : `${RECIPES.length} breads, each in your flour`}
         />
         <ul className="grid gap-px bg-rule border border-rule sm:grid-cols-2 lg:grid-cols-3">
           {RECIPES.map((r) => (

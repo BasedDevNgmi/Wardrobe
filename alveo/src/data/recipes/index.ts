@@ -8,6 +8,19 @@ import {
 import { focaccia, pizza, rugbrod, sandwichTin } from './pan';
 import { bagels, pretzels, brioche, englishMuffins, porridgeMultigrain } from './alternates';
 import { beginnersLoaf, highExtractionCountry, mixedGrainMiche } from './traditions';
+import {
+  dinnerRolls, burgerBuns, milkBread, cinnamonRolls, chocolateBabka,
+  currantBuns, softSubRolls,
+} from './enriched2';
+import {
+  pita, naan, flatbread, grissini, crackers, simit, manakish, panPizza,
+  pizzaBianca, crumpets,
+} from './flatbreads';
+import {
+  speltTin, einkornPan, khorasanLoaf, emmerLoaf, wholeWheatTin, grahamTin,
+  deliRye, vollkornbrot, pumpernickel, seededTin, walnutRaisin, oliveRosemary,
+  malthouseLoaf, durumLoaf, potatoBread,
+} from './grains';
 
 export const RECIPES: Recipe[] = [
   everydayCountry,
@@ -28,6 +41,41 @@ export const RECIPES: Recipe[] = [
   beginnersLoaf,
   highExtractionCountry,
   mixedGrainMiche,
+  // enriched and sweet
+  dinnerRolls,
+  burgerBuns,
+  milkBread,
+  cinnamonRolls,
+  chocolateBabka,
+  currantBuns,
+  softSubRolls,
+  // flatbreads and crisp breads
+  pita,
+  naan,
+  flatbread,
+  grissini,
+  crackers,
+  simit,
+  manakish,
+  panPizza,
+  pizzaBianca,
+  crumpets,
+  // grain-forward and specialty
+  speltTin,
+  einkornPan,
+  khorasanLoaf,
+  emmerLoaf,
+  wholeWheatTin,
+  grahamTin,
+  deliRye,
+  vollkornbrot,
+  pumpernickel,
+  seededTin,
+  walnutRaisin,
+  oliveRosemary,
+  malthouseLoaf,
+  durumLoaf,
+  potatoBread,
 ];
 
 const BY_SLUG = new Map(RECIPES.map((r) => [r.slug, r]));
@@ -80,4 +128,11 @@ export const FORMAT_LABELS: Record<Recipe['format'], { nl: string; en: string }>
 export { everydayCountry, wholegrainCountry, highHydrationWhite, painDeCampagne,
   ciabatta, baguettes, focaccia, pizza, sandwichTin, rugbrod,
   bagels, pretzels, brioche, englishMuffins, porridgeMultigrain,
-  beginnersLoaf, highExtractionCountry, mixedGrainMiche };
+  beginnersLoaf, highExtractionCountry, mixedGrainMiche,
+  dinnerRolls, burgerBuns, milkBread, cinnamonRolls, chocolateBabka,
+  currantBuns, softSubRolls,
+  pita, naan, flatbread, grissini, crackers, simit, manakish, panPizza,
+  pizzaBianca, crumpets,
+  speltTin, einkornPan, khorasanLoaf, emmerLoaf, wholeWheatTin, grahamTin,
+  deliRye, vollkornbrot, pumpernickel, seededTin, walnutRaisin, oliveRosemary,
+  malthouseLoaf, durumLoaf, potatoBread };
